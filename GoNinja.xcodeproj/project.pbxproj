@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		AE55AB6B1AAA6B9100FBC82E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */; };
-		AE55AB6D1AAA6B9100FBC82E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AE55AB6C1AAA6B9100FBC82E /* GameScene.sks */; };
 		AE55AB6F1AAA6B9100FBC82E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */; };
 		AE55AB711AAA6B9100FBC82E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB701AAA6B9100FBC82E /* GameViewController.swift */; };
 		AE55AB741AAA6B9100FBC82E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE55AB721AAA6B9100FBC82E /* Main.storyboard */; };
 		AE55AB761AAA6B9100FBC82E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE55AB751AAA6B9100FBC82E /* Images.xcassets */; };
 		AE55AB791AAA6B9100FBC82E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE55AB771AAA6B9100FBC82E /* LaunchScreen.xib */; };
 		AE55AB851AAA6B9100FBC82E /* GoNinjaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB841AAA6B9100FBC82E /* GoNinjaTests.swift */; };
+		AE55AB8F1AAD257500FBC82E /* MALGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB8E1AAD257500FBC82E /* MALGround.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,6 @@
 		AE55AB651AAA6B9100FBC82E /* GoNinja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoNinja.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE55AB691AAA6B9100FBC82E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AE55AB6C1AAA6B9100FBC82E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		AE55AB701AAA6B9100FBC82E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		AE55AB731AAA6B9100FBC82E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -40,6 +39,7 @@
 		AE55AB7E1AAA6B9100FBC82E /* GoNinjaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoNinjaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE55AB831AAA6B9100FBC82E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE55AB841AAA6B9100FBC82E /* GoNinjaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoNinjaTests.swift; sourceTree = "<group>"; };
+		AE55AB8E1AAD257500FBC82E /* MALGround.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALGround.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +82,8 @@
 			isa = PBXGroup;
 			children = (
 				AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */,
-				AE55AB6C1AAA6B9100FBC82E /* GameScene.sks */,
 				AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */,
+				AE55AB8E1AAD257500FBC82E /* MALGround.swift */,
 				AE55AB701AAA6B9100FBC82E /* GameViewController.swift */,
 				AE55AB721AAA6B9100FBC82E /* Main.storyboard */,
 				AE55AB751AAA6B9100FBC82E /* Images.xcassets */,
@@ -200,7 +200,6 @@
 			files = (
 				AE55AB791AAA6B9100FBC82E /* LaunchScreen.xib in Resources */,
 				AE55AB761AAA6B9100FBC82E /* Images.xcassets in Resources */,
-				AE55AB6D1AAA6B9100FBC82E /* GameScene.sks in Resources */,
 				AE55AB741AAA6B9100FBC82E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,6 +220,7 @@
 			files = (
 				AE55AB6F1AAA6B9100FBC82E /* GameScene.swift in Sources */,
 				AE55AB711AAA6B9100FBC82E /* GameViewController.swift in Sources */,
+				AE55AB8F1AAD257500FBC82E /* MALGround.swift in Sources */,
 				AE55AB6B1AAA6B9100FBC82E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -413,6 +413,7 @@
 				AE55AB8A1AAA6B9100FBC82E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AE55AB8B1AAA6B9100FBC82E /* Build configuration list for PBXNativeTarget "GoNinjaTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +422,7 @@
 				AE55AB8D1AAA6B9100FBC82E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

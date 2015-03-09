@@ -9,34 +9,29 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    
+    var groundTop: MALGround!
+    var groundBot: MALGround!
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World 33333!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
         
-        self.addChild(myLabel)
+        // Set the background
+        backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
+        
+        // Add the ground
+        groundTop = MALGround(size: CGSizeMake(view.frame.width, view.frame.height/10))
+        groundTop.position = CGPointMake(0, view.frame.height - groundTop.frame.size.height/2)
+        println(view.frame.height)
+        groundBot = MALGround(size: CGSizeMake(view.frame.width, view.frame.height/10))
+        groundBot.position = CGPointMake(0, groundBot.frame.size.height/2)
+        addChild(groundTop)
+        addChild(groundBot)
+
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
         
-        for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-        }
     }
    
     override func update(currentTime: CFTimeInterval) {
