@@ -15,6 +15,9 @@
 		AE55AB791AAA6B9100FBC82E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE55AB771AAA6B9100FBC82E /* LaunchScreen.xib */; };
 		AE55AB851AAA6B9100FBC82E /* GoNinjaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB841AAA6B9100FBC82E /* GoNinjaTests.swift */; };
 		AE55AB8F1AAD257500FBC82E /* MALGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB8E1AAD257500FBC82E /* MALGround.swift */; };
+		AEC773D11AAE8C7900767966 /* MALWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D01AAE8C7900767966 /* MALWall.swift */; };
+		AEC773D31AAE95D000767966 /* MALWALLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */; };
+		AEC773D51AAE98D600767966 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D41AAE98D600767966 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,9 @@
 		AE55AB831AAA6B9100FBC82E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE55AB841AAA6B9100FBC82E /* GoNinjaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoNinjaTests.swift; sourceTree = "<group>"; };
 		AE55AB8E1AAD257500FBC82E /* MALGround.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALGround.swift; sourceTree = "<group>"; };
+		AEC773D01AAE8C7900767966 /* MALWall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALWall.swift; sourceTree = "<group>"; };
+		AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALWALLGenerator.swift; sourceTree = "<group>"; };
+		AEC773D41AAE98D600767966 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +90,9 @@
 				AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */,
 				AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */,
 				AE55AB8E1AAD257500FBC82E /* MALGround.swift */,
+				AEC773D01AAE8C7900767966 /* MALWall.swift */,
+				AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */,
+				AEC773D41AAE98D600767966 /* Constants.swift */,
 				AE55AB701AAA6B9100FBC82E /* GameViewController.swift */,
 				AE55AB721AAA6B9100FBC82E /* Main.storyboard */,
 				AE55AB751AAA6B9100FBC82E /* Images.xcassets */,
@@ -218,8 +227,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEC773D11AAE8C7900767966 /* MALWall.swift in Sources */,
 				AE55AB6F1AAA6B9100FBC82E /* GameScene.swift in Sources */,
+				AEC773D31AAE95D000767966 /* MALWALLGenerator.swift in Sources */,
 				AE55AB711AAA6B9100FBC82E /* GameViewController.swift in Sources */,
+				AEC773D51AAE98D600767966 /* Constants.swift in Sources */,
 				AE55AB8F1AAD257500FBC82E /* MALGround.swift in Sources */,
 				AE55AB6B1AAA6B9100FBC82E /* AppDelegate.swift in Sources */,
 			);

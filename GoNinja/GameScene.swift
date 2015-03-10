@@ -12,6 +12,8 @@ class GameScene: SKScene {
     
     var groundTop: MALGround!
     var groundBot: MALGround!
+    var wallGenerator: MALWallGenerator!
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
@@ -19,18 +21,29 @@ class GameScene: SKScene {
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
         
         // Add the ground
-        groundTop = MALGround(size: CGSizeMake(view.frame.width, view.frame.height/10))
+        groundTop = MALGround()
         groundTop.position = CGPointMake(0, view.frame.height - groundTop.frame.size.height/2)
-        println(view.frame.height)
-        groundBot = MALGround(size: CGSizeMake(view.frame.width, view.frame.height/10))
+        groundBot = MALGround()
         groundBot.position = CGPointMake(0, groundBot.frame.size.height/2)
         addChild(groundTop)
         addChild(groundBot)
+        
+        //Add wall generator
+        //add wall generator
+        wallGenerator = MALWallGenerator(color: UIColor.clearColor(), size: view.frame.size)
+        wallGenerator.position = view.center
+        addChild(wallGenerator)
+
+
 
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
+        
+        groundTop.start()
+        groundBot.start()
+        wallGenerator.startGeneratingWalls(1)
         
     }
    
