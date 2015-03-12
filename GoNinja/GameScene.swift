@@ -29,7 +29,6 @@ class GameScene: SKScene {
         addChild(groundBot)
         
         //Add wall generator
-        //add wall generator
         wallGenerator = MALWallGenerator(color: UIColor.clearColor(), size: view.frame.size)
         wallGenerator.position = view.center
         addChild(wallGenerator)

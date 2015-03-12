@@ -25,8 +25,9 @@ class GameViewController: UIViewController {
         scene = GameScene(size: skView.bounds.size)
         //scene.scaleMode = .AspectFill
         
-        //Present the scene
+        // set the frameSize
         frameSize = CGSizeMake(skView.frame.size.width, skView.frame.size.height)
+        //Present the scene
         skView.presentScene(scene)
 
     }

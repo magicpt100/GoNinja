@@ -21,8 +21,9 @@ class MALWallGenerator:SKSpriteNode{
     func generateWall()
     {
         var scale: CGFloat
-        let rand = arc4random_uniform(2)
-        if rand == 0
+        let rand1 = arc4random_uniform(2)
+        let rand2 = arc4random_uniform(4)
+        if rand1 == 0
         {
             scale = -1.0
         }
@@ -30,9 +31,9 @@ class MALWallGenerator:SKSpriteNode{
         {
             scale = 1.0
         }
-        let wall = MALWall()
+        let wall = MALWall(indictor: Int(rand2))
         wall.position.x = frameSize.width/2 + wall.size.width/2
-        wall.position.y = scale * (100 + wall.size.height/2)
+        wall.position.y = scale * (frameSize.height * (0.5 - groundHeightFactor) - wall.size.height/2)
         addChild(wall)
     }
 

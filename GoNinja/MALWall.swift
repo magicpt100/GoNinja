@@ -11,14 +11,21 @@ import SpriteKit
 
 class MALWall: SKSpriteNode{
     
-    let wallColor = UIColor.blackColor()
-    let wallWidthFactor:CGFloat = 0.1
-    let wallHeightFactor:CGFloat = 0.1
+    let wallColor = UIColor.brownColor()
     
-    override init()
+    // the indictor indicates tall wall or low wall
+    init(indictor : Int)
     {
-        let wallWidth:CGFloat = frameSize.width * wallWidthFactor
-        let wallHeight:CGFloat = frameSize.height * wallHeightFactor
+        var wallWidth:CGFloat = frameSize.width * wallWidthFactor
+        var wallHeight:CGFloat
+        if (indictor == 0)
+        {
+            wallHeight = frameSize.height * wallHeightFactorTall
+        }
+        else
+        {
+            wallHeight = frameSize.height * wallHeightFactorLow
+        }
         super.init(texture:nil, color: wallColor, size: CGSizeMake(wallWidth, wallHeight))
         startMoving()
     }
@@ -29,7 +36,7 @@ class MALWall: SKSpriteNode{
     
     func startMoving()
     {
-        let moveLeft = SKAction.moveByX(-300, y: 0, duration: 1)
+        let moveLeft = SKAction.moveByX(-frameSize.width, y: 0, duration: 2)
         runAction(SKAction.repeatActionForever(moveLeft))
     }
 
