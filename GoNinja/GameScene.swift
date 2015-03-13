@@ -20,6 +20,8 @@ class GameScene: SKScene {
         // Set the background
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
         
+        println("testing - logan")
+        
         // Add the ground
         groundTop = MALGround()
         groundTop.position = CGPointMake(0, view.frame.height - groundTop.frame.size.height/2)
