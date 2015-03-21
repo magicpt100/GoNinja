@@ -13,6 +13,7 @@ class GameScene: SKScene {
     var groundTop: MALGround!
     var groundBot: MALGround!
     var wallGenerator: MALWallGenerator!
+    var hero: MALHero!
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -32,6 +33,12 @@ class GameScene: SKScene {
         wallGenerator = MALWallGenerator(color: UIColor.clearColor(), size: view.frame.size)
         wallGenerator.position = view.center
         addChild(wallGenerator)
+        
+        //Add hero
+        hero = MALHero()
+        addChild(hero)
+        hero.breathe()
+        
 
 
 
@@ -43,6 +50,7 @@ class GameScene: SKScene {
         groundTop.start()
         groundBot.start()
         wallGenerator.startGeneratingWalls(1)
+        hero.startRunning()
         
     }
    
