@@ -9,7 +9,6 @@
 import UIKit
 import SpriteKit
 
-
 class GameViewController: UIViewController {
     
     var scene : GameScene!
@@ -32,10 +31,12 @@ class GameViewController: UIViewController {
 
     }
 
+    
+
     override func shouldAutorotate() -> Bool {
         return true
     }
-
+/*
     override func supportedInterfaceOrientations() -> Int {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             return Int(UIInterfaceOrientationMask.Landscape.rawValue)
@@ -43,7 +44,7 @@ class GameViewController: UIViewController {
             return Int(UIInterfaceOrientationMask.All.rawValue)
         }
     }
-
+*/
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
