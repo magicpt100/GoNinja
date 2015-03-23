@@ -14,6 +14,8 @@ class GameScene: SKScene {
     var groundBot: MALGround!
     var wallGenerator: MALWallGenerator!
     var hero: MALHero!
+    var tapToStartLabel: SKLabelNode!
+    var pointLabel: MALPointLabel!
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -39,6 +41,18 @@ class GameScene: SKScene {
         addChild(hero)
         hero.breathe()
         
+        //Add tapToStart label
+        
+        tapToStartLabel = SKLabelNode(text: "Tap to Start")
+        tapToStartLabel.fontName = gameFont
+        tapToStartLabel.fontSize = CGFloat(20.0)
+        tapToStartLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2)
+        animationWithPulse(tapToStartLabel)
+        addChild(tapToStartLabel)
+        
+        pointLabel = MALPointLabel(fontNamed: gameFont)
+        pointLabel.position = CGPointMake(20, frameSize.height - groundTop.frame.height * 2)
+        addChild(pointLabel)
 
 
 
@@ -51,7 +65,15 @@ class GameScene: SKScene {
         groundBot.start()
         wallGenerator.startGeneratingWalls(1)
         hero.startRunning()
+        tapToStartLabel.removeFromParent()
         
+    }
+    
+    func animationWithPulse(node: SKNode){
+        let fadeIn = SKAction.fadeInWithDuration(0.6)
+        let fadeOut = SKAction.fadeOutWithDuration(0.6)
+        let pulse = SKAction.sequence([fadeIn,fadeOut])
+        node.runAction(SKAction.repeatActionForever(pulse))
     }
    
     override func update(currentTime: CFTimeInterval) {

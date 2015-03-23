@@ -18,3 +18,5 @@ let groundWidthFactor:CGFloat = 2.0
 let wallWidthFactor:CGFloat = 0.05
 let wallHeightFactorTall:CGFloat = 0.25
 let wallHeightFactorLow:CGFloat = 0.18
+
+let gameFont = "AmericanTypewriter-Bold"
