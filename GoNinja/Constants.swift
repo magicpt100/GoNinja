@@ -20,3 +20,5 @@ let wallHeightFactorTall:CGFloat = 0.25
 let wallHeightFactorLow:CGFloat = 0.18
 
 let gameFont = "AmericanTypewriter-Bold"
+
+var pointsRaw = 0

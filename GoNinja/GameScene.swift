@@ -78,5 +78,8 @@ class GameScene: SKScene {
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        
+        //This a stupid way to handle points
+        pointLabel.updatePoints(pointsRaw - 2)
     }
 }
