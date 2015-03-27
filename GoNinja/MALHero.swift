@@ -20,10 +20,14 @@ class MALHero: SKSpriteNode {
     var ninjaStar: SKSpriteNode!
     var ninjaSword: SKSpriteNode!
     
+    var onGround: Bool!
+    
     override init ()
     {
         super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(40, 25))
         let clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
+        
+        onGround = true
         
         // Add the body
         

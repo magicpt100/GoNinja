@@ -11,11 +11,12 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
+    
     var scene : GameScene!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+ 
         //Configure the view
         let skView = view as SKView
         skView.multipleTouchEnabled = false
@@ -28,7 +29,27 @@ class GameViewController: UIViewController {
         frameSize = CGSizeMake(skView.frame.size.width, skView.frame.size.height)
         //Present the scene
         skView.presentScene(scene)
+        
 
+    }
+
+    @IBAction func swipeHandler(sender: UIPanGestureRecognizer)
+    {
+        let rotateCW = SKAction.rotateByAngle(CGFloat(M_PI), duration: 0)
+        let rotateCCW = SKAction.rotateByAngle(-CGFloat(M_PI), duration: 0)
+
+        if(sender.velocityInView(view!).y > 0 && scene.hero.onGround != nil && scene.hero.onGround == false)
+        {
+            scene.hero.onGround = true
+            scene.hero.runAction(rotateCW)
+            scene.hero.position = CGPointMake(0, 0)
+        }
+        else if(sender.velocityInView(view!).y < 0 && scene.hero.onGround != nil && scene.hero.onGround == true)
+        {
+            scene.hero.onGround = false
+            scene.hero.runAction(rotateCCW)
+            scene.hero.position = CGPointMake(200, 375)
+        }
     }
 
     
