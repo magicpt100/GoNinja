@@ -22,6 +22,7 @@
 		AEC773D11AAE8C7900767966 /* MALWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D01AAE8C7900767966 /* MALWall.swift */; };
 		AEC773D31AAE95D000767966 /* MALWALLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */; };
 		AEC773D51AAE98D600767966 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D41AAE98D600767966 /* Constants.swift */; };
+		AEF289A51AC8A84100F1D997 /* MALMonster.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289A41AC8A84100F1D997 /* MALMonster.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		AEC773D01AAE8C7900767966 /* MALWall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALWall.swift; sourceTree = "<group>"; };
 		AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALWALLGenerator.swift; sourceTree = "<group>"; };
 		AEC773D41AAE98D600767966 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AEF289A41AC8A84100F1D997 /* MALMonster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MALMonster.swift; path = ../MALMonster.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 		AE55AB671AAA6B9100FBC82E /* GoNinja */ = {
 			isa = PBXGroup;
 			children = (
+				AEF289A41AC8A84100F1D997 /* MALMonster.swift */,
 				AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */,
 				AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */,
 				AE55AB8E1AAD257500FBC82E /* MALGround.swift */,
@@ -242,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEC773D11AAE8C7900767966 /* MALWall.swift in Sources */,
+				AEF289A51AC8A84100F1D997 /* MALMonster.swift in Sources */,
 				AE55AB6F1AAA6B9100FBC82E /* GameScene.swift in Sources */,
 				AEC773D31AAE95D000767966 /* MALWALLGenerator.swift in Sources */,
 				AE55AB711AAA6B9100FBC82E /* GameViewController.swift in Sources */,
