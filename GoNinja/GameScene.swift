@@ -95,6 +95,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pauseButton.setBackgroundImage(pauseIcon, forState: UIControlState.Normal)
         pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(pauseButton)
+        
+        var monster = MALMonster()
+        monster.position = CGPointMake(200, 200)
+        addChild(monster)
     }
     
     
