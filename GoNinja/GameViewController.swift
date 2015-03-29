@@ -28,6 +28,7 @@ class GameViewController: UIViewController {
         // set the frameSize
         frameSize = CGSizeMake(skView.frame.size.width, skView.frame.size.height)
         //Present the scene
+        skView.showsPhysics = true
         skView.presentScene(scene)
         
 
@@ -35,6 +36,7 @@ class GameViewController: UIViewController {
 
     @IBAction func swipeHandler(sender: UIPanGestureRecognizer)
     {
+        scene.hero.dropSmokeBomb()
         let rotateCW = SKAction.rotateByAngle(CGFloat(M_PI), duration: 0)
         let rotateCCW = SKAction.rotateByAngle(-CGFloat(M_PI), duration: 0)
 
@@ -50,6 +52,7 @@ class GameViewController: UIViewController {
             scene.hero.runAction(rotateCCW)
             scene.hero.position = CGPointMake(200, 375)
         }
+        
     }
 
     

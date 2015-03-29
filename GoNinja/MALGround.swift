@@ -53,6 +53,11 @@ class MALGround: SKSpriteNode {
         let moveSequence = SKAction.sequence([moveLeft,resetPosition])
         runAction(SKAction.repeatActionForever(moveSequence))
     }
+    
+    func stop()
+    {
+        self.removeAllActions()
+    }
 
 
 }

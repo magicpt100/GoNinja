@@ -22,3 +22,9 @@ let wallHeightFactorLow:CGFloat = 0.18
 let gameFont = "AmericanTypewriter-Bold"
 
 var pointsRaw = 0
+
+enum BodyType:UInt32 {
+    
+    case hero = 1
+    case wall = 2
+}
