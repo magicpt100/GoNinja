@@ -29,6 +29,11 @@ class MALWall: SKSpriteNode{
             wallHeight = frameSize.height * wallHeightFactorLow
         }
         super.init(texture:nil, color: wallColor, size: CGSizeMake(wallWidth, wallHeight))
+        var wallPhysicsBody = SKPhysicsBody(rectangleOfSize: self.frame.size)
+        wallPhysicsBody.dynamic = false
+        wallPhysicsBody.allowsRotation = false
+        wallPhysicsBody.categoryBitMask = BodyType.wall.rawValue
+        self.physicsBody = wallPhysicsBody
         startMoving()
     }
     
@@ -40,6 +45,11 @@ class MALWall: SKSpriteNode{
     {
         let moveLeft = SKAction.moveByX(-frameSize.width, y: 0, duration: 2)
         runAction(SKAction.repeatActionForever(moveLeft))
+    }
+    
+    func stop()
+    {
+        self.removeAllActions()
     }
 
     

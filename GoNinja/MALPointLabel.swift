@@ -28,6 +28,16 @@ class MALPointLabel: SKLabelNode {
         points += number
         self.text = String(points)
     }
+    
+    func updatePoints(number:Int)
+    {
+        if (number < 0)
+        {
+            return
+        }
+        points = number
+        self.text = String(points)
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -26,7 +26,6 @@ class MALHero: SKSpriteNode {
     {
         super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(40, 25))
         let clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
-        
         onGround = true
         
         // Add the body
@@ -161,6 +160,14 @@ class MALHero: SKSpriteNode {
         ninjaSword.zRotation = CGFloat(-M_PI/2)
         ninjaSword.position = CGPointMake(0, 25)
         body.addChild(ninjaSword)
+
+        //Add physics for collision and contact detection
+        var heroBodyPhysicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: 80,height: 80), center: CGPointMake(24, 25))
+        heroBodyPhysicsBody.dynamic = true
+        heroBodyPhysicsBody.allowsRotation = false
+        heroBodyPhysicsBody.categoryBitMask = BodyType.hero.rawValue
+        heroBodyPhysicsBody.contactTestBitMask = BodyType.wall.rawValue
+        body.physicsBody = heroBodyPhysicsBody
         
     }
     
@@ -173,7 +180,7 @@ class MALHero: SKSpriteNode {
     {
         let up = SKAction.moveByX(0, y: 2, duration: 0.05)
         let down = SKAction.moveByX(0, y: -2, duration: 0.05)
-        
+
         leftFoot.runAction(up, completion: { () -> Void in
             self.leftFoot.runAction(down)
             self.rightFoot.runAction(up, completion: { () -> Void in
@@ -193,9 +200,23 @@ class MALHero: SKSpriteNode {
         body.runAction(SKAction.repeatActionForever(breath))
         
     }
+    
+    func dropSmokeBomb()
+    {
+        
+        var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
+        smokeBomb.position = CGPointMake(80, 10)
+        addChild(smokeBomb)
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_MSEC * 500))
+        dispatch_after(delayTime, dispatch_get_main_queue(), {smokeBomb.removeFromParent()})
+
+    }
+    
     func stop()
     {
         body.removeAllActions()
+        leftFoot.removeAllActions()
+        rightFoot.removeAllActions()
     }
 
     required init?(coder aDecoder: NSCoder) {

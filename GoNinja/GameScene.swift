@@ -10,7 +10,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene,SKPhysicsContactDelegate {
     
     var groundTop: MALGround!
     var groundBot: MALGround!
@@ -18,12 +18,42 @@ class GameScene: SKScene {
     var hero: MALHero!
     var tapToStartLabel: SKLabelNode!
     var pointLabel: MALPointLabel!
+    var isStart = false
+    var isGameOver = false
+    var pauseButton: UIButton!
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
+        generateWorld(view)
+
+    }
+    
+    func pausePressed(sender:UIButton){
+        self.paused = !self.paused
+    }
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        /* Called when a touch begins */
+        if !isStart
+        {
+            start()
+        }
+        if isGameOver
+        {
+            reStartGame()
+        }
+        
+    }
+    
+    func generateWorld(view:SKView)
+    {
         // Set the background
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
+        
+        //Set the physics
+        physicsWorld.contactDelegate = self
+        physicsWorld.gravity = CGVectorMake(0, 0)
         
         // Add the ground
         groundTop = MALGround()
@@ -52,24 +82,62 @@ class GameScene: SKScene {
         animationWithPulse(tapToStartLabel)
         addChild(tapToStartLabel)
         
+        //Add the point Label
         pointLabel = MALPointLabel(fontNamed: gameFont)
         pointLabel.position = CGPointMake(20, frameSize.height - groundTop.frame.height * 2)
         addChild(pointLabel)
-
-
-
+        
+        //Add the pause Button
+        
+        let pauseIcon = UIImage(named: "pauseIcon")
+        pauseButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        pauseButton.frame = CGRectMake(frameSize.width - 30, 0, 27, 27)
+        pauseButton.setBackgroundImage(pauseIcon, forState: UIControlState.Normal)
+        pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(pauseButton)
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* Called when a touch begins */
-        
+    
+    func start(){
+        isStart = true
+        hero.stop()
         groundTop.start()
         groundBot.start()
-        wallGenerator.startGeneratingWalls(1)
+        wallGenerator.startGeneratingWalls()
         hero.startRunning()
         tapToStartLabel.removeFromParent()
+    }
+    
+    func gameOver(){
+        isGameOver = true
+        var gameOverLabel = SKLabelNode(text: "Game Over")
+        gameOverLabel.fontName = gameFont
+        gameOverLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2)
+        addChild(gameOverLabel)
+        hero.stop()
+        wallGenerator.stop()
+        groundBot.stop()
+        groundTop.stop()
         
     }
+    
+    func reStartGame(){
+        pointsRaw = 0
+        groundTop.removeFromParent()
+        groundBot.removeFromParent()
+        wallGenerator.removeAllChildren()
+        wallGenerator.removeFromParent()
+        hero.removeFromParent()
+        self.removeAllChildren()
+        generateWorld(self.view!)
+        isStart = false
+        isGameOver = false
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        gameOver()
+    }
+    
     
     func animationWithPulse(node: SKNode){
         let fadeIn = SKAction.fadeInWithDuration(0.6)
@@ -80,5 +148,8 @@ class GameScene: SKScene {
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        
+        //This a stupid way to handle points
+        pointLabel.updatePoints(pointsRaw - 2)
     }
 }
