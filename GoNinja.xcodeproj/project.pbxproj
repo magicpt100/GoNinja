@@ -99,6 +99,8 @@
 		AE55AB671AAA6B9100FBC82E /* GoNinja */ = {
 			isa = PBXGroup;
 			children = (
+				AEF289A41AC8A84100F1D997 /* MALMonster.swift */,
+				AEF289A61ACCA04D00F1D997 /* MALMonsterGenerator.swift */,
 				AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */,
 				AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */,
 				AE55AB8E1AAD257500FBC82E /* MALGround.swift */,
