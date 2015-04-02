@@ -23,6 +23,7 @@
 		AEC773D31AAE95D000767966 /* MALWALLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */; };
 		AEC773D51AAE98D600767966 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D41AAE98D600767966 /* Constants.swift */; };
 		AEF289A51AC8A84100F1D997 /* MALMonster.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289A41AC8A84100F1D997 /* MALMonster.swift */; };
+		AEF289A71ACCA04D00F1D997 /* MALMonsterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289A61ACCA04D00F1D997 /* MALMonsterGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALWALLGenerator.swift; sourceTree = "<group>"; };
 		AEC773D41AAE98D600767966 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AEF289A41AC8A84100F1D997 /* MALMonster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MALMonster.swift; path = ../MALMonster.swift; sourceTree = "<group>"; };
+		AEF289A61ACCA04D00F1D997 /* MALMonsterGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALMonsterGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				AEF289A41AC8A84100F1D997 /* MALMonster.swift */,
+				AEF289A61ACCA04D00F1D997 /* MALMonsterGenerator.swift */,
 				AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */,
 				AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */,
 				AE55AB8E1AAD257500FBC82E /* MALGround.swift */,
@@ -253,6 +256,7 @@
 				AEC773D51AAE98D600767966 /* Constants.swift in Sources */,
 				AE55AB8F1AAD257500FBC82E /* MALGround.swift in Sources */,
 				AE81D5631ABCA13600600232 /* MALHero.swift in Sources */,
+				AEF289A71ACCA04D00F1D997 /* MALMonsterGenerator.swift in Sources */,
 				AE55AB6B1AAA6B9100FBC82E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
