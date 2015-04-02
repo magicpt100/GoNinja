@@ -28,4 +28,6 @@ enum BodyType:UInt32 {
     
     case hero = 1
     case wall = 2
+    case coin = 4
+    case monster = 8
 }

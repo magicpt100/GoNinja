@@ -15,6 +15,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var groundTop: MALGround!
     var groundBot: MALGround!
     var wallGenerator: MALWallGenerator!
+    var monsterGenerator: MALMonsterGenerator!
     var hero: MALHero!
     var tapToStartLabel: SKLabelNode!
     var pointLabel: MALPointLabel!
@@ -95,6 +96,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pauseButton.setBackgroundImage(pauseIcon, forState: UIControlState.Normal)
         pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(pauseButton)
+        
+        monsterGenerator = MALMonsterGenerator()
+        addChild(monsterGenerator)
     }
     
     
@@ -105,6 +109,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         groundBot.start()
         wallGenerator.startGeneratingWalls()
         hero.startRunning()
+        monsterGenerator.startGeneratingMonster()
         tapToStartLabel.removeFromParent()
     }
     
@@ -116,6 +121,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(gameOverLabel)
         hero.stop()
         wallGenerator.stop()
+        monsterGenerator.stop()
         groundBot.stop()
         groundTop.stop()
         jumpCount = -1
@@ -127,6 +133,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         groundBot.removeFromParent()
         wallGenerator.removeAllChildren()
         wallGenerator.removeFromParent()
+        monsterGenerator.removeAllChildren()
+        monsterGenerator.removeFromParent()
         hero.removeFromParent()
         self.removeAllChildren()
         generateWorld(self.view!)
@@ -136,7 +144,23 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        gameOver()
+        var bodyA = contact.bodyA
+        var bodyB = contact.bodyB
+        if (bodyA.categoryBitMask == BodyType.hero.rawValue) || (bodyB.categoryBitMask == BodyType.hero.rawValue)
+        {
+            gameOver()
+        }
+        
+        else if (bodyA.categoryBitMask == BodyType.monster.rawValue)
+        {
+            (bodyA.node as MALMonster).direction *= -1
+            (bodyA.node as MALMonster).resetWalk()
+        }
+        else if (bodyB.categoryBitMask == BodyType.monster.rawValue)
+        {
+            (bodyB.node as MALMonster).direction *= -1
+            (bodyB.node as MALMonster).resetWalk()
+        }
     }
     
     
