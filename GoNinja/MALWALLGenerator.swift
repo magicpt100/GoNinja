@@ -47,10 +47,12 @@ class MALWallGenerator:SKSpriteNode{
     func stop()
     {
         self.removeAllActions()
+        self.removeAllChildren()
+        /*
         for child in self.children
         {
             child.stop()
-        }
+        }*/
     }
 
 }
