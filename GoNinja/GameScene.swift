@@ -118,7 +118,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         wallGenerator.stop()
         groundBot.stop()
         groundTop.stop()
-        
+        jumpCount = -1
     }
     
     func reStartGame(){
@@ -132,6 +132,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         generateWorld(self.view!)
         isStart = false
         isGameOver = false
+        jumpCount = -1
     }
     
     func didBeginContact(contact: SKPhysicsContact) {

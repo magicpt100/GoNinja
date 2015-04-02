@@ -16,12 +16,13 @@ let groundHeightFactor:CGFloat = 0.1  // proportion to the screen size
 let groundWidthFactor:CGFloat = 2.0
 
 let wallWidthFactor:CGFloat = 0.05
-let wallHeightFactorTall:CGFloat = 0.25
-let wallHeightFactorLow:CGFloat = 0.18
+let wallHeightFactorTall:CGFloat = 0.30
+let wallHeightFactorLow:CGFloat = 0.15
 
 let gameFont = "AmericanTypewriter-Bold"
 
 var pointsRaw = 0
+var jumpCount = 0
 
 enum BodyType:UInt32 {
     

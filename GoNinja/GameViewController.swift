@@ -11,7 +11,7 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
-    
+    var animator:UIDynamicAnimator!
     var scene : GameScene!
 
     override func viewDidLoad() {
@@ -30,8 +30,6 @@ class GameViewController: UIViewController {
         //Present the scene
         skView.showsPhysics = true
         skView.presentScene(scene)
-        
-
     }
 
     @IBAction func swipeHandler(sender: UIPanGestureRecognizer)
@@ -55,7 +53,56 @@ class GameViewController: UIViewController {
         
     }
 
+    @IBAction func tapHandler(sender: UITapGestureRecognizer)
+    {
+        if (!scene.hero.body.hasActions()) { //Jump not currently in progress
+            if (jumpCount > 0) {
+                if (jumpCount % 3 == 1) {
+                    frontFlip()
+                } else if (jumpCount % 3 == 2) {
+                    jump()
+                } else if (jumpCount % 3 == 0) {
+                    backFlip()
+                }
+            }
+        }; jumpCount += 1
+    }
     
+    func frontFlip() {
+        var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
+        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + 50
+        
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
+        let flip = SKAction.rotateByAngle((2 * CGFloat(-M_PI)), duration: 0.3)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        
+        let jumpSequence = SKAction.sequence([up, flip, down])
+        scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
+    }
+    
+    func backFlip() {
+        var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
+        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + 50
+        
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
+        let flip = SKAction.rotateByAngle((2 * CGFloat(M_PI)), duration: 0.3)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        
+        let jumpSequence = SKAction.sequence([up, flip, down])
+        scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
+    }
+    
+    func jump() {
+        var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
+        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage)
+        
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
+        let pause = SKAction.moveByX(0, y: 0, duration: 0.3)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        
+        let jumpSequence = SKAction.sequence([up, pause, down])
+        scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
+    }
 
     override func shouldAutorotate() -> Bool {
         return true
