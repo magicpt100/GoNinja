@@ -63,6 +63,7 @@ class MALMonster: SKSpriteNode {
         monsterPhysicsBody.dynamic = true
         monsterPhysicsBody.contactTestBitMask = BodyType.wall.rawValue | BodyType.hero.rawValue
         monsterPhysicsBody.allowsRotation = false
+        monsterPhysicsBody.affectedByGravity = false
         self.physicsBody = monsterPhysicsBody
         
         //Cases where monster are generated at the top
@@ -114,6 +115,12 @@ class MALMonster: SKSpriteNode {
         rightEye.position = CGPointMake(CGFloat(13 * direction), 8)
         leftEye.position = CGPointMake(CGFloat(3 * -direction), 8)
         mouth.position = CGPointMake(CGFloat(8 * direction), -12.5)
+    }
+    
+    func die()
+    {
+        self.removeAllActions()
+        self.physicsBody?.affectedByGravity = true
     }
     
     func stop()

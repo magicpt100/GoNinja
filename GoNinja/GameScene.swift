@@ -22,6 +22,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var isStart = false
     var isGameOver = false
     var pauseButton: UIButton!
+    var cloudGenerator: MALCloudGenerator!
+    
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -36,6 +38,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
+        //hero.swingSword()
+        //hero.throwNinjaStar()
         if !isStart
         {
             start()
@@ -54,7 +58,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         //Set the physics
         physicsWorld.contactDelegate = self
-        physicsWorld.gravity = CGVectorMake(0, 0)
+        //physicsWorld.gravity = CGVectorMake(0, 0)
         
         // Add the ground
         groundTop = MALGround()
@@ -68,6 +72,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         wallGenerator = MALWallGenerator(color: UIColor.clearColor(), size: view.frame.size)
         wallGenerator.position = view.center
         addChild(wallGenerator)
+        
+        
+        //Add the cloud background
+        cloudGenerator = MALCloudGenerator(color: UIColor.clearColor(), size: frameSize)
+        cloudGenerator.position = view.center
+        addChild(cloudGenerator)
+        cloudGenerator.populate(5)
+        cloudGenerator.startGenerating()
         
         //Add hero
         hero = MALHero()
@@ -97,8 +109,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(pauseButton)
         
+        //Add Monster Generator
         monsterGenerator = MALMonsterGenerator()
         addChild(monsterGenerator)
+        
+        var power = PowerUps(type:1)
+        power.position = CGPointMake(300, 300)
+        addChild(power)
+        
     }
     
     
@@ -146,20 +164,26 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         var bodyA = contact.bodyA
         var bodyB = contact.bodyB
-        if (bodyA.categoryBitMask == BodyType.hero.rawValue) || (bodyB.categoryBitMask == BodyType.hero.rawValue)
-        {
-            gameOver()
+        if (bodyA.categoryBitMask == BodyType.hero.rawValue) &&  bodyB.categoryBitMask == BodyType.power_ups.rawValue {
+            bodyB.node?.removeFromParent()
         }
-        
-        else if (bodyA.categoryBitMask == BodyType.monster.rawValue)
+        else if (bodyB.categoryBitMask == BodyType.hero.rawValue) &&  bodyA.categoryBitMask == BodyType.power_ups.rawValue {
+            bodyA.node?.removeFromParent()
+        }
+        else if (bodyA.categoryBitMask == BodyType.monster.rawValue && bodyB.categoryBitMask == BodyType.wall.rawValue)
         {
             (bodyA.node as MALMonster).direction *= -1
+            //(bodyA.node as MALMonster).die()
             (bodyA.node as MALMonster).resetWalk()
         }
-        else if (bodyB.categoryBitMask == BodyType.monster.rawValue)
+        else if (bodyB.categoryBitMask == BodyType.monster.rawValue && bodyA.categoryBitMask == BodyType.wall.rawValue)
         {
             (bodyB.node as MALMonster).direction *= -1
             (bodyB.node as MALMonster).resetWalk()
+        }
+        else
+        {
+            gameOver()
         }
     }
     
