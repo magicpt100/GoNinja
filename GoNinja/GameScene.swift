@@ -259,6 +259,28 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
     }
     
+    func dropSmokeBomb()
+    {
+        
+        var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
+        smokeBomb.particleColorSequence = nil
+        smokeBomb.particleColorBlendFactor = 0.8
+        smokeBomb.particleColor = UIColor.grayColor()
+        
+        if hero.onGround == false
+        {
+            smokeBomb.position = CGPointMake(80, 30)
+        }
+        else
+        {
+            smokeBomb.position = CGPointMake(80, 350)
+        }
+        addChild(smokeBomb)
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_MSEC * 500))
+        dispatch_after(delayTime, dispatch_get_main_queue(), {smokeBomb.removeFromParent()})
+        
+    }
+    
     func animationWithPulse(node: SKNode){
         let fadeIn = SKAction.fadeInWithDuration(0.6)
         let fadeOut = SKAction.fadeOutWithDuration(0.6)

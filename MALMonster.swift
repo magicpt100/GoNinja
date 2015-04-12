@@ -62,6 +62,7 @@ class MALMonster: SKSpriteNode {
         monsterPhysicsBody.categoryBitMask = BodyType.monster.rawValue
         monsterPhysicsBody.dynamic = true
         monsterPhysicsBody.contactTestBitMask = BodyType.wall.rawValue | BodyType.hero.rawValue
+        monsterPhysicsBody.collisionBitMask = BodyType.wall.rawValue
         monsterPhysicsBody.allowsRotation = false
         monsterPhysicsBody.affectedByGravity = false
         self.physicsBody = monsterPhysicsBody

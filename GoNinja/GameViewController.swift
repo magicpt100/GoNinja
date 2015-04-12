@@ -36,21 +36,22 @@ class GameViewController: UIViewController {
 
     @IBAction func swipeHandler(sender: UIPanGestureRecognizer)
     {
-        scene.hero.dropSmokeBomb()
         let rotateCW = SKAction.rotateByAngle(CGFloat(M_PI), duration: 0)
         let rotateCCW = SKAction.rotateByAngle(-CGFloat(M_PI), duration: 0)
 
-        if(sender.velocityInView(view!).y > 0 && scene.hero.onGround != nil && scene.hero.onGround == false)
+        if(sender.velocityInView(view!).y > 0  && scene.hero.onGround == false)
         {
             scene.hero.onGround = true
             scene.hero.runAction(rotateCW)
             scene.hero.position = CGPointMake(0, 0)
+            scene.dropSmokeBomb()
         }
-        else if(sender.velocityInView(view!).y < 0 && scene.hero.onGround != nil && scene.hero.onGround == true)
+        else if(sender.velocityInView(view!).y < 0 && scene.hero.onGround == true)
         {
             scene.hero.onGround = false
             scene.hero.runAction(rotateCCW)
             scene.hero.position = CGPointMake(200, 375)
+            scene.dropSmokeBomb()
         }
         
     }
