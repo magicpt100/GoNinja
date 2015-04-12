@@ -20,7 +20,11 @@ class MALHero: SKSpriteNode {
     var ninjaStar: SKSpriteNode!
     var ninjaSword: SKSpriteNode!
     
+    var rightArmAnchorPoint: SKSpriteNode!
+    var leftArmAnchorPoint: SKSpriteNode!
+    
     var onGround: Bool!
+    var powerUpStatus = 0 // 0,1,2,3,4 - 0: no powerUps
     
     override init ()
     {
@@ -133,17 +137,27 @@ class MALHero: SKSpriteNode {
         
         //Add left arm
         
+        leftArmAnchorPoint = SKSpriteNode(color: UIColor.blueColor(), size: CGSizeMake(3, 3))
+        leftArmAnchorPoint.position = CGPointMake(0, 20)
+        body.addChild(leftArmAnchorPoint)
+        
         leftArm = leftFoot.copy() as SKShapeNode
         leftArm.zRotation = CGFloat(-M_PI / 4.0)
-        leftArm.position = CGPointMake(leftFoot.frame.size.width, 18)
-        body.addChild(leftArm)
+        //leftArm.position = CGPointMake(leftFoot.frame.size.width, 18)
+        leftArm.position = CGPointMake(20, 0)
+        leftArmAnchorPoint.addChild(leftArm)
         
         //Add right arm
         
+        rightArmAnchorPoint = SKSpriteNode(color: UIColor.blueColor(), size: CGSizeMake(3, 3))
+        rightArmAnchorPoint.position = CGPointMake(40, 20)
+        body.addChild(rightArmAnchorPoint)
+        
         rightArm = rightFoot.copy() as SKShapeNode
         rightArm.zRotation = CGFloat(M_PI / 4.0)
-        rightArm.position = CGPointMake(rightFoot.position.x - 9.5, 38.5)
-        body.addChild(rightArm)
+        //rightArm.position = CGPointMake(rightFoot.position.x - 9.5, 38.5)
+        rightArm.position = CGPointMake(0, 20)
+        rightArmAnchorPoint.addChild(rightArm)
         
         //Add ninja star
         
@@ -162,10 +176,12 @@ class MALHero: SKSpriteNode {
         body.addChild(ninjaSword)
 
         //Add physics for collision and contact detection
-        var heroBodyPhysicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: 80,height: 80), center: CGPointMake(24, 25))
+        var heroBodyPhysicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: 70,height: 78), center: CGPointMake(23, 24))
         heroBodyPhysicsBody.dynamic = true
         heroBodyPhysicsBody.allowsRotation = false
+        heroBodyPhysicsBody.affectedByGravity = false
         heroBodyPhysicsBody.categoryBitMask = BodyType.hero.rawValue
+        heroBodyPhysicsBody.collisionBitMask = 0
         heroBodyPhysicsBody.contactTestBitMask = BodyType.wall.rawValue
         body.physicsBody = heroBodyPhysicsBody
         
@@ -210,6 +226,69 @@ class MALHero: SKSpriteNode {
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_MSEC * 500))
         dispatch_after(delayTime, dispatch_get_main_queue(), {smokeBomb.removeFromParent()})
 
+    }
+    
+    func receivePowerUp(powerUpType: Int)
+    {
+        switch powerUpType {
+        case 1:
+            powerUpStatus = 1
+            ninjaSword.removeFromParent()
+            rightArmAnchorPoint.addChild(ninjaSword)
+            ninjaSword.position = CGPointMake(18, 16)
+            ninjaSword.zRotation = CGFloat(M_PI_4 * 0.6)
+            ninjaSword.zPosition = 1
+            ninjaStar.alpha = CGFloat(0)
+        case 2:
+            powerUpStatus = 2
+            self.alpha = 0.7
+            self.body.physicsBody!.contactTestBitMask = 0
+        default:
+            powerUpStatus = 0
+        }
+    }
+    
+    func removePowerUpEffect()
+    {
+        switch powerUpStatus{
+        case 1:
+            powerUpStatus = 0
+            ninjaSword.removeFromParent()
+            body.addChild(ninjaSword)
+            ninjaSword.zPosition = -2
+            ninjaSword.zRotation = CGFloat(-M_PI/2)
+            ninjaSword.position = CGPointMake(0, 25)
+            ninjaStar.alpha = 1.0
+        case 2:
+            powerUpStatus = 0
+            self.alpha = 1.0
+            self.body.physicsBody!.contactTestBitMask = BodyType.wall.rawValue
+        default:
+            powerUpStatus = 0
+        }
+    }
+    
+    func swingSword()
+    {
+        var upSwing = SKAction.rotateToAngle(CGFloat(M_PI_4), duration: 0.1)
+        var downSwing = SKAction.rotateToAngle(CGFloat(-M_PI_4 * 0.6), duration: 0.2)
+        var restore = SKAction.rotateToAngle(0, duration: 0.0)
+        var swing = SKAction.sequence([upSwing,downSwing,restore])
+        rightArmAnchorPoint.runAction(swing)
+    }
+    
+    // currently not useful
+    func throwNinjaStar()
+    {
+        //ninjaStar.removeFromParent()
+        ninjaStar.position = CGPointMake(-15, -9)
+        //leftArmAnchorPoint.addChild(ninjaStar)
+        var upSwing = SKAction.rotateToAngle(CGFloat(M_PI_4), duration: 0.1)
+        var downSwing = SKAction.rotateToAngle(CGFloat(-M_PI_4 * 0.6), duration: 0.2)
+        var restore = SKAction.rotateToAngle(0, duration: 0.0)
+        var swing = SKAction.sequence([upSwing,downSwing,restore])
+        leftArmAnchorPoint.runAction(SKAction.sequence([swing,restore]))
+        ninjaStar.runAction(SKAction.moveByX(300, y: 0, duration: 1))
     }
     
     func stop()

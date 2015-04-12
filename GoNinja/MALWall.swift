@@ -32,6 +32,7 @@ class MALWall: SKSpriteNode{
         var wallPhysicsBody = SKPhysicsBody(rectangleOfSize: self.frame.size)
         wallPhysicsBody.dynamic = false
         wallPhysicsBody.allowsRotation = false
+        wallPhysicsBody.affectedByGravity = false
         wallPhysicsBody.categoryBitMask = BodyType.wall.rawValue
         self.physicsBody = wallPhysicsBody
         startMoving()

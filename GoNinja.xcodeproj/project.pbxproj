@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AE40225A1ABF9A64005034FC /* MALPointLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4022591ABF9A64005034FC /* MALPointLabel.swift */; };
+		AE54E6FD1AD9B98600E6966A /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE54E6FC1AD9B98600E6966A /* CountDownTimer.swift */; };
+		AE54E6FF1ADA05C200E6966A /* PowerUpGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE54E6FE1ADA05C200E6966A /* PowerUpGenerator.swift */; };
 		AE55AB6B1AAA6B9100FBC82E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */; };
 		AE55AB6F1AAA6B9100FBC82E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */; };
 		AE55AB711AAA6B9100FBC82E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55AB701AAA6B9100FBC82E /* GameViewController.swift */; };
@@ -24,6 +26,9 @@
 		AEC773D51AAE98D600767966 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC773D41AAE98D600767966 /* Constants.swift */; };
 		AEF289A51AC8A84100F1D997 /* MALMonster.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289A41AC8A84100F1D997 /* MALMonster.swift */; };
 		AEF289A71ACCA04D00F1D997 /* MALMonsterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289A61ACCA04D00F1D997 /* MALMonsterGenerator.swift */; };
+		AEF289AB1AD1BBE200F1D997 /* MALCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289AA1AD1BBE200F1D997 /* MALCloud.swift */; };
+		AEF289AD1AD1BF7A00F1D997 /* MALCloudGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289AC1AD1BF7A00F1D997 /* MALCloudGenerator.swift */; };
+		AEF289B21AD3527200F1D997 /* PowerUps.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289B11AD3527200F1D997 /* PowerUps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		AE4022591ABF9A64005034FC /* MALPointLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALPointLabel.swift; sourceTree = "<group>"; };
+		AE54E6FC1AD9B98600E6966A /* CountDownTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
+		AE54E6FE1ADA05C200E6966A /* PowerUpGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpGenerator.swift; sourceTree = "<group>"; };
 		AE55AB651AAA6B9100FBC82E /* GoNinja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoNinja.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE55AB691AAA6B9100FBC82E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +65,9 @@
 		AEC773D41AAE98D600767966 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AEF289A41AC8A84100F1D997 /* MALMonster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MALMonster.swift; path = ../MALMonster.swift; sourceTree = "<group>"; };
 		AEF289A61ACCA04D00F1D997 /* MALMonsterGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALMonsterGenerator.swift; sourceTree = "<group>"; };
+		AEF289AA1AD1BBE200F1D997 /* MALCloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALCloud.swift; sourceTree = "<group>"; };
+		AEF289AC1AD1BF7A00F1D997 /* MALCloudGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALCloudGenerator.swift; sourceTree = "<group>"; };
+		AEF289B11AD3527200F1D997 /* PowerUps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUps.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +88,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AE54E7001ADA05D200E6966A /* PowerUp */ = {
+			isa = PBXGroup;
+			children = (
+				AEF289B11AD3527200F1D997 /* PowerUps.swift */,
+				AE54E6FC1AD9B98600E6966A /* CountDownTimer.swift */,
+				AE54E6FE1ADA05C200E6966A /* PowerUpGenerator.swift */,
+			);
+			name = PowerUp;
+			sourceTree = "<group>";
+		};
 		AE55AB5C1AAA6B9100FBC82E = {
 			isa = PBXGroup;
 			children = (
@@ -99,15 +119,15 @@
 		AE55AB671AAA6B9100FBC82E /* GoNinja */ = {
 			isa = PBXGroup;
 			children = (
-				AEF289A41AC8A84100F1D997 /* MALMonster.swift */,
-				AEF289A61ACCA04D00F1D997 /* MALMonsterGenerator.swift */,
+				AEF289AE1AD1C5E700F1D997 /* Cloud */,
+				AEF289AF1AD1C5F400F1D997 /* Monster */,
 				AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */,
 				AE55AB6A1AAA6B9100FBC82E /* AppDelegate.swift */,
 				AE55AB8E1AAD257500FBC82E /* MALGround.swift */,
 				AE4022591ABF9A64005034FC /* MALPointLabel.swift */,
-				AEC773D01AAE8C7900767966 /* MALWall.swift */,
-				AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */,
+				AEF289B01AD1C60100F1D997 /* Wall */,
 				AE81D5621ABCA13600600232 /* MALHero.swift */,
+				AE54E7001ADA05D200E6966A /* PowerUp */,
 				AE57BBBC1AC60B7D0098E5A5 /* SmokeBombEffect.sks */,
 				AE57BBC51AC66CBE0098E5A5 /* spark.png */,
 				AEC773D41AAE98D600767966 /* Constants.swift */,
@@ -143,6 +163,33 @@
 				AE55AB831AAA6B9100FBC82E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AEF289AE1AD1C5E700F1D997 /* Cloud */ = {
+			isa = PBXGroup;
+			children = (
+				AEF289AA1AD1BBE200F1D997 /* MALCloud.swift */,
+				AEF289AC1AD1BF7A00F1D997 /* MALCloudGenerator.swift */,
+			);
+			name = Cloud;
+			sourceTree = "<group>";
+		};
+		AEF289AF1AD1C5F400F1D997 /* Monster */ = {
+			isa = PBXGroup;
+			children = (
+				AEF289A41AC8A84100F1D997 /* MALMonster.swift */,
+				AEF289A61ACCA04D00F1D997 /* MALMonsterGenerator.swift */,
+			);
+			name = Monster;
+			sourceTree = "<group>";
+		};
+		AEF289B01AD1C60100F1D997 /* Wall */ = {
+			isa = PBXGroup;
+			children = (
+				AEC773D01AAE8C7900767966 /* MALWall.swift */,
+				AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */,
+			);
+			name = Wall;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,15 +295,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEC773D11AAE8C7900767966 /* MALWall.swift in Sources */,
+				AEF289AD1AD1BF7A00F1D997 /* MALCloudGenerator.swift in Sources */,
 				AEF289A51AC8A84100F1D997 /* MALMonster.swift in Sources */,
 				AE55AB6F1AAA6B9100FBC82E /* GameScene.swift in Sources */,
 				AEC773D31AAE95D000767966 /* MALWALLGenerator.swift in Sources */,
 				AE55AB711AAA6B9100FBC82E /* GameViewController.swift in Sources */,
 				AE40225A1ABF9A64005034FC /* MALPointLabel.swift in Sources */,
 				AEC773D51AAE98D600767966 /* Constants.swift in Sources */,
+				AE54E6FD1AD9B98600E6966A /* CountDownTimer.swift in Sources */,
 				AE55AB8F1AAD257500FBC82E /* MALGround.swift in Sources */,
+				AE54E6FF1ADA05C200E6966A /* PowerUpGenerator.swift in Sources */,
 				AE81D5631ABCA13600600232 /* MALHero.swift in Sources */,
 				AEF289A71ACCA04D00F1D997 /* MALMonsterGenerator.swift in Sources */,
+				AEF289B21AD3527200F1D997 /* PowerUps.swift in Sources */,
+				AEF289AB1AD1BBE200F1D997 /* MALCloud.swift in Sources */,
 				AE55AB6B1AAA6B9100FBC82E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

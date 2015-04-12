@@ -22,6 +22,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var isStart = false
     var isGameOver = false
     var pauseButton: UIButton!
+    var cloudGenerator: MALCloudGenerator!
+    var powerUpGenerator: PowerUpGenerator!
+    var power: PowerUps!
+    var timer: CountDownTimer?
+    
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -36,6 +41,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
+        //hero.swingSword()
+        //hero.throwNinjaStar()
         if !isStart
         {
             start()
@@ -54,7 +61,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         //Set the physics
         physicsWorld.contactDelegate = self
-        physicsWorld.gravity = CGVectorMake(0, 0)
+        //physicsWorld.gravity = CGVectorMake(0, 0)
         
         // Add the ground
         groundTop = MALGround()
@@ -68,6 +75,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         wallGenerator = MALWallGenerator(color: UIColor.clearColor(), size: view.frame.size)
         wallGenerator.position = view.center
         addChild(wallGenerator)
+        
+        
+        //Add the cloud background
+        cloudGenerator = MALCloudGenerator(color: UIColor.clearColor(), size: frameSize)
+        cloudGenerator.position = view.center
+        addChild(cloudGenerator)
+        cloudGenerator.populate(5)
+        cloudGenerator.startGenerating()
         
         //Add hero
         hero = MALHero()
@@ -97,8 +112,23 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(pauseButton)
         
+        //Add Monster Generator
         monsterGenerator = MALMonsterGenerator()
         addChild(monsterGenerator)
+        
+        /*
+        power = PowerUps(type:2)
+        power.position = CGPointMake(300, 300)
+        addChild(power)
+        
+        var timer = CountDownTimer(time: 10)
+        timer.position = CGPointMake(300, 300)
+        addChild(timer)
+        */
+        //Add power-Ups
+        powerUpGenerator = PowerUpGenerator()
+        addChild(powerUpGenerator)
+        
     }
     
     
@@ -111,6 +141,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         hero.startRunning()
         monsterGenerator.startGeneratingMonster()
         tapToStartLabel.removeFromParent()
+        powerUpGenerator.startGeneratingPowers()
     }
     
     func gameOver(){
@@ -146,23 +177,87 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         var bodyA = contact.bodyA
         var bodyB = contact.bodyB
-        if (bodyA.categoryBitMask == BodyType.hero.rawValue) || (bodyB.categoryBitMask == BodyType.hero.rawValue)
+        if (bodyA.categoryBitMask == BodyType.hero.rawValue)
         {
-            gameOver()
+            if bodyB.categoryBitMask == BodyType.power_ups.rawValue
+            {
+                hero.removePowerUpEffect()
+                hero.receivePowerUp((bodyB.node as PowerUps).getType())
+                makeTimer(10)
+                bodyB.node?.removeFromParent()
+            }
+            else if bodyB.categoryBitMask == BodyType.monster.rawValue
+            {
+                if (hero.powerUpStatus == 1)
+                {
+                    hero.swingSword()
+                    (bodyB.node as MALMonster).die()
+                }
+                else
+                {
+                    gameOver()
+                }
+            }
+            else if bodyB.categoryBitMask == BodyType.wall.rawValue
+            {
+                    gameOver()
+            }
+            
         }
-        
-        else if (bodyA.categoryBitMask == BodyType.monster.rawValue)
+        else if (bodyB.categoryBitMask == BodyType.hero.rawValue)
+        {
+            if bodyA.categoryBitMask == BodyType.power_ups.rawValue
+            {
+                hero.removePowerUpEffect()
+                hero.receivePowerUp((bodyA.node as PowerUps).getType())
+                makeTimer(10)
+                bodyA.node?.removeFromParent()
+            }
+            else if bodyA.categoryBitMask == BodyType.monster.rawValue
+            {
+                if (hero.powerUpStatus == 1)
+                {
+                    hero.swingSword()
+                    (bodyA.node as MALMonster).die()
+                }
+                else
+                {
+                    gameOver()
+                }
+            }
+            else if bodyA.categoryBitMask == BodyType.wall.rawValue
+            {
+                gameOver()
+            }
+
+        }
+        else if (bodyA.categoryBitMask == BodyType.monster.rawValue && bodyB.categoryBitMask == BodyType.wall.rawValue)
         {
             (bodyA.node as MALMonster).direction *= -1
             (bodyA.node as MALMonster).resetWalk()
         }
-        else if (bodyB.categoryBitMask == BodyType.monster.rawValue)
+        else if (bodyB.categoryBitMask == BodyType.monster.rawValue && bodyA.categoryBitMask == BodyType.wall.rawValue)
         {
             (bodyB.node as MALMonster).direction *= -1
             (bodyB.node as MALMonster).resetWalk()
         }
     }
     
+    func makeTimer(time: Int){
+        if timer == nil
+        {
+            timer = CountDownTimer(time: 10)
+            timer!.position = CGPointMake(300, 300)
+            addChild(timer!)
+        }
+        else
+        {
+            timer?.removeFromParent()
+            timer = CountDownTimer(time: 10)
+            timer!.position = CGPointMake(300, 320)
+            addChild(timer!)
+        }
+    }
     
     func animationWithPulse(node: SKNode){
         let fadeIn = SKAction.fadeInWithDuration(0.6)
@@ -174,7 +269,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
-        //This a stupid way to handle points
         pointLabel.updatePoints(pointsRaw - 2)
+        if timer != nil && timer!.timeLeft == 0
+        {
+            timer!.removeFromParent()
+            hero.removePowerUpEffect()
+        }
     }
 }
