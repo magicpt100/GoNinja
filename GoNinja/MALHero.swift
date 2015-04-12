@@ -23,7 +23,7 @@ class MALHero: SKSpriteNode {
     var rightArmAnchorPoint: SKSpriteNode!
     var leftArmAnchorPoint: SKSpriteNode!
     
-    var onGround: Bool!
+    var onGround = true
     var powerUpStatus = 0 // 0,1,2,3,4 - 0: no powerUps
     
     override init ()
@@ -215,17 +215,6 @@ class MALHero: SKSpriteNode {
         let breath = SKAction.sequence([breathOut,breathIn])
         body.runAction(SKAction.repeatActionForever(breath))
         
-    }
-    
-    func dropSmokeBomb()
-    {
-        
-        var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
-        smokeBomb.position = CGPointMake(80, 10)
-        addChild(smokeBomb)
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_MSEC * 500))
-        dispatch_after(delayTime, dispatch_get_main_queue(), {smokeBomb.removeFromParent()})
-
     }
     
     func receivePowerUp(powerUpType: Int)
