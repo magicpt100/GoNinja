@@ -23,6 +23,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var isGameOver = false
     var pauseButton: UIButton!
     var cloudGenerator: MALCloudGenerator!
+    var powerUpGenerator: PowerUpGenerator!
+    var power: PowerUps!
+    var timer: CountDownTimer?
     
     
     override func didMoveToView(view: SKView) {
@@ -113,9 +116,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         monsterGenerator = MALMonsterGenerator()
         addChild(monsterGenerator)
         
-        var power = PowerUps(type:1)
+        /*
+        power = PowerUps(type:2)
         power.position = CGPointMake(300, 300)
         addChild(power)
+        
+        var timer = CountDownTimer(time: 10)
+        timer.position = CGPointMake(300, 300)
+        addChild(timer)
+        */
+        //Add power-Ups
+        powerUpGenerator = PowerUpGenerator()
+        addChild(powerUpGenerator)
         
     }
     
@@ -129,6 +141,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         hero.startRunning()
         monsterGenerator.startGeneratingMonster()
         tapToStartLabel.removeFromParent()
+        powerUpGenerator.startGeneratingPowers()
     }
     
     func gameOver(){
@@ -164,16 +177,63 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         var bodyA = contact.bodyA
         var bodyB = contact.bodyB
-        if (bodyA.categoryBitMask == BodyType.hero.rawValue) &&  bodyB.categoryBitMask == BodyType.power_ups.rawValue {
-            bodyB.node?.removeFromParent()
+        if (bodyA.categoryBitMask == BodyType.hero.rawValue)
+        {
+            if bodyB.categoryBitMask == BodyType.power_ups.rawValue
+            {
+                hero.removePowerUpEffect()
+                hero.receivePowerUp((bodyB.node as PowerUps).getType())
+                makeTimer(10)
+                bodyB.node?.removeFromParent()
+            }
+            else if bodyB.categoryBitMask == BodyType.monster.rawValue
+            {
+                if (hero.powerUpStatus == 1)
+                {
+                    hero.swingSword()
+                    (bodyB.node as MALMonster).die()
+                }
+                else
+                {
+                    gameOver()
+                }
+            }
+            else if bodyB.categoryBitMask == BodyType.wall.rawValue
+            {
+                    gameOver()
+            }
+            
         }
-        else if (bodyB.categoryBitMask == BodyType.hero.rawValue) &&  bodyA.categoryBitMask == BodyType.power_ups.rawValue {
-            bodyA.node?.removeFromParent()
+        else if (bodyB.categoryBitMask == BodyType.hero.rawValue)
+        {
+            if bodyA.categoryBitMask == BodyType.power_ups.rawValue
+            {
+                hero.removePowerUpEffect()
+                hero.receivePowerUp((bodyA.node as PowerUps).getType())
+                makeTimer(10)
+                bodyA.node?.removeFromParent()
+            }
+            else if bodyA.categoryBitMask == BodyType.monster.rawValue
+            {
+                if (hero.powerUpStatus == 1)
+                {
+                    hero.swingSword()
+                    (bodyA.node as MALMonster).die()
+                }
+                else
+                {
+                    gameOver()
+                }
+            }
+            else if bodyA.categoryBitMask == BodyType.wall.rawValue
+            {
+                gameOver()
+            }
+
         }
         else if (bodyA.categoryBitMask == BodyType.monster.rawValue && bodyB.categoryBitMask == BodyType.wall.rawValue)
         {
             (bodyA.node as MALMonster).direction *= -1
-            //(bodyA.node as MALMonster).die()
             (bodyA.node as MALMonster).resetWalk()
         }
         else if (bodyB.categoryBitMask == BodyType.monster.rawValue && bodyA.categoryBitMask == BodyType.wall.rawValue)
@@ -181,12 +241,23 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             (bodyB.node as MALMonster).direction *= -1
             (bodyB.node as MALMonster).resetWalk()
         }
-        else
-        {
-            gameOver()
-        }
     }
     
+    func makeTimer(time: Int){
+        if timer == nil
+        {
+            timer = CountDownTimer(time: 10)
+            timer!.position = CGPointMake(300, 300)
+            addChild(timer!)
+        }
+        else
+        {
+            timer?.removeFromParent()
+            timer = CountDownTimer(time: 10)
+            timer!.position = CGPointMake(300, 320)
+            addChild(timer!)
+        }
+    }
     
     func animationWithPulse(node: SKNode){
         let fadeIn = SKAction.fadeInWithDuration(0.6)
@@ -198,7 +269,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
-        //This a stupid way to handle points
         pointLabel.updatePoints(pointsRaw - 2)
+        if timer != nil && timer!.timeLeft == 0
+        {
+            timer!.removeFromParent()
+            hero.removePowerUpEffect()
+        }
     }
 }
