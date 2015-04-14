@@ -15,6 +15,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var groundTop: MALGround!
     var groundBot: MALGround!
     var wallGenerator: MALWallGenerator!
+    var coinGenerator: CoinGenerator!
     var monsterGenerator: MALMonsterGenerator!
     var hero: MALHero!
     var tapToStartLabel: SKLabelNode!
@@ -177,6 +178,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         wallGenerator.position = view.center
         addChild(wallGenerator)
         
+        coinGenerator = CoinGenerator()
+        addChild(coinGenerator)
         
         //Add the cloud background
         cloudGenerator = MALCloudGenerator(color: UIColor.clearColor(), size: frameSize)
@@ -232,6 +235,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         groundTop.start()
         groundBot.start()
         wallGenerator.startGeneratingWalls()
+        coinGenerator.startGeneratingCoins()
         hero.startRunning()
         monsterGenerator.startGeneratingMonster()
         tapToStartLabel.removeFromParent()
@@ -246,7 +250,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(gameOverLabel)
         hero.stop()
         wallGenerator.stop()
+        coinGenerator.stopMoving()
         monsterGenerator.stop()
+        powerUpGenerator.stop()
         groundBot.stop()
         groundTop.stop()
         jumpCount = -1
@@ -302,6 +308,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             {
                     gameOver()
             }
+            else if(bodyB.categoryBitMask == BodyType.coin.rawValue)
+            {
+                pointsRaw += 1
+                (bodyB.node as Coin).removeFromParent()
+            }
             
         }
         else if (bodyB.categoryBitMask == BodyType.hero.rawValue)
@@ -328,6 +339,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             else if bodyA.categoryBitMask == BodyType.wall.rawValue
             {
                 gameOver()
+            }
+            else if(bodyA.categoryBitMask == BodyType.coin.rawValue)
+            {
+                pointsRaw += 1
+                (bodyA.node as Coin).removeFromParent()
             }
 
         }
