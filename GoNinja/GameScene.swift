@@ -23,6 +23,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var isStart = false
     var isGameOver = false
     var pauseButton: UIButton!
+    var startButton: UIButton!
     var cloudGenerator: MALCloudGenerator!
     var powerUpGenerator: PowerUpGenerator!
     var power: PowerUps!
@@ -36,6 +37,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var swipeDownIcon: SKSpriteNode!
     var swipeDownInstruction: SKLabelNode!
     
+    var loadMenu = true
+    
     
     override func didMoveToView(view: SKView) {
         if tutorialOn
@@ -44,13 +47,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         else
         {
-            generateWorld(view)
+            generateWorldWithMenu(view)
         }
 
     }
     
     func pausePressed(sender:UIButton){
         self.paused = !self.paused
+    }
+    
+    func startPressed(sender: UIButton)
+    {
+        loadMenu = false
+        startButton.removeFromSuperview()
+        hero.removeFromParent()
+        generateWorld(self.view!)
     }
     
     func applicationDidEnterBackGround (){
@@ -62,7 +73,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if !tutorialStart
         {
-            if !isStart
+            if !isStart && !loadMenu
             {
                 start()
             }
@@ -82,6 +93,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 swipeUpInstruction.hidden = false
             }
         }
+    }
+    
+    func generateWorldWithMenu(view: SKView)
+    {
+        backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
+
+        // Add the ground
+        groundTop = MALGround()
+        groundTop.position = CGPointMake(0, view.frame.height - groundTop.frame.size.height/2)
+        groundBot = MALGround()
+        groundBot.position = CGPointMake(0, groundBot.frame.size.height/2)
+        addChild(groundTop)
+        addChild(groundBot)
+        
+        //Add hero
+        hero = MALHero()
+        addChild(hero)
+        hero.breathe()
+        
+        startButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        startButton.frame = CGRectMake(30, 100, 80, 20)
+        startButton.setTitle("Start game", forState: UIControlState.Normal)
+        startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(startButton)
     }
     
     func generateWorldWithTutorial(view:SKView)
@@ -274,7 +309,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         hero.removeFromParent()
         self.removeAllChildren()
-        generateWorld(self.view!)
+        
+        if(loadMenu)
+        {
+            generateWorldWithMenu(self.view!)
+        }
+        else
+        {
+            generateWorld(self.view!)
+        }
+        
         isStart = false
         isGameOver = false
         jumpCount = -1
@@ -377,6 +421,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func dropSmokeBomb()
     {
+        if loadMenu
+        {
+            return
+        }
         
         var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
         smokeBomb.particleColorSequence = nil
