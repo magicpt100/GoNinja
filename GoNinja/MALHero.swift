@@ -158,7 +158,6 @@ class MALHero: SKSpriteNode {
         //rightArm.position = CGPointMake(rightFoot.position.x - 9.5, 38.5)
         rightArm.position = CGPointMake(0, 20)
         rightArmAnchorPoint.addChild(rightArm)
-        
         //Add ninja star
         
         ninjaStar = SKSpriteNode(imageNamed: "ninjaStar")

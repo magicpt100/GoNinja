@@ -27,11 +27,24 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var power: PowerUps!
     var timer: CountDownTimer?
     
+    //Tutorial Node
+    var tapInstructionIcon: SKSpriteNode!
+    var tapInstruction: SKLabelNode!
+    var swipeUpIcon: SKSpriteNode!
+    var swipeUpInstruction: SKLabelNode!
+    var swipeDownIcon: SKSpriteNode!
+    var swipeDownInstruction: SKLabelNode!
+    
     
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        
-        generateWorld(view)
+        if tutorialOn
+        {
+            generateWorldWithTutorial(view)
+        }
+        else
+        {
+            generateWorld(view)
+        }
 
     }
     
@@ -39,19 +52,107 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         self.paused = !self.paused
     }
     
+    func applicationDidEnterBackGround (){
+        self.paused = !self.paused
+    }
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
-        //hero.swingSword()
-        //hero.throwNinjaStar()
-        if !isStart
-        {
-            start()
-        }
-        if isGameOver
-        {
-            reStartGame()
-        }
         
+        if !tutorialStart
+        {
+            if !isStart
+            {
+                start()
+            }
+            if isGameOver
+            {
+                reStartGame()
+            }
+        }
+        else
+        {
+            if tutorialIndex == 0
+            {
+                tapInstructionIcon.hidden = true
+                tapInstruction.hidden = true
+                tutorialIndex += 1
+                swipeUpIcon.hidden = false
+                swipeUpInstruction.hidden = false
+            }
+        }
+    }
+    
+    func generateWorldWithTutorial(view:SKView)
+    {
+        backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
+        
+        // Add the ground
+        groundTop = MALGround()
+        groundTop.position = CGPointMake(0, view.frame.height - groundTop.frame.size.height/2)
+        groundBot = MALGround()
+        groundBot.position = CGPointMake(0, groundBot.frame.size.height/2)
+        addChild(groundTop)
+        addChild(groundBot)
+        
+        //Add hero
+        hero = MALHero()
+        addChild(hero)
+        hero.breathe()
+        
+        //Add the first instruction: tap
+        tapInstructionIcon = SKSpriteNode(imageNamed: "tap")
+        tapInstructionIcon.size = CGSizeMake(40, 40)
+        tapInstructionIcon.position = view.center
+        addChild(tapInstructionIcon)
+        tapInstructionIcon.hidden = false
+        animationWithPulse(tapInstructionIcon)
+        
+        tapInstruction = SKLabelNode(text: "Tap to Jump")
+        tapInstruction.fontColor = UIColor.blackColor()
+        tapInstruction.fontName = gameFont
+        tapInstruction.fontSize = 20.0
+        tapInstruction.position = CGPointMake(view.center.x, view.center.y + 40)
+        tapInstruction.hidden = false
+        addChild(tapInstruction)
+        animationWithPulse(tapInstruction)
+        
+        //Add the second instruction: swipe up
+        swipeUpIcon = SKSpriteNode(imageNamed: "swipeUp")
+        swipeUpIcon.size = CGSizeMake(40, 40)
+        swipeUpIcon.position = view.center
+        swipeUpIcon.hidden = true
+        addChild(swipeUpIcon)
+        animationWithPulse(swipeUpIcon)
+        
+        swipeUpInstruction = SKLabelNode(text: "swipe up to the top side")
+        swipeUpInstruction.fontColor = UIColor.blackColor()
+        swipeUpInstruction.fontName = gameFont
+        swipeUpInstruction.fontSize = 20.0
+        swipeUpInstruction.position = CGPointMake(view.center.x, view.center.y + 40)
+        swipeUpInstruction.hidden = true
+        addChild(swipeUpInstruction)
+        animationWithPulse(swipeUpInstruction)
+        
+        //Add the third instruction: swipe down
+        swipeDownIcon = SKSpriteNode(imageNamed: "swipeDown")
+        swipeDownIcon.size = CGSizeMake(40, 40)
+        swipeDownIcon.position = view.center
+        swipeDownIcon.hidden = true
+        addChild(swipeDownIcon)
+        animationWithPulse(swipeDownIcon)
+        
+        swipeDownInstruction = SKLabelNode(text: "swipe down to the bottom side")
+        swipeDownInstruction.fontColor = UIColor.blackColor()
+        swipeDownInstruction.fontName = gameFont
+        swipeDownInstruction.fontSize = 20.0
+        swipeDownInstruction.position = CGPointMake(view.center.x, view.center.y + 40)
+        swipeDownInstruction.hidden = true
+        addChild(swipeDownInstruction)
+        animationWithPulse(swipeDownInstruction)
+        
+        tutorialStart = true
+
     }
     
     func generateWorld(view:SKView)
@@ -92,8 +193,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //Add tapToStart label
         
         tapToStartLabel = SKLabelNode(text: "Tap to Start")
+        tapToStartLabel.zPosition = 1
         tapToStartLabel.fontName = gameFont
         tapToStartLabel.fontSize = CGFloat(20.0)
+        tapToStartLabel.fontColor = UIColor.blackColor()
         tapToStartLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2)
         animationWithPulse(tapToStartLabel)
         addChild(tapToStartLabel)
@@ -116,15 +219,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         monsterGenerator = MALMonsterGenerator()
         addChild(monsterGenerator)
         
-        /*
-        power = PowerUps(type:2)
-        power.position = CGPointMake(300, 300)
-        addChild(power)
-        
-        var timer = CountDownTimer(time: 10)
-        timer.position = CGPointMake(300, 300)
-        addChild(timer)
-        */
         //Add power-Ups
         powerUpGenerator = PowerUpGenerator()
         addChild(powerUpGenerator)
@@ -162,10 +256,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pointsRaw = 0
         groundTop.removeFromParent()
         groundBot.removeFromParent()
-        wallGenerator.removeAllChildren()
-        wallGenerator.removeFromParent()
-        monsterGenerator.removeAllChildren()
-        monsterGenerator.removeFromParent()
+        if wallGenerator != nil
+        {
+            wallGenerator.removeAllChildren()
+            wallGenerator.removeFromParent()
+        }
+        if monsterGenerator != nil
+        {
+            monsterGenerator.removeAllChildren()
+            monsterGenerator.removeFromParent()
+        }
         hero.removeFromParent()
         self.removeAllChildren()
         generateWorld(self.view!)
@@ -264,7 +364,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
         smokeBomb.particleColorSequence = nil
-        smokeBomb.particleColorBlendFactor = 0.8
+        smokeBomb.particleColorBlendFactor = 0.5
         smokeBomb.particleColor = UIColor.grayColor()
         
         if hero.onGround == false
@@ -291,7 +391,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
-        pointLabel.updatePoints(pointsRaw - 2)
+        if pointLabel != nil
+        {
+            pointLabel.updatePoints(pointsRaw - 2)
+        }
         if timer != nil && timer!.timeLeft == 0
         {
             timer!.removeFromParent()
