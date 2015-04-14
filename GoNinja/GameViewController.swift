@@ -54,6 +54,25 @@ class GameViewController: UIViewController {
             scene.dropSmokeBomb()
         }
         
+        if tutorialStart && tutorialIndex == 1 && scene.hero.onGround == false
+        {
+            scene.swipeUpIcon.hidden = true
+            scene.swipeUpInstruction.hidden = true
+            scene.swipeDownIcon.hidden = false
+            scene.swipeDownInstruction.hidden = false
+            tutorialIndex += 1
+        }
+        else if tutorialStart && tutorialIndex == 2 && scene.hero.onGround == true
+        {
+            scene.swipeDownIcon.hidden = true
+            scene.swipeDownInstruction.hidden = true
+            tutorialIndex += 1
+            tutorialStart = false
+            tutorialOn = false
+            scene.reStartGame()
+        }
+        
+        
     }
 
     @IBAction func tapHandler(sender: UITapGestureRecognizer)
@@ -127,4 +146,5 @@ class GameViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
 }

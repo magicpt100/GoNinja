@@ -32,3 +32,7 @@ enum BodyType:UInt32 {
     case monster = 8
     case power_ups = 16
 }
+
+var tutorialOn = true
+var tutorialStart = false
+var tutorialIndex = 0
