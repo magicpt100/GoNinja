@@ -24,6 +24,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var isGameOver = false
     var pauseButton: UIButton!
     var startButton: UIButton!
+    var HSButton: UIButton!
+    var HSBackButton: UIButton!
     var cloudGenerator: MALCloudGenerator!
     var powerUpGenerator: PowerUpGenerator!
     var power: PowerUps!
@@ -47,7 +49,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         else
         {
-            generateWorldWithMenu(view)
+            openMenu(view)
         }
 
     }
@@ -59,9 +61,20 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     func startPressed(sender: UIButton)
     {
         loadMenu = false
-        startButton.removeFromSuperview()
+        startButton.hidden = true
+        HSButton.hidden = true
         hero.removeFromParent()
         generateWorld(self.view!)
+    }
+    
+    func HSPressed(sender: UIButton)
+    {
+        openHighScores(self.view!)
+    }
+    func HSBackButtonPressed(sender: UIButton)
+    {
+        HSBackButton.hidden = true
+        openMenu(self.view!)
     }
     
     func applicationDidEnterBackGround (){
@@ -95,7 +108,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
     }
     
-    func generateWorldWithMenu(view: SKView)
+    func openMenu(view: SKView)
     {
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
 
@@ -117,6 +130,26 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         startButton.setTitle("Start game", forState: UIControlState.Normal)
         startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(startButton)
+        
+        HSButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        HSButton.frame = CGRectMake(30, 150, 90, 20)
+        HSButton.setTitle("High scores", forState: UIControlState.Normal)
+        HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(HSButton)
+    }
+    
+    func openHighScores(view: SKView)
+    {
+        HSButton.hidden = true
+        startButton.hidden = true
+        
+        HSBackButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        HSBackButton.frame = CGRectMake(30, 150, 90, 20)
+        HSBackButton.setTitle("Back", forState: UIControlState.Normal)
+        HSBackButton.addTarget(self, action: "HSBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(HSBackButton)
+        
+        HSBackButton.hidden = false
     }
     
     func generateWorldWithTutorial(view:SKView)
@@ -193,6 +226,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func generateWorld(view:SKView)
     {
+        self.removeAllChildren()
         // Set the background
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
         
@@ -281,6 +315,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         isGameOver = true
         var gameOverLabel = SKLabelNode(text: "Game Over")
         gameOverLabel.fontName = gameFont
+        gameOverLabel.fontColor = UIColor.blackColor()
         gameOverLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2)
         addChild(gameOverLabel)
         hero.stop()
@@ -312,7 +347,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if(loadMenu)
         {
-            generateWorldWithMenu(self.view!)
+            openMenu(self.view!)
         }
         else
         {
