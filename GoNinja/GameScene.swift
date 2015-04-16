@@ -9,6 +9,7 @@
 //commit-push test by Alex
 
 import SpriteKit
+import AVFoundation
 
 class GameScene: SKScene,SKPhysicsContactDelegate {
     
@@ -28,6 +29,31 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var power: PowerUps!
     var timer: CountDownTimer?
     
+    //Audio
+    var pauseOn = false
+    var muteOn = false
+    let muteOnIcon = UIImage(named: "mute on")
+    let muteOffIcon = UIImage(named: "mute off")
+    var muteButton: UIButton!
+    
+    var backgroundAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Light Latt", ofType: "mp3")!)
+    var startAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Conversions", ofType: "mp3")!)
+    var collisionAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Collision", ofType: "mp3")!)
+    var bombAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Bomb", ofType: "mp3")!)
+    var coinAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Coin", ofType: "mp3")!)
+    var jumpAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Flip Jump", ofType: "mp3")!)
+    var powerupAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Power Up", ofType: "mp3")!)
+    var swordAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Sword", ofType: "mp3")!)
+    
+    var backgroundAudioPlayer = AVAudioPlayer()
+    var startAudioPlayer = AVAudioPlayer()
+    var collisionAudioPlayer = AVAudioPlayer()
+    var bombAudioPlayer = AVAudioPlayer()
+    var coinAudioPlayer = AVAudioPlayer()
+    var jumpAudioPlayer = AVAudioPlayer()
+    var powerupAudioPlayer = AVAudioPlayer()
+    var swordAudioPlayer = AVAudioPlayer()
+    
     //Tutorial Node
     var tapInstructionIcon: SKSpriteNode!
     var tapInstruction: SKLabelNode!
@@ -36,8 +62,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var swipeDownIcon: SKSpriteNode!
     var swipeDownInstruction: SKLabelNode!
     
-    
     override func didMoveToView(view: SKView) {
+        backgroundAudioPlayer = AVAudioPlayer(contentsOfURL: backgroundAudioURL, error: nil)  //Background
+        startAudioPlayer = AVAudioPlayer(contentsOfURL: startAudioURL, error: nil)            //Start menu
+        collisionAudioPlayer = AVAudioPlayer(contentsOfURL: collisionAudioURL, error: nil)    //Collision
+        bombAudioPlayer = AVAudioPlayer(contentsOfURL: bombAudioURL, error: nil)              //Bomb
+        coinAudioPlayer = AVAudioPlayer(contentsOfURL: coinAudioURL, error: nil)              //Coin
+        jumpAudioPlayer = AVAudioPlayer(contentsOfURL: jumpAudioURL, error: nil)              //Jump
+        powerupAudioPlayer = AVAudioPlayer(contentsOfURL: powerupAudioURL, error: nil)        //Power-up
+        swordAudioPlayer = AVAudioPlayer(contentsOfURL: swordAudioURL, error: nil)            //Sword
+        
         if tutorialOn
         {
             generateWorldWithTutorial(view)
@@ -53,6 +87,19 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         self.paused = !self.paused
     }
     
+    /*func mutePressed(sender:UIButton){
+        if (muteOn == true) {
+            muteOn = false
+            //muteButton.setBackgroundImage(muteOffIcon, forState: UIControlState.Normal)
+            backgroundAudioPlayer.volume = 1.0
+        }
+            else if (muteOn == false) {
+            muteOn = true
+            //muteButton.setBackgroundImage(muteOnIcon, forState: UIControlState.Normal)
+            backgroundAudioPlayer.volume = 0.0
+        }
+    }*/
+
     func applicationDidEnterBackGround (){
         self.paused = !self.paused
     }
@@ -194,7 +241,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         hero.breathe()
         
         //Add tapToStart label
-        
         tapToStartLabel = SKLabelNode(text: "Tap to Start")
         tapToStartLabel.zPosition = 1
         tapToStartLabel.fontName = gameFont
@@ -210,7 +256,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(pointLabel)
         
         //Add the pause Button
-        
         let pauseIcon = UIImage(named: "pauseIcon")
         pauseButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
         pauseButton.frame = CGRectMake(frameSize.width - 30, 0, 27, 27)
@@ -218,6 +263,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(pauseButton)
         
+        //Add the mute Button
+        let muteIcon = UIImage(named: "mute off")
+        muteButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        muteButton.frame = CGRectMake(frameSize.width - 65, 2, 27, 27)
+        muteButton.setBackgroundImage(muteOffIcon, forState: UIControlState.Normal)
+        muteButton.addTarget(self, action: "mutePressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(muteButton)
+                
         //Add Monster Generator
         monsterGenerator = MALMonsterGenerator()
         addChild(monsterGenerator)
@@ -240,6 +293,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         monsterGenerator.startGeneratingMonster()
         tapToStartLabel.removeFromParent()
         powerUpGenerator.startGeneratingPowers()
+        //backgroundAudioPlayer.play()
     }
     
     func gameOver(){
@@ -256,6 +310,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         groundBot.stop()
         groundTop.stop()
         jumpCount = -1
+        //backgroundAudioPlayer.stop()
     }
     
     func reStartGame(){
@@ -278,7 +333,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         isStart = false
         isGameOver = false
         jumpCount = -1
-    }
+        //backgroundAudioPlayer.stop()
+        //backgroundAudioPlayer.currentTime = 0
+        //backgroundAudioPlayer.play()
+        }
     
     func didBeginContact(contact: SKPhysicsContact) {
         var bodyA = contact.bodyA
@@ -287,6 +345,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         {
             if bodyB.categoryBitMask == BodyType.power_ups.rawValue
             {
+                //powerupAudioPlayer.play()
                 hero.removePowerUpEffect()
                 hero.receivePowerUp((bodyB.node as PowerUps).getType())
                 makeTimer(10)
@@ -296,20 +355,25 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             {
                 if (hero.powerUpStatus == 1)
                 {
+                    //swordAudioPlayer.play()
                     hero.swingSword()
                     (bodyB.node as MALMonster).die()
                 }
                 else
                 {
+                    //collisionAudioPlayer.play()
                     gameOver()
                 }
             }
             else if bodyB.categoryBitMask == BodyType.wall.rawValue
             {
-                    gameOver()
+                //collisionAudioPlayer.play()
+                gameOver()
+                
             }
             else if(bodyB.categoryBitMask == BodyType.coin.rawValue)
             {
+                //coinAudioPlayer.play()
                 pointsRaw += 1
                 (bodyB.node as Coin).removeFromParent()
             }
@@ -319,6 +383,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         {
             if bodyA.categoryBitMask == BodyType.power_ups.rawValue
             {
+                //powerupAudioPlayer.play()
                 hero.removePowerUpEffect()
                 hero.receivePowerUp((bodyA.node as PowerUps).getType())
                 makeTimer(10)
@@ -328,20 +393,24 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             {
                 if (hero.powerUpStatus == 1)
                 {
+                    //swordAudioPlayer.play()
                     hero.swingSword()
                     (bodyA.node as MALMonster).die()
                 }
                 else
                 {
+                    //collisionAudioPlayer.play()
                     gameOver()
                 }
             }
             else if bodyA.categoryBitMask == BodyType.wall.rawValue
             {
+                //collisionAudioPlayer.play()
                 gameOver()
             }
             else if(bodyA.categoryBitMask == BodyType.coin.rawValue)
             {
+                //coinAudioPlayer.play()
                 pointsRaw += 1
                 (bodyA.node as Coin).removeFromParent()
             }
@@ -394,6 +463,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(smokeBomb)
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_MSEC * 500))
         dispatch_after(delayTime, dispatch_get_main_queue(), {smokeBomb.removeFromParent()})
+        //bombAudioPlayer.play()
         
     }
     
