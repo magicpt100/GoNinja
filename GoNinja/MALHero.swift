@@ -279,6 +279,20 @@ class MALHero: SKSpriteNode {
         ninjaStar.runAction(SKAction.moveByX(300, y: 0, duration: 1))
     }
     
+    func fall(){
+        var direction = 1
+        if !onGround
+        {
+            direction = -1
+        }
+        var upVector = CGFloat(30 * direction)
+        body.physicsBody?.affectedByGravity = true
+        body.physicsBody?.applyImpulse(CGVectorMake(-5, upVector))
+        let rotateBack = SKAction.rotateByAngle(CGFloat(M_PI)/CGFloat(direction * 2), duration: 0.4)
+        runAction(rotateBack)
+    }
+    
+    
     func stop()
     {
         body.removeAllActions()

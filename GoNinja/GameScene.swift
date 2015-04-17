@@ -244,11 +244,17 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         gameOverLabel.fontName = gameFont
         gameOverLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2)
         addChild(gameOverLabel)
-        hero.stop()
+        animationWithPulse(gameOverLabel)
+        hero.fall()
         wallGenerator.stop()
         monsterGenerator.stop()
+        powerUpGenerator.stop()
         groundBot.stop()
         groundTop.stop()
+        if timer != nil
+        {
+            timer!.removeFromParent()
+        }
         jumpCount = -1
     }
     

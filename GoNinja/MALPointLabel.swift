@@ -16,6 +16,7 @@ class MALPointLabel: SKLabelNode {
         super.init()
         self.fontName = fontName
         self.fontSize = 30.0
+        self.fontColor = UIColor.blackColor()
         self.text = "0"
     }
     

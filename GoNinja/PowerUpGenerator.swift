@@ -35,7 +35,8 @@ class PowerUpGenerator:SKSpriteNode{
     
     func stop()
     {
-        
+        self.removeAllActions()
+        self.removeAllChildren()
     }
 
 }
