@@ -65,10 +65,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             {
                 start()
             }
-            if isGameOver
+            else if isGameOver
             {
                 reStartGame()
             }
+            
         }
         else
         {
@@ -162,7 +163,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         //Set the physics
         physicsWorld.contactDelegate = self
-        //physicsWorld.gravity = CGVectorMake(0, 0)
+        physicsWorld.gravity = CGVectorMake(0, -6)
         
         // Add the ground
         groundTop = MALGround()
@@ -222,6 +223,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //Add power-Ups
         powerUpGenerator = PowerUpGenerator()
         addChild(powerUpGenerator)
+        
+        //hero.receivePowerUp(3)
+        
         
     }
     
@@ -347,6 +351,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             (bodyB.node as MALMonster).direction *= -1
             (bodyB.node as MALMonster).resetWalk()
         }
+        else if (bodyA.categoryBitMask == BodyType.ninjaStar.rawValue)
+        {
+            if bodyB.categoryBitMask == BodyType.monster.rawValue
+            {
+                (bodyB.node as MALMonster).die()
+            }
+            else
+            {
+                bodyB.node!.removeFromParent()
+            }
+            //hero.restoreStar()
+        }
+        else if (bodyB.categoryBitMask == BodyType.ninjaStar.rawValue)
+        {
+            if bodyA.categoryBitMask == BodyType.monster.rawValue
+            {
+                (bodyA.node as MALMonster).die()
+            }
+            else
+            {
+                bodyA.node!.removeFromParent()
+            }
+            //hero.restoreStar()
+        }
     }
     
     func makeTimer(time: Int){
@@ -406,5 +434,15 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             timer!.removeFromParent()
             hero.removePowerUpEffect()
         }
+        
+        if (hero.newStar.position.y + hero.body.position.y) < 0 || (hero.newStar.position.y + hero.body.position.y) > frameSize.height{
+            hero.restoreStar()
+        }
+        
+        if hero.starInAir && !hero.onGround
+        {
+            hero.newStar.physicsBody!.applyForce(CGVectorMake(0,36))
+        }
+        
     }
 }

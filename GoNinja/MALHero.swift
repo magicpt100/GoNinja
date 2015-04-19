@@ -19,12 +19,15 @@ class MALHero: SKSpriteNode {
     var head: SKShapeNode!
     var ninjaStar: SKSpriteNode!
     var ninjaSword: SKSpriteNode!
+    var newStar: SKSpriteNode!
     
     var rightArmAnchorPoint: SKSpriteNode!
     var leftArmAnchorPoint: SKSpriteNode!
     
     var onGround = true
     var powerUpStatus = 0 // 0,1,2,3,4 - 0: no powerUps
+    
+    var starInAir = false
     
     override init ()
     {
@@ -184,6 +187,24 @@ class MALHero: SKSpriteNode {
         heroBodyPhysicsBody.contactTestBitMask = BodyType.wall.rawValue
         body.physicsBody = heroBodyPhysicsBody
         
+        
+        //Add the new star
+        newStar = SKSpriteNode(imageNamed: "powerUp3")
+        newStar.size = CGSizeMake(30, 30)
+        newStar.position = CGPointMake(55, 13)
+        newStar.physicsBody = SKPhysicsBody(rectangleOfSize: newStar!.size)
+        newStar.physicsBody!.affectedByGravity = false
+        newStar.physicsBody!.allowsRotation = true
+        newStar.physicsBody!.categoryBitMask = BodyType.ninjaStar.rawValue
+        newStar.physicsBody!.collisionBitMask = 0
+        newStar.physicsBody!.linearDamping = 0.5
+        newStar.physicsBody!.dynamic = true
+        newStar.physicsBody!.contactTestBitMask = BodyType.wall.rawValue | BodyType.monster.rawValue
+        //newStar.physicsBody!.mass = 10
+        body.addChild(newStar)
+        newStar.hidden = true
+
+        
     }
     
     func startRunning()
@@ -231,6 +252,12 @@ class MALHero: SKSpriteNode {
             powerUpStatus = 2
             self.alpha = 0.7
             self.body.physicsBody!.contactTestBitMask = 0
+        case 3:
+            powerUpStatus = 3
+            ninjaStar.hidden = true
+            ninjaSword.hidden = true
+            newStar.hidden = false
+            newStar.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(M_PI), duration: 0.1)))
         default:
             powerUpStatus = 0
         }
@@ -251,6 +278,11 @@ class MALHero: SKSpriteNode {
             powerUpStatus = 0
             self.alpha = 1.0
             self.body.physicsBody!.contactTestBitMask = BodyType.wall.rawValue
+        case 3:
+            powerUpStatus = 0
+            ninjaSword.hidden = false
+            ninjaStar.hidden = false
+            newStar.hidden = true
         default:
             powerUpStatus = 0
         }
@@ -265,18 +297,38 @@ class MALHero: SKSpriteNode {
         rightArmAnchorPoint.runAction(swing)
     }
     
-    // currently not useful
     func throwNinjaStar()
     {
-        //ninjaStar.removeFromParent()
-        ninjaStar.position = CGPointMake(-15, -9)
-        //leftArmAnchorPoint.addChild(ninjaStar)
-        var upSwing = SKAction.rotateToAngle(CGFloat(M_PI_4), duration: 0.1)
-        var downSwing = SKAction.rotateToAngle(CGFloat(-M_PI_4 * 0.6), duration: 0.2)
-        var restore = SKAction.rotateToAngle(0, duration: 0.0)
-        var swing = SKAction.sequence([upSwing,downSwing,restore])
-        leftArmAnchorPoint.runAction(SKAction.sequence([swing,restore]))
-        ninjaStar.runAction(SKAction.moveByX(300, y: 0, duration: 1))
+        if (!starInAir)
+        {
+            var upSwing = SKAction.rotateToAngle(CGFloat(M_PI_4), duration: 0.1)
+            var downSwing = SKAction.rotateToAngle(CGFloat(-M_PI_4 * 0.6), duration: 0.2)
+            var restore = SKAction.rotateToAngle(0, duration: 0.0)
+            var swing = SKAction.sequence([upSwing,downSwing,restore])
+            rightArmAnchorPoint.runAction(SKAction.sequence([swing,restore]))
+            if onGround
+            {
+                newStar.physicsBody!.applyImpulse(CGVectorMake(20, 12))
+                newStar.physicsBody!.affectedByGravity = true
+            }
+            else
+            {
+                //newStar.physicsBody!.applyImpulse(CGVectorMake(20, -12))
+                //var upwardForceField = newStar.physicsBody!.mass * 6.0
+                //newStar.physicsBody!.applyForce(CGVectorMake(0, upwardForceField))
+                //newStar.physicsBody!.applyImpulse(CGVectorMake(20, -12))
+                newStar.physicsBody!.applyImpulse(CGVectorMake(20, -12))
+            }
+            starInAir = true
+        }
+    }
+    
+    func restoreStar()
+    {
+        newStar.physicsBody!.affectedByGravity = false
+        newStar.physicsBody!.velocity = CGVectorMake(0, 0)
+        newStar.position = CGPointMake(55, 13)
+        starInAir = false
     }
     
     func fall(){

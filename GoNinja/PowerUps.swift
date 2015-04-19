@@ -12,7 +12,7 @@ import SpriteKit
 class PowerUps: SKSpriteNode {
     
     var type:Int
-    let textureArray = ["powerUp1","powerUp2"]
+    let textureArray = ["powerUp1","powerUp2","powerUp3"]
     init(type:Int)
     {
         self.type = type
