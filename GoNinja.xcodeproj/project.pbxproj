@@ -29,8 +29,8 @@
 		AEF289AB1AD1BBE200F1D997 /* MALCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289AA1AD1BBE200F1D997 /* MALCloud.swift */; };
 		AEF289AD1AD1BF7A00F1D997 /* MALCloudGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289AC1AD1BF7A00F1D997 /* MALCloudGenerator.swift */; };
 		AEF289B21AD3527200F1D997 /* PowerUps.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289B11AD3527200F1D997 /* PowerUps.swift */; };
-		DDD77CCD1ADD7E8500F56124 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD77CCB1ADD7E8500F56124 /* Coin.swift */; };
-		DDD77CCE1ADD7E8500F56124 /* CoinGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD77CCC1ADD7E8500F56124 /* CoinGenerator.swift */; };
+		DD4A1A2F1AE46ED900B3534C /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4A1A2D1AE46ED900B3534C /* Coin.swift */; };
+		DD4A1A301AE46ED900B3534C /* CoinGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,8 +70,8 @@
 		AEF289AA1AD1BBE200F1D997 /* MALCloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALCloud.swift; sourceTree = "<group>"; };
 		AEF289AC1AD1BF7A00F1D997 /* MALCloudGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALCloudGenerator.swift; sourceTree = "<group>"; };
 		AEF289B11AD3527200F1D997 /* PowerUps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUps.swift; sourceTree = "<group>"; };
-		DDD77CCB1ADD7E8500F56124 /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Coin.swift; path = ../../Coin.swift; sourceTree = "<group>"; };
-		DDD77CCC1ADD7E8500F56124 /* CoinGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoinGenerator.swift; path = ../../CoinGenerator.swift; sourceTree = "<group>"; };
+		DD4A1A2D1AE46ED900B3534C /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,8 +200,8 @@
 		DDD77CCA1ADD7E7100F56124 /* Coins */ = {
 			isa = PBXGroup;
 			children = (
-				DDD77CCB1ADD7E8500F56124 /* Coin.swift */,
-				DDD77CCC1ADD7E8500F56124 /* CoinGenerator.swift */,
+				DD4A1A2D1AE46ED900B3534C /* Coin.swift */,
+				DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */,
 			);
 			name = Coins;
 			sourceTree = "<group>";
@@ -324,8 +324,8 @@
 				AEF289B21AD3527200F1D997 /* PowerUps.swift in Sources */,
 				AEF289AB1AD1BBE200F1D997 /* MALCloud.swift in Sources */,
 				AE55AB6B1AAA6B9100FBC82E /* AppDelegate.swift in Sources */,
-				DDD77CCE1ADD7E8500F56124 /* CoinGenerator.swift in Sources */,
-				DDD77CCD1ADD7E8500F56124 /* Coin.swift in Sources */,
+				DD4A1A301AE46ED900B3534C /* CoinGenerator.swift in Sources */,
+				DD4A1A2F1AE46ED900B3534C /* Coin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
