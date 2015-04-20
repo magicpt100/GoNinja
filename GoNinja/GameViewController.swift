@@ -28,9 +28,9 @@ class GameViewController: UIViewController {
         // set the frameSize
         frameSize = CGSizeMake(skView.frame.size.width, skView.frame.size.height)
         //Present the scene
-        skView.showsPhysics = true
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        //skView.showsPhysics = true
+        //skView.showsFPS = true
+        //skView.showsNodeCount = true
         skView.presentScene(scene)
     }
 

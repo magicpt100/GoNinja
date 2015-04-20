@@ -32,8 +32,11 @@ class PowerUps: SKSpriteNode {
     
     func startMoving()
     {
-        let moveLeft = SKAction.moveByX(-frameSize.width, y: 0, duration: 10)
+        let moveLeft = SKAction.moveByX(-frameSize.width, y: 0, duration: 8)
+        let moveDown = SKAction.moveByX(0, y:-frameSize.height/3, duration: 3)
+        let moveUp = SKAction.moveByX(0, y: frameSize.height/3, duration: 3)
         runAction(SKAction.repeatActionForever(moveLeft))
+        runAction(SKAction.repeatActionForever(SKAction.sequence([moveDown,moveUp])))
     }
     
     func getType() -> Int
