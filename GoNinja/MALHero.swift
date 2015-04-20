@@ -184,7 +184,7 @@ class MALHero: SKSpriteNode {
         heroBodyPhysicsBody.affectedByGravity = false
         heroBodyPhysicsBody.categoryBitMask = BodyType.hero.rawValue
         heroBodyPhysicsBody.collisionBitMask = 0
-        heroBodyPhysicsBody.contactTestBitMask = BodyType.wall.rawValue
+        heroBodyPhysicsBody.contactTestBitMask = BodyType.wall.rawValue ^ BodyType.coin.rawValue
         body.physicsBody = heroBodyPhysicsBody
         
         
@@ -248,7 +248,7 @@ class MALHero: SKSpriteNode {
         case 2:
             powerUpStatus = 2
             self.alpha = 0.7
-            self.body.physicsBody!.contactTestBitMask = 0
+            self.body.physicsBody!.contactTestBitMask = BodyType.coin.rawValue
         case 3:
             powerUpStatus = 3
             ninjaStar.hidden = true
@@ -275,7 +275,7 @@ class MALHero: SKSpriteNode {
         case 2:
             powerUpStatus = 0
             self.alpha = 1.0
-            self.body.physicsBody!.contactTestBitMask = BodyType.wall.rawValue
+            self.body.physicsBody!.contactTestBitMask = BodyType.wall.rawValue ^ BodyType.coin.rawValue
         case 3:
             powerUpStatus = 0
             ninjaSword.hidden = false
