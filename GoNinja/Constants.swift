@@ -31,6 +31,7 @@ enum BodyType:UInt32 {
     case coin = 4
     case monster = 8
     case power_ups = 16
+    case ninjaStar = 32
 }
 
 var tutorialOn = true

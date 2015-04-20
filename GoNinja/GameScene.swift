@@ -66,12 +66,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func pausePressed(sender:UIButton){
     
-        isStart = false
-        loadMenu = true
-        jumpCount = -1
-        self.removeAllChildren()
-        openMenu(self.view!)
-        //self.paused = !self.paused
+        //isStart = false
+        //loadMenu = true
+        //jumpCount = -1
+        //self.removeAllChildren()
+        //openMenu(self.view!)
+        self.paused = !self.paused
         
     }
     
@@ -118,10 +118,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             {
                 start()
             }
-            if isGameOver
+            else if isGameOver
             {
                 reStartGame()
             }
+            
         }
         else
         {
@@ -327,7 +328,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         //Set the physics
         physicsWorld.contactDelegate = self
-        //physicsWorld.gravity = CGVectorMake(0, 0)
+        physicsWorld.gravity = CGVectorMake(0, -6)
         
         // Add the ground
         groundTop = MALGround()
@@ -390,6 +391,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         powerUpGenerator = PowerUpGenerator()
         addChild(powerUpGenerator)
         
+        //hero.receivePowerUp(3)
+        
+        
     }
     
     
@@ -413,13 +417,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         gameOverLabel.fontColor = UIColor.blackColor()
         gameOverLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2)
         addChild(gameOverLabel)
-        hero.stop()
+        animationWithPulse(gameOverLabel)
+        hero.fall()
         wallGenerator.stop()
         coinGenerator.stopMoving()
         monsterGenerator.stop()
         powerUpGenerator.stop()
         groundBot.stop()
         groundTop.stop()
+        if timer != nil
+        {
+            timer!.removeFromParent()
+        }
         jumpCount = -1
         
         updateHighScores(pointLabel.text.toInt()!)
@@ -558,6 +567,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             (bodyB.node as MALMonster).direction *= -1
             (bodyB.node as MALMonster).resetWalk()
         }
+        else if (bodyA.categoryBitMask == BodyType.ninjaStar.rawValue)
+        {
+            if bodyB.categoryBitMask == BodyType.monster.rawValue
+            {
+                (bodyB.node as MALMonster).die()
+            }
+            else
+            {
+                bodyB.node!.removeFromParent()
+            }
+            //hero.restoreStar()
+        }
+        else if (bodyB.categoryBitMask == BodyType.ninjaStar.rawValue)
+        {
+            if bodyA.categoryBitMask == BodyType.monster.rawValue
+            {
+                (bodyA.node as MALMonster).die()
+            }
+            else
+            {
+                bodyA.node!.removeFromParent()
+            }
+            //hero.restoreStar()
+        }
     }
     
     func makeTimer(time: Int){
@@ -621,5 +654,15 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             timer!.removeFromParent()
             hero.removePowerUpEffect()
         }
+        
+        if (hero.newStar.position.y + hero.body.position.y) < 0 || (hero.newStar.position.y + hero.body.position.y) > frameSize.height{
+            hero.restoreStar()
+        }
+        
+        if hero.starInAir && !hero.onGround
+        {
+            hero.newStar.physicsBody!.applyForce(CGVectorMake(0,36))
+        }
+        
     }
 }

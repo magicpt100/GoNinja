@@ -19,12 +19,15 @@ class MALHero: SKSpriteNode {
     var head: SKShapeNode!
     var ninjaStar: SKSpriteNode!
     var ninjaSword: SKSpriteNode!
+    var newStar: SKSpriteNode!
     
     var rightArmAnchorPoint: SKSpriteNode!
     var leftArmAnchorPoint: SKSpriteNode!
     
     var onGround = true
     var powerUpStatus = 0 // 0,1,2,3,4 - 0: no powerUps
+    
+    var starInAir = false
     
     override init ()
     {
@@ -35,7 +38,7 @@ class MALHero: SKSpriteNode {
         // Add the body
         
         body = SKShapeNode(rect: CGRect(origin: CGPointMake(0, 0), size: CGSizeMake(40, 25)), cornerRadius: 1.0)
-        body.strokeColor = UIColor.blackColor()
+        body.strokeColor = clothesColor
         body.fillColor = clothesColor
         body.position = CGPointMake(80, 54)
         addChild(body)
@@ -123,7 +126,7 @@ class MALHero: SKSpriteNode {
         CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2 + 10, -self.frame.size.height/2)
         CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2, -self.frame.size.height/2)
         leftFoot = SKShapeNode(path:leftFootShape)
-        leftFoot.strokeColor = UIColor.blackColor()
+        leftFoot.strokeColor = clothesColor
         leftFoot.fillColor = clothesColor
         leftFoot.position = CGPointMake(leftFoot.frame.size.width, leftFoot.frame.size.height/2)
         leftFoot.zPosition = -1
@@ -137,7 +140,7 @@ class MALHero: SKSpriteNode {
         
         //Add left arm
         
-        leftArmAnchorPoint = SKSpriteNode(color: UIColor.blueColor(), size: CGSizeMake(3, 3))
+        leftArmAnchorPoint = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(3, 3))
         leftArmAnchorPoint.position = CGPointMake(0, 20)
         body.addChild(leftArmAnchorPoint)
         
@@ -149,7 +152,7 @@ class MALHero: SKSpriteNode {
         
         //Add right arm
         
-        rightArmAnchorPoint = SKSpriteNode(color: UIColor.blueColor(), size: CGSizeMake(3, 3))
+        rightArmAnchorPoint = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(3, 3))
         rightArmAnchorPoint.position = CGPointMake(40, 20)
         body.addChild(rightArmAnchorPoint)
         
@@ -184,6 +187,21 @@ class MALHero: SKSpriteNode {
         heroBodyPhysicsBody.contactTestBitMask = BodyType.wall.rawValue ^ BodyType.coin.rawValue
         body.physicsBody = heroBodyPhysicsBody
         
+        
+        //Add the new star
+        newStar = SKSpriteNode(imageNamed: "powerUp3")
+        newStar.size = CGSizeMake(30, 30)
+        newStar.position = CGPointMake(55, 13)
+        newStar.physicsBody = SKPhysicsBody(rectangleOfSize: newStar!.size)
+        newStar.physicsBody!.affectedByGravity = false
+        newStar.physicsBody!.allowsRotation = true
+        newStar.physicsBody!.categoryBitMask = 0
+        newStar.physicsBody!.collisionBitMask = 0
+        newStar.physicsBody!.linearDamping = 0.5
+        newStar.physicsBody!.dynamic = true
+        newStar.physicsBody!.contactTestBitMask = BodyType.wall.rawValue | BodyType.monster.rawValue
+        body.addChild(newStar)
+        newStar.hidden = true
     }
     
     func startRunning()
@@ -193,8 +211,8 @@ class MALHero: SKSpriteNode {
     
     func performOneRunCycle()
     {
-        let up = SKAction.moveByX(0, y: 2, duration: 0.05)
-        let down = SKAction.moveByX(0, y: -2, duration: 0.05)
+        let up = SKAction.moveByX(0, y: 3, duration: 0.05)
+        let down = SKAction.moveByX(0, y: -3, duration: 0.05)
 
         leftFoot.runAction(up, completion: { () -> Void in
             self.leftFoot.runAction(down)
@@ -231,6 +249,13 @@ class MALHero: SKSpriteNode {
             powerUpStatus = 2
             self.alpha = 0.7
             self.body.physicsBody!.contactTestBitMask = BodyType.coin.rawValue
+        case 3:
+            powerUpStatus = 3
+            ninjaStar.hidden = true
+            ninjaSword.hidden = true
+            newStar.hidden = false
+            newStar.physicsBody!.categoryBitMask = BodyType.ninjaStar.rawValue
+            newStar.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(M_PI), duration: 0.1)))
         default:
             powerUpStatus = 0
         }
@@ -251,6 +276,12 @@ class MALHero: SKSpriteNode {
             powerUpStatus = 0
             self.alpha = 1.0
             self.body.physicsBody!.contactTestBitMask = BodyType.wall.rawValue ^ BodyType.coin.rawValue
+        case 3:
+            powerUpStatus = 0
+            ninjaSword.hidden = false
+            ninjaStar.hidden = false
+            newStar.hidden = true
+            newStar.physicsBody!.categoryBitMask = 0
         default:
             powerUpStatus = 0
         }
@@ -265,19 +296,49 @@ class MALHero: SKSpriteNode {
         rightArmAnchorPoint.runAction(swing)
     }
     
-    // currently not useful
     func throwNinjaStar()
     {
-        //ninjaStar.removeFromParent()
-        ninjaStar.position = CGPointMake(-15, -9)
-        //leftArmAnchorPoint.addChild(ninjaStar)
-        var upSwing = SKAction.rotateToAngle(CGFloat(M_PI_4), duration: 0.1)
-        var downSwing = SKAction.rotateToAngle(CGFloat(-M_PI_4 * 0.6), duration: 0.2)
-        var restore = SKAction.rotateToAngle(0, duration: 0.0)
-        var swing = SKAction.sequence([upSwing,downSwing,restore])
-        leftArmAnchorPoint.runAction(SKAction.sequence([swing,restore]))
-        ninjaStar.runAction(SKAction.moveByX(300, y: 0, duration: 1))
+        if (!starInAir)
+        {
+            var upSwing = SKAction.rotateToAngle(CGFloat(M_PI_4), duration: 0.1)
+            var downSwing = SKAction.rotateToAngle(CGFloat(-M_PI_4 * 0.6), duration: 0.2)
+            var restore = SKAction.rotateToAngle(0, duration: 0.0)
+            var swing = SKAction.sequence([upSwing,downSwing,restore])
+            rightArmAnchorPoint.runAction(SKAction.sequence([swing,restore]))
+            if onGround
+            {
+                newStar.physicsBody!.applyImpulse(CGVectorMake(20, 12))
+                newStar.physicsBody!.affectedByGravity = true
+            }
+            else
+            {
+                newStar.physicsBody!.applyImpulse(CGVectorMake(20, -12))
+            }
+            starInAir = true
+        }
     }
+    
+    func restoreStar()
+    {
+        newStar.physicsBody!.affectedByGravity = false
+        newStar.physicsBody!.velocity = CGVectorMake(0, 0)
+        newStar.position = CGPointMake(55, 13)
+        starInAir = false
+    }
+    
+    func fall(){
+        var direction = 1
+        if !onGround
+        {
+            direction = -1
+        }
+        var upVector = CGFloat(30 * direction)
+        body.physicsBody?.affectedByGravity = true
+        body.physicsBody?.applyImpulse(CGVectorMake(-5, upVector))
+        let rotateBack = SKAction.rotateByAngle(CGFloat(M_PI)/CGFloat(direction * 2), duration: 0.4)
+        runAction(rotateBack)
+    }
+    
     
     func stop()
     {

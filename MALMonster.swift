@@ -120,8 +120,9 @@ class MALMonster: SKSpriteNode {
     
     func die()
     {
-        self.removeAllActions()
+        self.physicsBody?.applyImpulse(CGVectorMake(30, 0))
         self.physicsBody?.affectedByGravity = true
+        self.physicsBody?.categoryBitMask = 0
     }
     
     func stop()
