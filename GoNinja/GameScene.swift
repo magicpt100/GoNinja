@@ -15,6 +15,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var groundTop: MALGround!
     var groundBot: MALGround!
     var wallGenerator: MALWallGenerator!
+    var coinGenerator: CoinGenerator!
     var monsterGenerator: MALMonsterGenerator!
     var hero: MALHero!
     var tapToStartLabel: SKLabelNode!
@@ -22,6 +23,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var isStart = false
     var isGameOver = false
     var pauseButton: UIButton!
+    var startButton: UIButton!
+    var HSButton: UIButton!
+    var HSBackButton: UIButton!
     var cloudGenerator: MALCloudGenerator!
     var powerUpGenerator: PowerUpGenerator!
     var power: PowerUps!
@@ -35,21 +39,70 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var swipeDownIcon: SKSpriteNode!
     var swipeDownInstruction: SKLabelNode!
     
+    var titleLabel: SKLabelNode!
+    
+    var loadMenu = true
+    
+    var highScoresList: [AnyObject] = []
+    
+    /*override init()
+    {
+        super.init()
+        
+
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }*/
     
     override func didMoveToView(view: SKView) {
-        if tutorialOn
-        {
-            generateWorldWithTutorial(view)
-        }
-        else
-        {
-            generateWorld(view)
-        }
+
+        loadHighScores()
+        openMenu(view)
+        
 
     }
     
     func pausePressed(sender:UIButton){
-        self.paused = !self.paused
+    
+        isStart = false
+        loadMenu = true
+        jumpCount = -1
+        self.removeAllChildren()
+        openMenu(self.view!)
+        //self.paused = !self.paused
+        
+    }
+    
+    func startPressed(sender: UIButton)
+    {
+        loadMenu = false
+        startButton.hidden = true
+        HSButton.hidden = true
+        titleLabel.hidden = true
+        hero.removeFromParent()
+        
+        if(tutorialOn)
+        {
+            generateWorldWithTutorial(self.view!)
+            tutorialOn = false
+        }
+        else
+        {
+            generateWorld(self.view!)
+        }
+    }
+    
+    func HSPressed(sender: UIButton)
+    {
+        openHighScores(self.view!)
+    }
+    func HSBackButtonPressed(sender: UIButton)
+    {
+        self.removeAllChildren()
+        HSBackButton.hidden = true
+        openMenu(self.view!)
     }
     
     func applicationDidEnterBackGround (){
@@ -61,7 +114,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if !tutorialStart
         {
-            if !isStart
+            if !isStart && !loadMenu
             {
                 start()
             }
@@ -80,6 +133,117 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 swipeUpIcon.hidden = false
                 swipeUpInstruction.hidden = false
             }
+        }
+    }
+    
+    func openMenu(view: SKView)
+    {
+        backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
+
+        // Add the ground
+        groundTop = MALGround()
+        groundTop.position = CGPointMake(0, view.frame.height - groundTop.frame.size.height/2)
+        groundBot = MALGround()
+        groundBot.position = CGPointMake(0, groundBot.frame.size.height/2)
+        addChild(groundTop)
+        addChild(groundBot)
+        
+        //Add hero
+        hero = MALHero()
+        addChild(hero)
+        hero.breathe()
+        
+        titleLabel = SKLabelNode(text: "Go Ninja!")
+        titleLabel.fontColor = UIColor.blackColor()
+        titleLabel.fontName = gameFont
+        titleLabel.fontSize = 40.0
+        titleLabel.position = CGPointMake(335, 280)
+        addChild(titleLabel)
+        
+        startButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        startButton.frame = CGRectMake(300, 150, 80, 20)
+        startButton.setTitle("Start game", forState: UIControlState.Normal)
+        startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(startButton)
+        
+        HSButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        HSButton.frame = CGRectMake(300, 200, 90, 20)
+        HSButton.setTitle("High scores", forState: UIControlState.Normal)
+        HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(HSButton)
+        
+        
+        
+
+        
+    }
+    
+    func loadHighScores()
+    {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        //defaults.setObject(nil, forKey: "GoNinjaHighScores")//delete high scores
+        
+        if let loadScores = defaults.arrayForKey("GoNinjaHighScores")
+        {
+            println("load list")
+            highScoresList = defaults.arrayForKey("GoNinjaHighScores")! as [NSInteger]
+        }
+        else
+        {
+            println("new list")
+            highScoresList.append(0)
+            highScoresList.append(0)
+            highScoresList.append(0)
+            highScoresList.append(0)
+            highScoresList.append(0)
+            
+            defaults.setObject(highScoresList, forKey: "GoNinjaHighScores")
+            
+        }
+    }
+    
+    func openHighScores(view: SKView)
+    {
+        titleLabel.hidden = true
+        HSButton.hidden = true
+        startButton.hidden = true
+        
+        HSBackButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        HSBackButton.frame = CGRectMake(300, 300, 90, 20)
+        HSBackButton.setTitle("Back", forState: UIControlState.Normal)
+        HSBackButton.addTarget(self, action: "HSBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(HSBackButton)
+        
+        HSBackButton.hidden = false
+        
+        let hsLabel = SKLabelNode(text: "High Scores")
+        hsLabel.fontColor = UIColor.blackColor()
+        hsLabel.fontName = gameFont
+        hsLabel.fontSize = 30.0
+        
+        hsLabel.position = CGPointMake(340, 300)
+        addChild(hsLabel)
+
+        for i in 0...4
+        {
+            let text = SKLabelNode(text: String(i + 1) + ".   ")
+            let score = highScoresList[i].stringValue
+            
+            if(highScoresList[i] as Int > 0)
+            {
+                text.text += score
+            }
+                
+            text.fontColor = UIColor.blackColor()
+            text.fontName = gameFont
+            text.fontSize = 20.0
+            
+            var offset: CGFloat = 250 - (CGFloat(i) * 30.0)
+            
+            text.position = CGPointMake(340, offset)
+            addChild(text)
+
         }
     }
     
@@ -157,6 +321,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func generateWorld(view:SKView)
     {
+        self.removeAllChildren()
         // Set the background
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
         
@@ -177,6 +342,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         wallGenerator.position = view.center
         addChild(wallGenerator)
         
+        coinGenerator = CoinGenerator()
+        addChild(coinGenerator)
         
         //Add the cloud background
         cloudGenerator = MALCloudGenerator(color: UIColor.clearColor(), size: frameSize)
@@ -232,6 +399,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         groundTop.start()
         groundBot.start()
         wallGenerator.startGeneratingWalls()
+        coinGenerator.startGeneratingCoins()
         hero.startRunning()
         monsterGenerator.startGeneratingMonster()
         tapToStartLabel.removeFromParent()
@@ -242,14 +410,44 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         isGameOver = true
         var gameOverLabel = SKLabelNode(text: "Game Over")
         gameOverLabel.fontName = gameFont
+        gameOverLabel.fontColor = UIColor.blackColor()
         gameOverLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2)
         addChild(gameOverLabel)
         hero.stop()
         wallGenerator.stop()
+        coinGenerator.stopMoving()
         monsterGenerator.stop()
+        powerUpGenerator.stop()
         groundBot.stop()
         groundTop.stop()
         jumpCount = -1
+        
+        updateHighScores(pointLabel.text.toInt()!)
+        
+    }
+    
+    func updateHighScores(score: Int)
+    {
+        //println(highScoresList)
+        //highScoresList.append(score)
+        //println(highScoresList)
+        
+        var intScores = highScoresList as [Int]
+        intScores.append(score)
+        
+        sort(&intScores)
+        
+        intScores = intScores.reverse()
+        
+        println(intScores)
+        
+        
+        for i in 0...4
+        {
+            highScoresList[i] = intScores[i]
+        }
+        
+        NSUserDefaults.standardUserDefaults().setObject(highScoresList, forKey: "GoNinjaHighScores")
     }
     
     func reStartGame(){
@@ -268,7 +466,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         hero.removeFromParent()
         self.removeAllChildren()
-        generateWorld(self.view!)
+        
+        if(loadMenu)
+        {
+            openMenu(self.view!)
+        }
+        else
+        {
+            generateWorld(self.view!)
+        }
+        
         isStart = false
         isGameOver = false
         jumpCount = -1
@@ -302,6 +509,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             {
                     gameOver()
             }
+            else if(bodyB.categoryBitMask == BodyType.coin.rawValue)
+            {
+                pointsRaw += 1
+                (bodyB.node as Coin).removeFromParent()
+            }
             
         }
         else if (bodyB.categoryBitMask == BodyType.hero.rawValue)
@@ -328,6 +540,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             else if bodyA.categoryBitMask == BodyType.wall.rawValue
             {
                 gameOver()
+            }
+            else if(bodyA.categoryBitMask == BodyType.coin.rawValue)
+            {
+                pointsRaw += 1
+                (bodyA.node as Coin).removeFromParent()
             }
 
         }
@@ -361,6 +578,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func dropSmokeBomb()
     {
+        if loadMenu
+        {
+            return
+        }
         
         var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
         smokeBomb.particleColorSequence = nil
