@@ -17,8 +17,8 @@ class CoinGenerator: SKSpriteNode
         let rand = arc4random_uniform(2)
         
         //generate on top or bottom of screen
-        if rand == 0 { yCoord = 325 }
-        else { yCoord = 50 }
+        if rand == 0 { yCoord = 323 }
+        else { yCoord = 52 }
         
         let coin = Coin()
         coin.position.x = 1000

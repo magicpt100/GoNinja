@@ -16,16 +16,12 @@ class Coin: SKSpriteNode
     override init()
     {
         
-        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(25, 25))
+       // super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(25, 25))
+
         
-        var coinShape = UIBezierPath(ovalInRect: CGRect(x: -5, y: self.frame.size.height/2, width: 25, height: 25))
+        let coinTexture = SKTexture(imageNamed:"goldCoin.png")
         
-        theCoin = SKShapeNode(path: coinShape.CGPath)
-        theCoin.strokeColor = UIColor.blackColor()
-        theCoin.fillColor = UIColor(red: 255.0/255.0, green: 215.0/255.0, blue: 0, alpha: 1.0)
-        theCoin.position.x = -8
-        theCoin.position.y = -25
-        addChild(theCoin)
+        super.init(texture: coinTexture, color: UIColor.clearColor(), size: CGSizeMake(30, 30))
         
         var coinPB = SKPhysicsBody(rectangleOfSize: self.frame.size)
 
