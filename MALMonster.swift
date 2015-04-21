@@ -89,8 +89,8 @@ class MALMonster: SKSpriteNode {
     
     func walk()
     {
-        let upForward = SKAction.moveByX(CGFloat(5 * direction), y: 5, duration: 0.1)
-        let downForward = SKAction.moveByX(CGFloat(5 * direction), y: -5, duration: 0.1)
+        let upForward = SKAction.moveByX(CGFloat(8 * direction), y: 5, duration: 0.1)
+        let downForward = SKAction.moveByX(CGFloat(8 * direction), y: -5, duration: 0.1)
         let walkAnimation = SKAction.sequence([upForward,downForward])
         self.runAction(SKAction.repeatActionForever(walkAnimation))
     }
