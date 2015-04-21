@@ -20,6 +20,7 @@ class MALHero: SKSpriteNode {
     var ninjaStar: SKSpriteNode!
     var ninjaSword: SKSpriteNode!
     var newStar: SKSpriteNode!
+    var newSword: SKSpriteNode!
     
     var rightArmAnchorPoint: SKSpriteNode!
     var leftArmAnchorPoint: SKSpriteNode!
@@ -202,6 +203,18 @@ class MALHero: SKSpriteNode {
         newStar.physicsBody!.contactTestBitMask = BodyType.wall.rawValue | BodyType.monster.rawValue
         body.addChild(newStar)
         newStar.hidden = true
+        
+        //Add the new Sword
+        newSword = SKSpriteNode(imageNamed: "newSword")
+        newSword.size = CGSizeMake(50, 40)
+        newSword.zPosition = -2
+        rightArmAnchorPoint.addChild(newSword)
+        newSword.position = CGPointMake(18, 16)
+        newSword.zRotation = CGFloat(M_PI_4 * 0.6)
+        newSword.zPosition = 1
+        newSword.hidden = true
+
+        
     }
     
     func startRunning()
@@ -239,12 +252,9 @@ class MALHero: SKSpriteNode {
         switch powerUpType {
         case 1:
             powerUpStatus = 1
-            ninjaSword.removeFromParent()
-            rightArmAnchorPoint.addChild(ninjaSword)
-            ninjaSword.position = CGPointMake(18, 16)
-            ninjaSword.zRotation = CGFloat(M_PI_4 * 0.6)
-            ninjaSword.zPosition = 1
-            ninjaStar.alpha = CGFloat(0)
+            ninjaSword.hidden = true
+            newSword.hidden = false
+            ninjaStar.alpha = 0
         case 2:
             powerUpStatus = 2
             self.alpha = 0.7
@@ -266,11 +276,8 @@ class MALHero: SKSpriteNode {
         switch powerUpStatus{
         case 1:
             powerUpStatus = 0
-            ninjaSword.removeFromParent()
-            body.addChild(ninjaSword)
-            ninjaSword.zPosition = -2
-            ninjaSword.zRotation = CGFloat(-M_PI/2)
-            ninjaSword.position = CGPointMake(0, 25)
+            ninjaSword.hidden = false
+            newSword.hidden = true
             ninjaStar.alpha = 1.0
         case 2:
             powerUpStatus = 0
