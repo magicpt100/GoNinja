@@ -13,7 +13,7 @@ class Coin: SKSpriteNode
 {
     var theCoin: SKShapeNode!
     
-    override init()
+    init()
     {
         
        // super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(25, 25))

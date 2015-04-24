@@ -26,7 +26,7 @@ class MALHero: SKSpriteNode {
     var onGround = true
     var powerUpStatus = 0 // 0,1,2,3,4 - 0: no powerUps
     
-    override init ()
+    init ()
     {
         super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(40, 25))
         let clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
@@ -131,7 +131,7 @@ class MALHero: SKSpriteNode {
         
         //Add right foot
         
-        rightFoot = leftFoot.copy() as SKShapeNode
+        rightFoot = leftFoot.copy() as! SKShapeNode
         rightFoot.position = CGPointMake(self.frame.size.width + rightFoot.frame.size.width/2-0.5, rightFoot.frame.size.height/2)
         body.addChild(rightFoot)
         
@@ -141,7 +141,7 @@ class MALHero: SKSpriteNode {
         leftArmAnchorPoint.position = CGPointMake(0, 20)
         body.addChild(leftArmAnchorPoint)
         
-        leftArm = leftFoot.copy() as SKShapeNode
+        leftArm = leftFoot.copy() as! SKShapeNode
         leftArm.zRotation = CGFloat(-M_PI / 4.0)
         //leftArm.position = CGPointMake(leftFoot.frame.size.width, 18)
         leftArm.position = CGPointMake(20, 0)
@@ -153,7 +153,7 @@ class MALHero: SKSpriteNode {
         rightArmAnchorPoint.position = CGPointMake(40, 20)
         body.addChild(rightArmAnchorPoint)
         
-        rightArm = rightFoot.copy() as SKShapeNode
+        rightArm = rightFoot.copy() as! SKShapeNode
         rightArm.zRotation = CGFloat(M_PI / 4.0)
         //rightArm.position = CGPointMake(rightFoot.position.x - 9.5, 38.5)
         rightArm.position = CGPointMake(0, 20)

@@ -109,7 +109,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         self.paused = !self.paused
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+
         /* Called when a touch begins */
         
         if !tutorialStart
@@ -160,13 +161,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         titleLabel.position = CGPointMake(335, 280)
         addChild(titleLabel)
         
-        startButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        startButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         startButton.frame = CGRectMake(300, 150, 80, 20)
         startButton.setTitle("Start game", forState: UIControlState.Normal)
         startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(startButton)
         
-        HSButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        HSButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         HSButton.frame = CGRectMake(300, 200, 90, 20)
         HSButton.setTitle("High scores", forState: UIControlState.Normal)
         HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -187,7 +188,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if let loadScores = defaults.arrayForKey("GoNinjaHighScores")
         {
             println("load list")
-            highScoresList = defaults.arrayForKey("GoNinjaHighScores")! as [NSInteger]
+            highScoresList = defaults.arrayForKey("GoNinjaHighScores")! as! [NSInteger]
         }
         else
         {
@@ -209,7 +210,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         HSButton.hidden = true
         startButton.hidden = true
         
-        HSBackButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         HSBackButton.frame = CGRectMake(300, 300, 90, 20)
         HSBackButton.setTitle("Back", forState: UIControlState.Normal)
         HSBackButton.addTarget(self, action: "HSBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -230,7 +231,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             let text = SKLabelNode(text: String(i + 1) + ".   ")
             let score = highScoresList[i].stringValue
             
-            if(highScoresList[i] as Int > 0)
+            if(highScoresList[i] as! Int > 0)
             {
                 text.text += score
             }
@@ -376,7 +377,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //Add the pause Button
         
         let pauseIcon = UIImage(named: "pauseIcon")
-        pauseButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        pauseButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         pauseButton.frame = CGRectMake(frameSize.width - 30, 0, 27, 27)
         pauseButton.setBackgroundImage(pauseIcon, forState: UIControlState.Normal)
         pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -432,7 +433,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //highScoresList.append(score)
         //println(highScoresList)
         
-        var intScores = highScoresList as [Int]
+        var intScores = highScoresList as! [Int]
         intScores.append(score)
         
         sort(&intScores)
@@ -489,7 +490,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             if bodyB.categoryBitMask == BodyType.power_ups.rawValue
             {
                 hero.removePowerUpEffect()
-                hero.receivePowerUp((bodyB.node as PowerUps).getType())
+                hero.receivePowerUp((bodyB.node as! PowerUps).getType())
                 makeTimer(10)
                 bodyB.node?.removeFromParent()
             }
@@ -498,7 +499,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 if (hero.powerUpStatus == 1)
                 {
                     hero.swingSword()
-                    (bodyB.node as MALMonster).die()
+                    (bodyB.node as! MALMonster).die()
                 }
                 else
                 {
@@ -512,7 +513,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             else if(bodyB.categoryBitMask == BodyType.coin.rawValue)
             {
                 pointsRaw += 1
-                (bodyB.node as Coin).removeFromParent()
+                (bodyB.node as! Coin).removeFromParent()
             }
             
         }
@@ -521,7 +522,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             if bodyA.categoryBitMask == BodyType.power_ups.rawValue
             {
                 hero.removePowerUpEffect()
-                hero.receivePowerUp((bodyA.node as PowerUps).getType())
+                hero.receivePowerUp((bodyA.node as! PowerUps).getType())
                 makeTimer(10)
                 bodyA.node?.removeFromParent()
             }
@@ -530,7 +531,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 if (hero.powerUpStatus == 1)
                 {
                     hero.swingSword()
-                    (bodyA.node as MALMonster).die()
+                    (bodyA.node as! MALMonster).die()
                 }
                 else
                 {
@@ -544,19 +545,19 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             else if(bodyA.categoryBitMask == BodyType.coin.rawValue)
             {
                 pointsRaw += 1
-                (bodyA.node as Coin).removeFromParent()
+                (bodyA.node as! Coin).removeFromParent()
             }
 
         }
         else if (bodyA.categoryBitMask == BodyType.monster.rawValue && bodyB.categoryBitMask == BodyType.wall.rawValue)
         {
-            (bodyA.node as MALMonster).direction *= -1
-            (bodyA.node as MALMonster).resetWalk()
+            (bodyA.node as! MALMonster).direction *= -1
+            (bodyA.node as! MALMonster).resetWalk()
         }
         else if (bodyB.categoryBitMask == BodyType.monster.rawValue && bodyA.categoryBitMask == BodyType.wall.rawValue)
         {
-            (bodyB.node as MALMonster).direction *= -1
-            (bodyB.node as MALMonster).resetWalk()
+            (bodyB.node as! MALMonster).direction *= -1
+            (bodyB.node as! MALMonster).resetWalk()
         }
     }
     

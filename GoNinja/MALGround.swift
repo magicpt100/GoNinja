@@ -15,7 +15,7 @@ class MALGround: SKSpriteNode {
     let color1 = UIColor(red: 235.0/255.0, green: 44.0/255.0, blue: 47.0/255.0, alpha: 1.0)
     let color2 = UIColor(red: 235.0/255.0, green: 247.0/255.0, blue: 5.0/255.0, alpha: 1.0)
     
-    override init()
+    init()
     {
         let groundWidth:CGFloat = frameSize.width * groundWidthFactor
         let groundHeight:CGFloat = frameSize.height * groundHeightFactor
