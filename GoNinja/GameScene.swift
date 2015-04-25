@@ -22,10 +22,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var pointLabel: MALPointLabel!
     var isStart = false
     var isGameOver = false
-    var pauseButton: UIButton!
-    var startButton: UIButton!
-    var HSButton: UIButton!
-    var HSBackButton: UIButton!
+
     var cloudGenerator: MALCloudGenerator!
     var powerUpGenerator: PowerUpGenerator!
     var power: PowerUps!
@@ -45,7 +42,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     var highScoresList: [AnyObject] = []
     
-    /*override init()
+    //Buttons
+    var pauseButton: UIButton!
+    var startButton: UIButton!
+    var resumeButton: UIButton!
+    var HSButton: UIButton!
+    var HSBackButton: UIButton!
+    var HomeButton: UIButton!
+    
+    //PauseMenu
+    var pauseMenu: UIView!
+    /*
+    override init()
     {
         super.init()
         
@@ -66,13 +74,37 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func pausePressed(sender:UIButton){
     
-        //isStart = false
-        //loadMenu = true
-        //jumpCount = -1
-        //self.removeAllChildren()
-        //openMenu(self.view!)
-        self.paused = !self.paused
+        self.paused = true
+        pauseMenu = UIView(frame: frame)
+        pauseMenu.backgroundColor = UIColor(white: 1.0, alpha: 0.5)
+        resumeButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        resumeButton.setTitle("Resume", forState: UIControlState.Normal)
+        resumeButton.frame = CGRectMake(frameSize.width/2-40, frameSize.height/2 - 20, 80, 20)
+        resumeButton.addTarget(self, action: "resume:", forControlEvents: UIControlEvents.TouchUpInside)
+        pauseMenu.addSubview(resumeButton)
+        self.view?.addSubview(pauseMenu)
         
+        HomeButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        HomeButton.setTitle("Home", forState: UIControlState.Normal)
+        HomeButton.frame = CGRectMake(frameSize.width/2-40,frameSize.height/2 + 20, 80, 20)
+        HomeButton.addTarget(self, action: "goHome:", forControlEvents: UIControlEvents.TouchUpInside)
+        pauseMenu.addSubview(HomeButton)
+    }
+    
+    func resume(sender:UIButton)
+    {
+        self.paused = false
+        pauseMenu.removeFromSuperview()
+    }
+    
+    func goHome(sender:UIButton)
+    {
+        pauseMenu.removeFromSuperview()
+        self.paused = false
+        cleanUp()
+        loadMenu = true
+        loadHighScores()
+        openMenu(self.view!)
     }
     
     func startPressed(sender: UIButton)
@@ -425,6 +457,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         powerUpGenerator.stop()
         groundBot.stop()
         groundTop.stop()
+        pauseButton.removeFromSuperview()
         if timer != nil
         {
             timer!.removeFromParent()
@@ -460,6 +493,19 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     func reStartGame(){
+        cleanUp()
+        if(loadMenu)
+        {
+            openMenu(self.view!)
+        }
+        else
+        {
+            generateWorld(self.view!)
+        }
+    }
+    
+    func cleanUp()
+    {
         pointsRaw = 0
         groundTop.removeFromParent()
         groundBot.removeFromParent()
@@ -475,19 +521,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         hero.removeFromParent()
         self.removeAllChildren()
-        
-        if(loadMenu)
-        {
-            openMenu(self.view!)
+        if pauseButton != nil{
+            pauseButton.removeFromSuperview()
         }
-        else
-        {
-            generateWorld(self.view!)
-        }
-        
         isStart = false
         isGameOver = false
         jumpCount = -1
+
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
