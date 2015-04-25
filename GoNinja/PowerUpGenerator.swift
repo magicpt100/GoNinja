@@ -21,7 +21,8 @@ class PowerUpGenerator:SKSpriteNode{
     func generatePowerUp()
     {
         let rand1 = arc4random_uniform(2)
-        let rand2 = arc4random_uniform(3) + 1
+        //let rand2 = arc4random_uniform(4) + 1
+        let rand2 = 4
         if rand1 == 0
         {
             return

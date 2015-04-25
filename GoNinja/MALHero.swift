@@ -28,10 +28,12 @@ class MALHero: SKSpriteNode {
     var onGround = true
     var powerUpStatus = 0 // 0,1,2,3,4 - 0: no powerUps
     
-    init ()
+    var starInAir = false
+    var clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
+
+    override init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
         super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(40, 25))
-        let clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
         onGround = true
         
         // Add the body
@@ -264,6 +266,19 @@ class MALHero: SKSpriteNode {
             newStar.hidden = false
             newStar.physicsBody!.categoryBitMask = BodyType.ninjaStar.rawValue
             newStar.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(M_PI), duration: 0.1)))
+        case 4:
+
+            let gold = UIColor(red: 255/255, green: 215/255, blue: 0, alpha: 1)
+            powerUpStatus = 4
+
+            head.fillColor = gold
+            body.fillColor = gold
+            leftArm.fillColor = gold
+            rightArm.fillColor = gold
+            leftFoot.fillColor = gold
+            rightFoot.fillColor = gold
+            
+            
         default:
             powerUpStatus = 0
         }
@@ -287,6 +302,15 @@ class MALHero: SKSpriteNode {
             ninjaStar.hidden = false
             newStar.hidden = true
             newStar.physicsBody!.categoryBitMask = 0
+        case 4:
+            powerUpStatus = 0
+            head.fillColor = clothesColor
+            body.fillColor = clothesColor
+            leftArm.fillColor = clothesColor
+            rightArm.fillColor = clothesColor
+            leftFoot.fillColor = clothesColor
+            rightFoot.fillColor = clothesColor
+            
         default:
             powerUpStatus = 0
         }

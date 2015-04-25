@@ -17,7 +17,7 @@ class MALGround: SKSpriteNode {
     let groundWidth:CGFloat = frameSize.width * groundWidthFactor
     let groundHeight:CGFloat = frameSize.height * groundHeightFactor
     
-    init()
+    override init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
         super.init(texture: nil, color: UIColor.brownColor(), size: CGSizeMake(groundWidth, groundHeight))
         

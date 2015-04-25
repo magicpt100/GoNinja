@@ -189,7 +189,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if let loadScores = defaults.arrayForKey("GoNinjaHighScores")
         {
             println("load list")
-            highScoresList = defaults.arrayForKey("GoNinjaHighScores")! as! [NSInteger]
+            highScoresList = defaults.arrayForKey("GoNinjaHighScores") as! [NSInteger]
         }
         else
         {
@@ -521,7 +521,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
             else if(bodyB.categoryBitMask == BodyType.coin.rawValue)
             {
-                pointsRaw += 1
+                if(hero.powerUpStatus == 4)
+                {
+                    pointsRaw += 2
+                }
+                else
+                {
+                    pointsRaw += 1
+                }
                 (bodyB.node as! Coin).removeFromParent()
             }
             
@@ -553,7 +560,15 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
             else if(bodyA.categoryBitMask == BodyType.coin.rawValue)
             {
-                pointsRaw += 1
+                if(hero.powerUpStatus == 4)
+                {
+                    pointsRaw += 2
+                }
+                else
+                {
+                    pointsRaw += 1
+                }
+                
                 (bodyA.node as! Coin).removeFromParent()
             }
 
@@ -567,6 +582,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         {
             (bodyB.node as! MALMonster).direction *= -1
             (bodyB.node as! MALMonster).resetWalk()
+        }
+        else if (bodyA.categoryBitMask == BodyType.ninjaStar.rawValue)
+        {
+            if bodyB.categoryBitMask == BodyType.monster.rawValue
+            {
+                (bodyB.node as! MALMonster).die()
+            }
+            else
+            {
+                bodyB.node!.removeFromParent()
+            }
+            //hero.restoreStar()
+        }
+        else if (bodyB.categoryBitMask == BodyType.ninjaStar.rawValue)
+        {
+            if bodyA.categoryBitMask == BodyType.monster.rawValue
+            {
+                (bodyA.node as! MALMonster).die()
+            }
+            else
+            {
+                bodyA.node!.removeFromParent()
+            }
+            //hero.restoreStar()
         }
     }
     
@@ -584,6 +623,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             timer!.position = CGPointMake(300, 320)
             addChild(timer!)
         }
+    }
+    
+    func getPowerUpStatus() -> Int
+    {
+        return hero.powerUpStatus
     }
     
     func dropSmokeBomb()
