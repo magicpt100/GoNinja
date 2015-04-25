@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0260B41C1AEC4F4C00ADE524 /* Background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4131AEC4F4C00ADE524 /* Background.mp3 */; };
+		0260B41D1AEC4F4C00ADE524 /* Bomb.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4141AEC4F4C00ADE524 /* Bomb.mp3 */; };
+		0260B41E1AEC4F4C00ADE524 /* Coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4151AEC4F4C00ADE524 /* Coin.mp3 */; };
+		0260B41F1AEC4F4C00ADE524 /* Collision.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4161AEC4F4C00ADE524 /* Collision.wav */; };
+		0260B4201AEC4F4C00ADE524 /* Intro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4171AEC4F4C00ADE524 /* Intro.mp3 */; };
+		0260B4211AEC4F4C00ADE524 /* Jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4181AEC4F4C00ADE524 /* Jump.mp3 */; };
+		0260B4221AEC4F4C00ADE524 /* Powerup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4191AEC4F4C00ADE524 /* Powerup.mp3 */; };
+		0260B4231AEC4F4C00ADE524 /* Star.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B41A1AEC4F4C00ADE524 /* Star.mp3 */; };
+		0260B4241AEC4F4C00ADE524 /* Sword.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B41B1AEC4F4C00ADE524 /* Sword.mp3 */; };
 		02C131EC1ADF494800AD3449 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C131EB1ADF494800AD3449 /* AVFoundation.framework */; };
-		02C131EF1ADF515200AD3449 /* Collision.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02C131EE1ADF515200AD3449 /* Collision.mp3 */; };
-		02C131F61ADF516000AD3449 /* Bomb.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02C131F01ADF516000AD3449 /* Bomb.mp3 */; };
-		02C131F71ADF516000AD3449 /* Conversions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02C131F11ADF516000AD3449 /* Conversions.mp3 */; };
-		02C131F81ADF516000AD3449 /* Flip Jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02C131F21ADF516000AD3449 /* Flip Jump.mp3 */; };
-		02C131F91ADF516000AD3449 /* Light Latt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02C131F31ADF516000AD3449 /* Light Latt.mp3 */; };
-		02C131FA1ADF516000AD3449 /* Power Up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02C131F41ADF516000AD3449 /* Power Up.mp3 */; };
-		02C131FB1ADF516000AD3449 /* Sword.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02C131F51ADF516000AD3449 /* Sword.mp3 */; };
-		02C131FD1ADF516800AD3449 /* Coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 02C131FC1ADF516800AD3449 /* Coin.mp3 */; };
 		AE40225A1ABF9A64005034FC /* MALPointLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4022591ABF9A64005034FC /* MALPointLabel.swift */; };
 		AE54E6FD1AD9B98600E6966A /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE54E6FC1AD9B98600E6966A /* CountDownTimer.swift */; };
 		AE54E6FF1ADA05C200E6966A /* PowerUpGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE54E6FE1ADA05C200E6966A /* PowerUpGenerator.swift */; };
@@ -54,15 +55,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0260B4131AEC4F4C00ADE524 /* Background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Background.mp3; path = audio/Background.mp3; sourceTree = SOURCE_ROOT; };
+		0260B4141AEC4F4C00ADE524 /* Bomb.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Bomb.mp3; path = audio/Bomb.mp3; sourceTree = SOURCE_ROOT; };
+		0260B4151AEC4F4C00ADE524 /* Coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Coin.mp3; path = audio/Coin.mp3; sourceTree = SOURCE_ROOT; };
+		0260B4161AEC4F4C00ADE524 /* Collision.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Collision.wav; path = audio/Collision.wav; sourceTree = SOURCE_ROOT; };
+		0260B4171AEC4F4C00ADE524 /* Intro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Intro.mp3; path = audio/Intro.mp3; sourceTree = SOURCE_ROOT; };
+		0260B4181AEC4F4C00ADE524 /* Jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Jump.mp3; path = audio/Jump.mp3; sourceTree = SOURCE_ROOT; };
+		0260B4191AEC4F4C00ADE524 /* Powerup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Powerup.mp3; path = audio/Powerup.mp3; sourceTree = SOURCE_ROOT; };
+		0260B41A1AEC4F4C00ADE524 /* Star.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Star.mp3; path = audio/Star.mp3; sourceTree = SOURCE_ROOT; };
+		0260B41B1AEC4F4C00ADE524 /* Sword.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Sword.mp3; path = audio/Sword.mp3; sourceTree = SOURCE_ROOT; };
 		02C131EB1ADF494800AD3449 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		02C131EE1ADF515200AD3449 /* Collision.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Collision.mp3; path = audio/Collision.mp3; sourceTree = SOURCE_ROOT; };
-		02C131F01ADF516000AD3449 /* Bomb.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Bomb.mp3; path = audio/Bomb.mp3; sourceTree = SOURCE_ROOT; };
-		02C131F11ADF516000AD3449 /* Conversions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Conversions.mp3; path = audio/Conversions.mp3; sourceTree = SOURCE_ROOT; };
-		02C131F21ADF516000AD3449 /* Flip Jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Flip Jump.mp3"; path = "audio/Flip Jump.mp3"; sourceTree = SOURCE_ROOT; };
-		02C131F31ADF516000AD3449 /* Light Latt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Light Latt.mp3"; path = "audio/Light Latt.mp3"; sourceTree = SOURCE_ROOT; };
-		02C131F41ADF516000AD3449 /* Power Up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Power Up.mp3"; path = "audio/Power Up.mp3"; sourceTree = SOURCE_ROOT; };
-		02C131F51ADF516000AD3449 /* Sword.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Sword.mp3; path = audio/Sword.mp3; sourceTree = SOURCE_ROOT; };
-		02C131FC1ADF516800AD3449 /* Coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Coin.mp3; path = audio/Coin.mp3; sourceTree = SOURCE_ROOT; };
 		AE4022591ABF9A64005034FC /* MALPointLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALPointLabel.swift; sourceTree = "<group>"; };
 		AE54E6FC1AD9B98600E6966A /* CountDownTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		AE54E6FE1ADA05C200E6966A /* PowerUpGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpGenerator.swift; sourceTree = "<group>"; };
@@ -116,14 +118,15 @@
 		02C131ED1ADF4C1700AD3449 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				02C131F01ADF516000AD3449 /* Bomb.mp3 */,
-				02C131FC1ADF516800AD3449 /* Coin.mp3 */,
-				02C131EE1ADF515200AD3449 /* Collision.mp3 */,
-				02C131F11ADF516000AD3449 /* Conversions.mp3 */,
-				02C131F21ADF516000AD3449 /* Flip Jump.mp3 */,
-				02C131F31ADF516000AD3449 /* Light Latt.mp3 */,
-				02C131F41ADF516000AD3449 /* Power Up.mp3 */,
-				02C131F51ADF516000AD3449 /* Sword.mp3 */,
+				0260B4131AEC4F4C00ADE524 /* Background.mp3 */,
+				0260B4171AEC4F4C00ADE524 /* Intro.mp3 */,
+				0260B4161AEC4F4C00ADE524 /* Collision.wav */,
+				0260B4141AEC4F4C00ADE524 /* Bomb.mp3 */,
+				0260B4151AEC4F4C00ADE524 /* Coin.mp3 */,
+				0260B4181AEC4F4C00ADE524 /* Jump.mp3 */,
+				0260B4191AEC4F4C00ADE524 /* Powerup.mp3 */,
+				0260B41B1AEC4F4C00ADE524 /* Sword.mp3 */,
+				0260B41A1AEC4F4C00ADE524 /* Star.mp3 */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -325,19 +328,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02C131F61ADF516000AD3449 /* Bomb.mp3 in Resources */,
+				0260B41E1AEC4F4C00ADE524 /* Coin.mp3 in Resources */,
 				AE55AB791AAA6B9100FBC82E /* LaunchScreen.xib in Resources */,
-				02C131FB1ADF516000AD3449 /* Sword.mp3 in Resources */,
-				02C131EF1ADF515200AD3449 /* Collision.mp3 in Resources */,
+				0260B4221AEC4F4C00ADE524 /* Powerup.mp3 in Resources */,
 				AE57BBC71AC66CBE0098E5A5 /* spark.png in Resources */,
+				0260B4231AEC4F4C00ADE524 /* Star.mp3 in Resources */,
 				AE55AB761AAA6B9100FBC82E /* Images.xcassets in Resources */,
-				02C131F91ADF516000AD3449 /* Light Latt.mp3 in Resources */,
-				02C131F81ADF516000AD3449 /* Flip Jump.mp3 in Resources */,
 				AE57BBBE1AC60B7D0098E5A5 /* SmokeBombEffect.sks in Resources */,
-				02C131F71ADF516000AD3449 /* Conversions.mp3 in Resources */,
-				02C131FA1ADF516000AD3449 /* Power Up.mp3 in Resources */,
+				DD4A1A341AE5B7FE00B3534C /* goldCoin.png in Resources */,
+				0260B4211AEC4F4C00ADE524 /* Jump.mp3 in Resources */,
 				AE55AB741AAA6B9100FBC82E /* Main.storyboard in Resources */,
-				02C131FD1ADF516800AD3449 /* Coin.mp3 in Resources */,
+				0260B4201AEC4F4C00ADE524 /* Intro.mp3 in Resources */,
+				0260B4241AEC4F4C00ADE524 /* Sword.mp3 in Resources */,
+				0260B41F1AEC4F4C00ADE524 /* Collision.wav in Resources */,
+				0260B41D1AEC4F4C00ADE524 /* Bomb.mp3 in Resources */,
+				0260B41C1AEC4F4C00ADE524 /* Background.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
