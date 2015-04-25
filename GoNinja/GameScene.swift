@@ -35,6 +35,15 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var swipeUpInstruction: SKLabelNode!
     var swipeDownIcon: SKSpriteNode!
     var swipeDownInstruction: SKLabelNode!
+    var powerUpIcon1: SKSpriteNode!
+    var powerUpInstruction1:SKLabelNode!
+    var powerUpIcon2: SKSpriteNode!
+    var powerUpInstruction2:SKLabelNode!
+    var powerUpIcon3: SKSpriteNode!
+    var powerUpInstruction3:SKLabelNode!
+    var monsterIcon:SKSpriteNode!
+    var monsterInstruction:SKLabelNode!
+    
     
     var titleLabel: SKLabelNode!
     
@@ -165,6 +174,39 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 tutorialIndex += 1
                 swipeUpIcon.hidden = false
                 swipeUpInstruction.hidden = false
+            }
+            else if tutorialIndex == 3
+            {
+                monsterIcon.hidden = true
+                monsterInstruction.hidden = true
+                tutorialIndex += 1
+                powerUpIcon1.hidden = false
+                powerUpInstruction1.hidden = false
+            }
+            else if tutorialIndex == 4
+            {
+                powerUpIcon1.hidden = true
+                powerUpInstruction1.hidden = true
+                tutorialIndex += 1
+                powerUpIcon2.hidden = false
+                powerUpInstruction2.hidden = false
+            }
+            else if tutorialIndex == 5
+            {
+                powerUpIcon2.hidden = true
+                powerUpInstruction2.hidden = true
+                tutorialIndex += 1
+                powerUpIcon3.hidden = false
+                powerUpInstruction3.hidden = false
+            }
+            else if tutorialIndex == 6
+            {
+                powerUpIcon3.hidden = true
+                powerUpInstruction3.hidden = true
+                tutorialIndex += 1
+                tutorialStart = false
+                tutorialOn = false
+                reStartGame()
             }
         }
     }
@@ -348,7 +390,98 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(swipeDownInstruction)
         animationWithPulse(swipeDownInstruction)
         
+        //Add Monster instructions
+        
+        monsterIcon = MALMonster(topOrBot: 0)
+        monsterIcon.position = view.center
+        monsterIcon.removeAllActions()
+        performOneRunCyle()
+        addChild(monsterIcon)
+        monsterIcon.hidden = true
+        
+        monsterInstruction = SKLabelNode(text: "This evil hamster is not your pet! Dodge it or you gonna get bited")
+        monsterInstruction.fontColor = UIColor.blackColor()
+        monsterInstruction.fontSize = 18.0
+        monsterInstruction.fontName = gameFont
+        monsterInstruction.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(monsterInstruction)
+        animationWithPulse(monsterInstruction)
+        monsterInstruction.hidden = true
+        
+        //Add power Up instructions
+        
+        //power up 1
+        powerUpIcon1 = SKSpriteNode(imageNamed: "powerUp1")
+        powerUpIcon1.size = CGSizeMake(40, 40)
+        powerUpIcon1.position = view.center
+        addChild(powerUpIcon1)
+        powerUpIcon1.hidden = true
+        
+        powerUpInstruction1 = SKLabelNode(text: "The Sword of Magic: Use it to kill monsters")
+        powerUpInstruction1.fontColor = UIColor.blackColor()
+        powerUpInstruction1.fontName = gameFont
+        powerUpInstruction1.fontSize = 20.0
+        powerUpInstruction1.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(powerUpInstruction1)
+        animationWithPulse(powerUpInstruction1)
+        powerUpInstruction1.hidden = true
+        
+        //power up 2
+        powerUpIcon2 = SKSpriteNode(imageNamed: "powerUp2")
+        powerUpIcon2.size = CGSizeMake(40, 40)
+        powerUpIcon2.position = view.center
+        addChild(powerUpIcon2)
+        powerUpIcon2.hidden = true
+        
+        powerUpInstruction2 = SKLabelNode(text: "Ghost Power: You can go through walls!")
+        powerUpInstruction2.fontColor = UIColor.blackColor()
+        powerUpInstruction2.fontName = gameFont
+        powerUpInstruction2.fontSize = 20.0
+        powerUpInstruction2.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(powerUpInstruction2)
+        animationWithPulse(powerUpInstruction2)
+        powerUpInstruction2.hidden = true
+        
+        //power up 3
+        powerUpIcon3 = SKSpriteNode(imageNamed: "powerUp3")
+        powerUpIcon3.size = CGSizeMake(40, 40)
+        powerUpIcon3.position = view.center
+        addChild(powerUpIcon3)
+        powerUpIcon3.hidden = true
+        
+        powerUpInstruction3 = SKLabelNode(text: "Shuriken Master: throw shurikens to break everything")
+        powerUpInstruction3.fontColor = UIColor.blackColor()
+        powerUpInstruction3.fontName = gameFont
+        powerUpInstruction3.fontSize = 20.0
+        powerUpInstruction3.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(powerUpInstruction3)
+        animationWithPulse(powerUpInstruction3)
+        powerUpInstruction3.hidden = true
+
+        
+        
+        
         tutorialStart = true
+
+    }
+    
+    func performOneRunCyle()
+    {
+        let upForward = SKAction.moveByX(8, y: 5, duration: 0.1)
+        let downForward = SKAction.moveByX(8, y: -5, duration: 0.1)
+        let upForward2 = SKAction.moveByX(-8, y: 5, duration: 0.1)
+        let downForward2 = SKAction.moveByX(-8, y: -5, duration: 0.1)
+        let walkAnimation = SKAction.sequence([upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward])
+        let walkAnimation2 = SKAction.sequence([upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2])
+        monsterIcon.runAction(walkAnimation, completion: { () -> Void in
+            (self.monsterIcon as!MALMonster).direction *= -1
+            (self.monsterIcon as!MALMonster).changeFace()
+            self.monsterIcon.runAction(walkAnimation2, completion: { () -> Void in
+                (self.monsterIcon as!MALMonster).direction *= -1
+                (self.monsterIcon as!MALMonster).changeFace()
+                self.performOneRunCyle()
+            })
+        })
 
     }
     
