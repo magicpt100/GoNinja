@@ -22,6 +22,7 @@ class CountDownTimer:SKSpriteNode{
         timerLabel.fontSize = 15
         timerLabel.fontColor = UIColor.yellowColor()
         timerLabel.position = CGPointMake(18, -5)
+        timerLabel.zPosition = 5
         addChild(timerLabel)
         run()
     }

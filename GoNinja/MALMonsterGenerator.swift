@@ -14,7 +14,7 @@ class MALMonsterGenerator: SKSpriteNode {
     
     func startGeneratingMonster()
     {
-        var makeMonstersAction = SKAction.sequence([SKAction.runBlock(generateMonster),SKAction.waitForDuration(5)])
+        var makeMonstersAction = SKAction.sequence([SKAction.runBlock(generateMonster),SKAction.waitForDuration(4)])
         self.runAction(SKAction.repeatActionForever(makeMonstersAction))
     }
     
@@ -22,6 +22,11 @@ class MALMonsterGenerator: SKSpriteNode {
     {
         var scale: CGFloat
         let rand1 = arc4random_uniform(2)
+        let rand2 = arc4random_uniform(2)
+        if rand2 == 0
+        {
+            return
+        }
         if rand1 == 0
         {
             scale = 1.0
