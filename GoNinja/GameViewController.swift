@@ -70,9 +70,8 @@ class GameViewController: UIViewController {
             scene.swipeDownIcon.hidden = true
             scene.swipeDownInstruction.hidden = true
             tutorialIndex += 1
-            tutorialStart = false
-            tutorialOn = false
-            scene.reStartGame()
+            scene.monsterIcon.hidden = false
+            scene.monsterInstruction.hidden = false
         }
         }
         
