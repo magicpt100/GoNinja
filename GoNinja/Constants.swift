@@ -24,6 +24,8 @@ let gameFont = "AmericanTypewriter-Bold"
 var pointsRaw = 0
 var jumpCount = 0
 
+var doublePoints = false
+
 enum BodyType:UInt32 {
     
     case hero = 1

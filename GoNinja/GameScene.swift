@@ -399,6 +399,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     
     func start(){
+        
+        
         isStart = true
         hero.stop()
         groundTop.start()
@@ -521,7 +523,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
             else if(bodyB.categoryBitMask == BodyType.coin.rawValue)
             {
-                if(hero.powerUpStatus == 4)
+                if(doublePoints)
                 {
                     pointsRaw += 2
                 }
@@ -560,7 +562,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
             else if(bodyA.categoryBitMask == BodyType.coin.rawValue)
             {
-                if(hero.powerUpStatus == 4)
+                if(doublePoints)
                 {
                     pointsRaw += 2
                 }

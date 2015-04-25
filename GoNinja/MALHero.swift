@@ -270,6 +270,7 @@ class MALHero: SKSpriteNode {
 
             let gold = UIColor(red: 255/255, green: 215/255, blue: 0, alpha: 1)
             powerUpStatus = 4
+            doublePoints = true
 
             head.fillColor = gold
             body.fillColor = gold
@@ -304,6 +305,7 @@ class MALHero: SKSpriteNode {
             newStar.physicsBody!.categoryBitMask = 0
         case 4:
             powerUpStatus = 0
+            doublePoints = false
             head.fillColor = clothesColor
             body.fillColor = clothesColor
             leftArm.fillColor = clothesColor
