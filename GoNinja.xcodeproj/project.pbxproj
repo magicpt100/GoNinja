@@ -38,6 +38,9 @@
 		AEF289AB1AD1BBE200F1D997 /* MALCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289AA1AD1BBE200F1D997 /* MALCloud.swift */; };
 		AEF289AD1AD1BF7A00F1D997 /* MALCloudGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289AC1AD1BF7A00F1D997 /* MALCloudGenerator.swift */; };
 		AEF289B21AD3527200F1D997 /* PowerUps.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289B11AD3527200F1D997 /* PowerUps.swift */; };
+		DD4A1A2F1AE46ED900B3534C /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4A1A2D1AE46ED900B3534C /* Coin.swift */; };
+		DD4A1A301AE46ED900B3534C /* CoinGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */; };
+		DD4A1A341AE5B7FE00B3534C /* goldCoin.png in Resources */ = {isa = PBXBuildFile; fileRef = DD4A1A331AE5B7FE00B3534C /* goldCoin.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +89,9 @@
 		AEF289AA1AD1BBE200F1D997 /* MALCloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALCloud.swift; sourceTree = "<group>"; };
 		AEF289AC1AD1BF7A00F1D997 /* MALCloudGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALCloudGenerator.swift; sourceTree = "<group>"; };
 		AEF289B11AD3527200F1D997 /* PowerUps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUps.swift; sourceTree = "<group>"; };
+		DD4A1A2D1AE46ED900B3534C /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinGenerator.swift; sourceTree = "<group>"; };
+		DD4A1A331AE5B7FE00B3534C /* goldCoin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goldCoin.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +160,7 @@
 		AE55AB671AAA6B9100FBC82E /* GoNinja */ = {
 			isa = PBXGroup;
 			children = (
+				DDD77CCA1ADD7E7100F56124 /* Coins */,
 				AEF289AE1AD1C5E700F1D997 /* Cloud */,
 				AEF289AF1AD1C5F400F1D997 /* Monster */,
 				AE55AB6E1AAA6B9100FBC82E /* GameScene.swift */,
@@ -168,6 +175,7 @@
 				AEC773D41AAE98D600767966 /* Constants.swift */,
 				AE55AB701AAA6B9100FBC82E /* GameViewController.swift */,
 				AE55AB721AAA6B9100FBC82E /* Main.storyboard */,
+				DD4A1A331AE5B7FE00B3534C /* goldCoin.png */,
 				AE55AB751AAA6B9100FBC82E /* Images.xcassets */,
 				AE55AB771AAA6B9100FBC82E /* LaunchScreen.xib */,
 				AE55AB681AAA6B9100FBC82E /* Supporting Files */,
@@ -226,6 +234,15 @@
 				AEC773D21AAE95D000767966 /* MALWALLGenerator.swift */,
 			);
 			name = Wall;
+			sourceTree = "<group>";
+		};
+		DDD77CCA1ADD7E7100F56124 /* Coins */ = {
+			isa = PBXGroup;
+			children = (
+				DD4A1A2D1AE46ED900B3534C /* Coin.swift */,
+				DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */,
+			);
+			name = Coins;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -354,6 +371,8 @@
 				AEF289B21AD3527200F1D997 /* PowerUps.swift in Sources */,
 				AEF289AB1AD1BBE200F1D997 /* MALCloud.swift in Sources */,
 				AE55AB6B1AAA6B9100FBC82E /* AppDelegate.swift in Sources */,
+				DD4A1A301AE46ED900B3534C /* CoinGenerator.swift in Sources */,
+				DD4A1A2F1AE46ED900B3534C /* Coin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

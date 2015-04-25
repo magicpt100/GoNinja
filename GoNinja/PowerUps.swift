@@ -12,7 +12,7 @@ import SpriteKit
 class PowerUps: SKSpriteNode {
     
     var type:Int
-    let textureArray = ["powerUp1","powerUp2"]
+    let textureArray = ["powerUp1","powerUp2","powerUp3"]
     init(type:Int)
     {
         self.type = type
@@ -32,8 +32,11 @@ class PowerUps: SKSpriteNode {
     
     func startMoving()
     {
-        let moveLeft = SKAction.moveByX(-frameSize.width, y: 0, duration: 10)
+        let moveLeft = SKAction.moveByX(-frameSize.width, y: 0, duration: 8)
+        let moveDown = SKAction.moveByX(0, y:-frameSize.height/3, duration: 3)
+        let moveUp = SKAction.moveByX(0, y: frameSize.height/3, duration: 3)
         runAction(SKAction.repeatActionForever(moveLeft))
+        runAction(SKAction.repeatActionForever(SKAction.sequence([moveDown,moveUp])))
     }
     
     func getType() -> Int

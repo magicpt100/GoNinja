@@ -16,7 +16,7 @@ let groundHeightFactor:CGFloat = 0.1  // proportion to the screen size
 let groundWidthFactor:CGFloat = 2.0
 
 let wallWidthFactor:CGFloat = 0.05
-let wallHeightFactorTall:CGFloat = 0.30
+let wallHeightFactorTall:CGFloat = 0.25
 let wallHeightFactorLow:CGFloat = 0.15
 
 let gameFont = "AmericanTypewriter-Bold"
@@ -31,6 +31,7 @@ enum BodyType:UInt32 {
     case coin = 4
     case monster = 8
     case power_ups = 16
+    case ninjaStar = 32
 }
 
 var tutorialOn = true

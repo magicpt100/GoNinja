@@ -18,24 +18,27 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
  
         //Configure the view
-        let skView = view as SKView
+        let skView = view as! SKView
         skView.multipleTouchEnabled = false
         
         // create and configure teh scene
-        scene = GameScene(size: skView.bounds.size)
+        scene = GameScene()
+        scene.size = skView.bounds.size
         //scene.scaleMode = .AspectFill
         
         // set the frameSize
         frameSize = CGSizeMake(skView.frame.size.width, skView.frame.size.height)
         //Present the scene
-        skView.showsPhysics = true
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        //skView.showsPhysics = true
+        //skView.showsFPS = true
+        //skView.showsNodeCount = true
         skView.presentScene(scene)
     }
 
     @IBAction func swipeHandler(sender: UIPanGestureRecognizer)
     {
+        if !scene.paused{
+        if !scene.hero.starInAir {
         let rotateCW = SKAction.rotateByAngle(CGFloat(M_PI), duration: 0)
         let rotateCCW = SKAction.rotateByAngle(-CGFloat(M_PI), duration: 0)
 
@@ -53,7 +56,7 @@ class GameViewController: UIViewController {
             scene.hero.position = CGPointMake(200, 375)
             scene.dropSmokeBomb()
         }
-        
+        }
         if tutorialStart && tutorialIndex == 1 && scene.hero.onGround == false
         {
             scene.swipeUpIcon.hidden = true
@@ -71,12 +74,14 @@ class GameViewController: UIViewController {
             tutorialOn = false
             scene.reStartGame()
         }
-        
+        }
         
     }
 
     @IBAction func tapHandler(sender: UITapGestureRecognizer)
     {
+        if !scene.paused{
+        if scene.hero.powerUpStatus != 3 {
         if (!scene.hero.body.hasActions()) { //Jump not currently in progress
             if (jumpCount > 0) {
                 if (jumpCount % 3 == 1) {
@@ -87,7 +92,12 @@ class GameViewController: UIViewController {
                     backFlip()
                 }
             }
-        }; jumpCount += 1
+            }; jumpCount += 1 }
+        else
+        {
+            scene.hero.throwNinjaStar()
+        }
+        }
     }
     
     func frontFlip() {
