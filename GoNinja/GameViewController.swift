@@ -22,7 +22,8 @@ class GameViewController: UIViewController {
         skView.multipleTouchEnabled = false
         
         // create and configure teh scene
-        scene = GameScene(size: skView.bounds.size)
+        scene = GameScene()
+        scene.size = skView.bounds.size
         //scene.scaleMode = .AspectFill
         
         // set the frameSize
@@ -36,6 +37,7 @@ class GameViewController: UIViewController {
 
     @IBAction func swipeHandler(sender: UIPanGestureRecognizer)
     {
+        if !scene.paused{
         if !scene.hero.starInAir {
         let rotateCW = SKAction.rotateByAngle(CGFloat(M_PI), duration: 0)
         let rotateCCW = SKAction.rotateByAngle(-CGFloat(M_PI), duration: 0)
@@ -72,12 +74,13 @@ class GameViewController: UIViewController {
             tutorialOn = false
             scene.reStartGame()
         }
-        
+        }
         
     }
 
     @IBAction func tapHandler(sender: UITapGestureRecognizer)
     {
+        if !scene.paused{
         if scene.hero.powerUpStatus != 3 {
         if (!scene.hero.body.hasActions()) { //Jump not currently in progress
             if (jumpCount > 0) {
@@ -93,6 +96,7 @@ class GameViewController: UIViewController {
         else
         {
             scene.hero.throwNinjaStar()
+        }
         }
     }
     
