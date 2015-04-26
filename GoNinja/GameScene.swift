@@ -180,6 +180,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pauseMenu.removeFromSuperview()
         self.paused = false
         cleanUp()
+        backgroundAudioPlayer.stop()
         loadMenu = true
         loadHighScores()
         openMenu(self.view!)
