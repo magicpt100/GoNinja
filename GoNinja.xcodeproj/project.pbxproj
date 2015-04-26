@@ -11,7 +11,7 @@
 		0260B41D1AEC4F4C00ADE524 /* Bomb.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4141AEC4F4C00ADE524 /* Bomb.mp3 */; };
 		0260B41E1AEC4F4C00ADE524 /* Coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4151AEC4F4C00ADE524 /* Coin.mp3 */; };
 		0260B41F1AEC4F4C00ADE524 /* Collision.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4161AEC4F4C00ADE524 /* Collision.wav */; };
-		0260B4201AEC4F4C00ADE524 /* Intro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4171AEC4F4C00ADE524 /* Intro.mp3 */; };
+		0260B4201AEC4F4C00ADE524 /* Start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4171AEC4F4C00ADE524 /* Start.mp3 */; };
 		0260B4211AEC4F4C00ADE524 /* Jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4181AEC4F4C00ADE524 /* Jump.mp3 */; };
 		0260B4221AEC4F4C00ADE524 /* Powerup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B4191AEC4F4C00ADE524 /* Powerup.mp3 */; };
 		0260B4231AEC4F4C00ADE524 /* Star.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B41A1AEC4F4C00ADE524 /* Star.mp3 */; };
@@ -59,7 +59,7 @@
 		0260B4141AEC4F4C00ADE524 /* Bomb.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Bomb.mp3; path = audio/Bomb.mp3; sourceTree = SOURCE_ROOT; };
 		0260B4151AEC4F4C00ADE524 /* Coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Coin.mp3; path = audio/Coin.mp3; sourceTree = SOURCE_ROOT; };
 		0260B4161AEC4F4C00ADE524 /* Collision.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Collision.wav; path = audio/Collision.wav; sourceTree = SOURCE_ROOT; };
-		0260B4171AEC4F4C00ADE524 /* Intro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Intro.mp3; path = audio/Intro.mp3; sourceTree = SOURCE_ROOT; };
+		0260B4171AEC4F4C00ADE524 /* Start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Start.mp3; path = audio/Start.mp3; sourceTree = SOURCE_ROOT; };
 		0260B4181AEC4F4C00ADE524 /* Jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Jump.mp3; path = audio/Jump.mp3; sourceTree = SOURCE_ROOT; };
 		0260B4191AEC4F4C00ADE524 /* Powerup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Powerup.mp3; path = audio/Powerup.mp3; sourceTree = SOURCE_ROOT; };
 		0260B41A1AEC4F4C00ADE524 /* Star.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Star.mp3; path = audio/Star.mp3; sourceTree = SOURCE_ROOT; };
@@ -119,7 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				0260B4131AEC4F4C00ADE524 /* Background.mp3 */,
-				0260B4171AEC4F4C00ADE524 /* Intro.mp3 */,
+				0260B4171AEC4F4C00ADE524 /* Start.mp3 */,
 				0260B4161AEC4F4C00ADE524 /* Collision.wav */,
 				0260B4141AEC4F4C00ADE524 /* Bomb.mp3 */,
 				0260B4151AEC4F4C00ADE524 /* Coin.mp3 */,
@@ -338,7 +338,7 @@
 				DD4A1A341AE5B7FE00B3534C /* goldCoin.png in Resources */,
 				0260B4211AEC4F4C00ADE524 /* Jump.mp3 in Resources */,
 				AE55AB741AAA6B9100FBC82E /* Main.storyboard in Resources */,
-				0260B4201AEC4F4C00ADE524 /* Intro.mp3 in Resources */,
+				0260B4201AEC4F4C00ADE524 /* Start.mp3 in Resources */,
 				0260B4241AEC4F4C00ADE524 /* Sword.mp3 in Resources */,
 				0260B41F1AEC4F4C00ADE524 /* Collision.wav in Resources */,
 				0260B41D1AEC4F4C00ADE524 /* Bomb.mp3 in Resources */,
