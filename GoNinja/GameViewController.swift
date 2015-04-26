@@ -90,6 +90,7 @@ class GameViewController: UIViewController {
                 } else if (jumpCount % 3 == 0) {
                     backFlip()
                 }
+                scene.jumpAudioPlayer.play()
             }
             }; jumpCount += 1 }
         else

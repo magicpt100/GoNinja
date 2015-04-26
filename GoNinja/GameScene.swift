@@ -38,7 +38,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     //Audio URLs
     var backgroundAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Background", ofType: "mp3")!)
-    var startAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Intro", ofType: "mp3")!)
+    var startAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Start", ofType: "mp3")!)
     var collisionAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Collision", ofType: "wav")!)
     var bombAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Bomb", ofType: "mp3")!)
     var coinAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Coin", ofType: "mp3")!)
@@ -104,9 +104,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }*/
     
     override func didMoveToView(view: SKView) {
-
-        loadHighScores()
-        openMenu(view)
         
         backgroundAudioPlayer = AVAudioPlayer(contentsOfURL: backgroundAudioURL, error: nil)
         startAudioPlayer = AVAudioPlayer(contentsOfURL: startAudioURL, error: nil)
@@ -117,6 +114,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         powerupAudioPlayer = AVAudioPlayer(contentsOfURL: powerupAudioURL, error: nil)
         swordAudioPlayer = AVAudioPlayer(contentsOfURL: swordAudioURL, error: nil)
         starAudioPlayer = AVAudioPlayer(contentsOfURL: starAudioURL, error: nil)
+        startAudioPlayer.volume = 0.3
+        backgroundAudioPlayer.volume = 0.3
+        loadHighScores()
+        openMenu(view)
         
     }
     
@@ -142,12 +143,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     func mutePressed(sender:UIButton){
         if (muteOn == true) {
             muteOn = false
-            backgroundAudioPlayer.volume = 1.0
-            startAudioPlayer.volume = 1.0
+            backgroundAudioPlayer.volume = 0.3
+            startAudioPlayer.volume = 0.3
             collisionAudioPlayer.volume = 1.0
-            bombAudioPlayer.volume = 1.0
+            //bombAudioPlayer.volume = 1.0
             coinAudioPlayer.volume = 1.0
-            jumpAudioPlayer.volume = 1.0
+            //jumpAudioPlayer.volume = 1.0
             powerupAudioPlayer.volume = 1.0
             swordAudioPlayer.volume = 1.0
             starAudioPlayer.volume = 1.0
@@ -158,9 +159,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             backgroundAudioPlayer.volume = 0.0
             startAudioPlayer.volume = 0.0
             collisionAudioPlayer.volume = 0.0
-            bombAudioPlayer.volume = 0.0
+            //bombAudioPlayer.volume = 0.0
             coinAudioPlayer.volume = 0.0
-            jumpAudioPlayer.volume = 0.0
+            //jumpAudioPlayer.volume = 0.0
             powerupAudioPlayer.volume = 0.0
             swordAudioPlayer.volume = 0.0
             starAudioPlayer.volume = 0.0
@@ -274,6 +275,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 tutorialIndex += 1
                 tutorialStart = false
                 tutorialOn = false
+                startAudioPlayer.stop()
                 reStartGame()
             }
         }
@@ -315,6 +317,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(HSButton)
         
+        startAudioPlayer.play()
         
         
 
@@ -894,7 +897,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         {
             smokeBomb.position = CGPointMake(80, 350)
         }
-        bombAudioPlayer.stop()
+        bombAudioPlayer.currentTime = 0
         bombAudioPlayer.play()
         addChild(smokeBomb)
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_MSEC * 500))
