@@ -445,6 +445,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //println(highScoresList)
         
         var intScores = highScoresList as! [Int]
+        
+        if(score > intScores[4])
+        {
+            var hsLabel = SKLabelNode(text: "New high score!")
+            hsLabel.fontName = gameFont
+            hsLabel.fontSize = 15.0
+            hsLabel.fontColor = UIColor.blackColor()
+            hsLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2 - 50)
+            addChild(hsLabel)
+            animationWithPulse(hsLabel)
+        }
+        
         intScores.append(score)
         
         sort(&intScores)
