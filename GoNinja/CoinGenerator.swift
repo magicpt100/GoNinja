@@ -11,17 +11,20 @@ import SpriteKit
 
 class CoinGenerator: SKSpriteNode
 {
+    let coinPosX = coinPosXFactor * frameSize.width
+    let coinY1 = coinY1Factor * frameSize.height
+    let coinY2 = coinY2Factor * frameSize.height
     func generateCoin()
     {
         var yCoord: CGFloat;
         let rand = arc4random_uniform(2)
         
         //generate on top or bottom of screen
-        if rand == 0 { yCoord = 323 }
-        else { yCoord = 52 }
+        if rand == 0 { yCoord = coinY1 }
+        else { yCoord = coinY2 }
         
         let coin = Coin()
-        coin.position.x = 1000
+        coin.position.x = coinPosX
         coin.position.y = yCoord
         
         addChild(coin)
