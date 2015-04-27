@@ -12,6 +12,7 @@ import SpriteKit
 class Coin: SKSpriteNode
 {
     var theCoin: SKShapeNode!
+    let coinSize = coinSizeFactor * frameSize.width
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
@@ -21,7 +22,7 @@ class Coin: SKSpriteNode
         
         let coinTexture = SKTexture(imageNamed:"goldCoin.png")
         
-        super.init(texture: coinTexture, color: UIColor.clearColor(), size: CGSizeMake(30, 30))
+        super.init(texture: coinTexture, color: UIColor.clearColor(), size: CGSizeMake(coinSize, coinSize))
         
         var coinPB = SKPhysicsBody(rectangleOfSize: self.frame.size)
 

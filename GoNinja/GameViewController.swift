@@ -13,6 +13,9 @@ class GameViewController: UIViewController {
     
     var animator:UIDynamicAnimator!
     var scene : GameScene!
+    var swipeUpPosX:CGFloat = 200.0
+    var swipeUpPosY:CGFloat = 375.0
+    var jumpHeightAdditon: CGFloat = 50.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +36,9 @@ class GameViewController: UIViewController {
         //skView.showsFPS = true
         //skView.showsNodeCount = true
         skView.presentScene(scene)
+        swipeUpPosX = swipeUpPosXFactor * frameSize.width
+        swipeUpPosY = swipeUpPosYFactor * frameSize.height
+        jumpHeightAdditon = jumpHeightAdditionFactor * frameSize.height
     }
 
     @IBAction func swipeHandler(sender: UIPanGestureRecognizer)
@@ -53,7 +59,7 @@ class GameViewController: UIViewController {
         {
             scene.hero.onGround = false
             scene.hero.runAction(rotateCCW)
-            scene.hero.position = CGPointMake(200, 375)
+            scene.hero.position = CGPointMake(swipeUpPosX, swipeUpPosY)
             scene.dropSmokeBomb()
         }
         }
@@ -102,7 +108,7 @@ class GameViewController: UIViewController {
     
     func frontFlip() {
         var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
-        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + 50
+        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + jumpHeightAdditon
         
         let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
         let flip = SKAction.rotateByAngle((2 * CGFloat(-M_PI)), duration: 0.3)
@@ -114,7 +120,7 @@ class GameViewController: UIViewController {
     
     func backFlip() {
         var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
-        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + 50
+        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + jumpHeightAdditon
         
         let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
         let flip = SKAction.rotateByAngle((2 * CGFloat(M_PI)), duration: 0.3)

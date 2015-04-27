@@ -30,23 +30,66 @@ class MALHero: SKSpriteNode {
     
     var starInAir = false
     
+    let bodyHeight = bodyHeightFactor * frameSize.height
+    let bodyWidth = bodyWidthFactor * frameSize.width
+    let heroPositionX = heroPositionXFactor * frameSize.width
+    let heroPositionY = heroPositionYFactor * frameSize.height
+    let headWidth = headWidthFactor * frameSize.width
+    let headHeight = headHeightFactor * frameSize.height
+    let headPosition = headPositionFactor * frameSize.width
+    let faceStart = faceStartFactor * frameSize.width
+    let faceEnd = faceEndFactor * frameSize.width
+    let faceY = faceYFactor * frameSize.height
+    let leftEyeX = leftEyeXFactor * frameSize.width
+    let rightEyeX = rightEyeXFactor * frameSize.width
+    let eyeY = eyeYFactor * frameSize.height
+    let eyeSizeX = eyeSizeXFactor * frameSize.width
+    let eyeSizeY = eyeSizeYFactor * frameSize.height
+    let leftEyeBrowX = leftEyeBrowXFactor * frameSize.width
+    let leftEyeBrowY = leftEyeBrowYFactor * frameSize.height
+    let leftEyeBrowPosX = leftEyeBrowPosXFactor * frameSize.width
+    let rightEyeBrowPosX = rightEyeBrowPosXFactor * frameSize.width
+    let eyeBrowPosY = eyeBrowPosYFactor * frameSize.height
+    let footHeight = footHeightFactor * frameSize.height
+    let footWidth = footWidthFactor * frameSize.width
+    let rightFootAdjustment = rightFootAdjustFactor * frameSize.width
+    let anchorPointSize = anchorPointSizeFactor * frameSize.width
+    let leftAnchorY = leftAnchorYFactor * frameSize.height
+    let leftArmX = leftArmXFactor * frameSize.width
+    let ninjaStarSize = ninjaStarSizeFactor * frameSize.width
+    let ninjaStarPosX = ninjaStarPosXFactor * frameSize.width
+    let ninjaStarPosY = ninjaStarPosYFactor * frameSize.height
+    let ninjaSwordSizeX = ninjaSwordSizeXFactor * frameSize.width
+    let ninjaSwordSizeY = ninjaSwordSizeYFactor * frameSize.height
+    let ninjaSwordPosY = ninjaSwordPosYFactor * frameSize.height
+    let heroPhysicsWidth = heroPhysicsWidthFactor * frameSize.width
+    let heroPhysicsHeight = heroPhysicsHeightFactor * frameSize.height
+    let heroPhysicsCenterX = heroPhysicsCenterXFactor * frameSize.width
+    let heroPhysicsCenterY = heroPhysicsCenterYFactor * frameSize.height
+    let newStarSize = newStarSizeFactor * frameSize.width
+    let newStarPosX = newStarPosXFactor * frameSize.width
+    let newStarPosY = newStarPosYFactor * frameSize.height
+    let newSwordPosX = newSwordPosXFactor * frameSize.width
+    let newSwordPosY = newSwordPosYFactor * frameSize.height
+    
+    
     override init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
-        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(40, 25))
+        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(bodyWidth, bodyHeight))
         let clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
         onGround = true
         
         // Add the body
         
-        body = SKShapeNode(rect: CGRect(origin: CGPointMake(0, 0), size: CGSizeMake(40, 25)), cornerRadius: 1.0)
+        body = SKShapeNode(rect: CGRect(origin: CGPointMake(0, 0), size: CGSizeMake(bodyWidth, bodyHeight)), cornerRadius: 1.0)
         body.strokeColor = clothesColor
         body.fillColor = clothesColor
-        body.position = CGPointMake(80, 54)
+        body.position = CGPointMake(heroPositionX, heroPositionY)
         addChild(body)
         
         // Add the head
         
-        var headShape = UIBezierPath(ovalInRect: CGRect(x: -5, y: self.frame.size.height/2, width: 50, height: 50))
+        var headShape = UIBezierPath(ovalInRect: CGRect(x: headPosition, y: self.frame.size.height/2, width: headWidth, height: headHeight))
         
         head = SKShapeNode(path: headShape.CGPath)
         head.strokeColor = UIColor.blackColor()
@@ -56,24 +99,14 @@ class MALHero: SKSpriteNode {
         
         
         let skinColor = UIColor(red: 207.0/255.0, green: 193.0/255.0, blue: 168.0/255.0, alpha: 1.0)
-        /*
-        let faceShape = UIBezierPath()
-        faceShape.moveToPoint(CGPointMake(0, 36))
-        faceShape.addQuadCurveToPoint(CGPointMake(40, 36), controlPoint: CGPointMake(20,8))
-        faceShape.moveToPoint(CGPointMake(40, 36))
-        faceShape.addQuadCurveToPoint(CGPointMake(0,36), controlPoint: CGPointMake(20, 33))
-        let face = SKShapeNode(path: faceShape.CGPath)
-        face.fillColor = skinColor
-        face.strokeColor = UIColor.blackColor()
-        face.lineWidth = 2.0
-        head.addChild(face)*/
+
         
         // Add the face
         
         let faceShape = CGPathCreateMutable()
-        CGPathMoveToPoint(faceShape, nil, 1, 37)
-        CGPathAddLineToPoint(faceShape, nil, 40, 37)
-        CGPathAddArc(faceShape, nil, 20.5, 37, 19.5, CGFloat(M_PI), 0, false)
+        CGPathMoveToPoint(faceShape, nil, faceStart, faceY)
+        CGPathAddLineToPoint(faceShape, nil, faceEnd, faceY)
+        CGPathAddArc(faceShape, nil, (faceStart+faceEnd)/2.0, faceY, (faceEnd-faceStart)/2.0, CGFloat(M_PI), 0, false)
         let face = SKShapeNode(path: faceShape)
         face.fillColor = skinColor
         face.strokeColor = clothesColor
@@ -81,7 +114,7 @@ class MALHero: SKSpriteNode {
         
         // Add left eye
 
-        let leftEyeShape = UIBezierPath(ovalInRect: CGRect(x: 12.5, y: 25.5, width: 4.5, height: 4.5))
+        let leftEyeShape = UIBezierPath(ovalInRect: CGRect(x: leftEyeX, y: eyeY, width: eyeSizeX, height: eyeSizeY))
         let leftEye = SKShapeNode(path: leftEyeShape.CGPath)
         leftEye.fillColor = UIColor.blackColor()
         leftEye.strokeColor = UIColor.blackColor()
@@ -89,7 +122,7 @@ class MALHero: SKSpriteNode {
         
         // Add right eye
         
-        let rightEyeShape = UIBezierPath(ovalInRect: CGRect(x: 23.5, y: 25.5, width: 4.5, height: 4.5))
+        let rightEyeShape = UIBezierPath(ovalInRect: CGRect(x: rightEyeX, y: eyeY, width: eyeSizeX, height: eyeSizeY))
         let rightEye = SKShapeNode(path: rightEyeShape.CGPath)
         rightEye.fillColor = UIColor.blackColor()
         rightEye.strokeColor = UIColor.blackColor()
@@ -99,33 +132,32 @@ class MALHero: SKSpriteNode {
         
         let leftEyeBrowShape = CGPathCreateMutable()
         CGPathMoveToPoint(leftEyeBrowShape, nil, 0, 0)
-        CGPathAddLineToPoint(leftEyeBrowShape, nil, -8, 2)
+        CGPathAddLineToPoint(leftEyeBrowShape, nil, leftEyeBrowX, leftEyeBrowY)
         let leftEyeBrow = SKShapeNode(path: leftEyeBrowShape)
         leftEyeBrow.strokeColor = UIColor.blackColor()
         leftEyeBrow.lineWidth = 1.5
-        leftEyeBrow.position = CGPointMake(18, 32.5)
+        leftEyeBrow.position = CGPointMake(leftEyeBrowPosX, eyeBrowPosY)
         head.addChild(leftEyeBrow)
         
         //Add right eyebrow
         
         let rightEyeBrowShape = CGPathCreateMutable()
         CGPathMoveToPoint(rightEyeBrowShape, nil, 0, 0)
-        CGPathAddLineToPoint(rightEyeBrowShape, nil, 8, 2)
+        CGPathAddLineToPoint(rightEyeBrowShape, nil, -leftEyeBrowX, leftEyeBrowY)
         let rightEyeBrow = SKShapeNode(path: rightEyeBrowShape)
         rightEyeBrow.strokeColor = UIColor.blackColor()
         rightEyeBrow.lineWidth = 1.5
-        rightEyeBrow.position = CGPointMake(22.5, 32.5)
+        rightEyeBrow.position = CGPointMake(rightEyeBrowPosX, eyeBrowPosY)
         head.addChild(rightEyeBrow)
         
         //Add left foot
         
         var leftFootShape = CGPathCreateMutable()
         CGPathMoveToPoint(leftFootShape, nil, -self.frame.size.width/2, -self.frame.size.height/2)
-        CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2, -self.frame.size.height/2 - 12)
-        CGPathAddArc(leftFootShape, nil, -self.frame.size.width/2 + 5, -self.frame.size.height/2 - 12, 5, CGFloat(M_PI),CGFloat(0),false)
-        CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2 + 10, -self.frame.size.height/2 - 12)
-        CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2 + 10, -self.frame.size.height/2)
-        CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2, -self.frame.size.height/2)
+        CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2, -self.frame.size.height/2 - footHeight)
+        CGPathAddArc(leftFootShape, nil, -self.frame.size.width/2 + footWidth, -self.frame.size.height/2 - footHeight, footWidth, CGFloat(M_PI),CGFloat(0),false)
+        CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2 + footWidth*2, -self.frame.size.height/2 - footHeight)
+        CGPathAddLineToPoint(leftFootShape, nil, -self.frame.size.width/2 + footWidth*2, -self.frame.size.height/2)
         leftFoot = SKShapeNode(path:leftFootShape)
         leftFoot.strokeColor = clothesColor
         leftFoot.fillColor = clothesColor
@@ -136,50 +168,50 @@ class MALHero: SKSpriteNode {
         //Add right foot
         
         rightFoot = leftFoot.copy() as! SKShapeNode
-        rightFoot.position = CGPointMake(self.frame.size.width + rightFoot.frame.size.width/2-0.5, rightFoot.frame.size.height/2)
+        rightFoot.position = CGPointMake(self.frame.size.width + rightFoot.frame.size.width/2-rightFootAdjustment, rightFoot.frame.size.height/2)
         body.addChild(rightFoot)
         
         //Add left arm
         
-        leftArmAnchorPoint = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(3, 3))
-        leftArmAnchorPoint.position = CGPointMake(0, 20)
+        leftArmAnchorPoint = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(anchorPointSize,anchorPointSize))
+        leftArmAnchorPoint.position = CGPointMake(0, leftAnchorY)
         body.addChild(leftArmAnchorPoint)
         
         leftArm = leftFoot.copy() as! SKShapeNode
         leftArm.zRotation = CGFloat(-M_PI / 4.0)
         //leftArm.position = CGPointMake(leftFoot.frame.size.width, 18)
-        leftArm.position = CGPointMake(20, 0)
+        leftArm.position = CGPointMake(leftArmX, 0)
         leftArmAnchorPoint.addChild(leftArm)
         
         //Add right arm
         
-        rightArmAnchorPoint = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(3, 3))
-        rightArmAnchorPoint.position = CGPointMake(40, 20)
+        rightArmAnchorPoint = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(anchorPointSize, anchorPointSize))
+        rightArmAnchorPoint.position = CGPointMake(bodyWidth, leftAnchorY)
         body.addChild(rightArmAnchorPoint)
         
         rightArm = rightFoot.copy() as! SKShapeNode
         rightArm.zRotation = CGFloat(M_PI / 4.0)
         //rightArm.position = CGPointMake(rightFoot.position.x - 9.5, 38.5)
-        rightArm.position = CGPointMake(0, 20)
+        rightArm.position = CGPointMake(0, leftAnchorY)
         rightArmAnchorPoint.addChild(rightArm)
         //Add ninja star
         
         ninjaStar = SKSpriteNode(imageNamed: "ninjaStar")
-        ninjaStar.size = CGSizeMake(20, 20)
-        ninjaStar.position = CGPointMake(53, 5)
+        ninjaStar.size = CGSizeMake(ninjaStarSize, ninjaStarSize)
+        ninjaStar.position = CGPointMake(ninjaStarPosX, ninjaStarPosY)
         body.addChild(ninjaStar)
         
         // Add ninja Sword
         
         ninjaSword = SKSpriteNode(imageNamed: "ninjaSword")
-        ninjaSword.size = CGSizeMake(50, 40)
+        ninjaSword.size = CGSizeMake(ninjaSwordSizeX, ninjaSwordSizeY)
         ninjaSword.zPosition = -2
         ninjaSword.zRotation = CGFloat(-M_PI/2)
-        ninjaSword.position = CGPointMake(0, 25)
+        ninjaSword.position = CGPointMake(0, ninjaSwordPosY)
         body.addChild(ninjaSword)
 
         //Add physics for collision and contact detection
-        var heroBodyPhysicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: 70,height: 78), center: CGPointMake(23, 24))
+        var heroBodyPhysicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: heroPhysicsWidth,height: heroPhysicsHeight), center: CGPointMake(heroPhysicsCenterX, heroPhysicsCenterY))
         heroBodyPhysicsBody.dynamic = true
         heroBodyPhysicsBody.allowsRotation = false
         heroBodyPhysicsBody.affectedByGravity = false
@@ -191,8 +223,8 @@ class MALHero: SKSpriteNode {
         
         //Add the new star
         newStar = SKSpriteNode(imageNamed: "powerUp3")
-        newStar.size = CGSizeMake(30, 30)
-        newStar.position = CGPointMake(55, 13)
+        newStar.size = CGSizeMake(newStarSize, newStarSize)
+        newStar.position = CGPointMake(newStarPosX, newStarPosY)
         newStar.physicsBody = SKPhysicsBody(rectangleOfSize: newStar!.size)
         newStar.physicsBody!.affectedByGravity = false
         newStar.physicsBody!.allowsRotation = true
@@ -206,10 +238,10 @@ class MALHero: SKSpriteNode {
         
         //Add the new Sword
         newSword = SKSpriteNode(imageNamed: "newSword")
-        newSword.size = CGSizeMake(50, 40)
+        newSword.size = CGSizeMake(ninjaSwordSizeX, ninjaSwordSizeY)
         newSword.zPosition = -2
         rightArmAnchorPoint.addChild(newSword)
-        newSword.position = CGPointMake(18, 16)
+        newSword.position = CGPointMake(newSwordPosX, newSwordPosY)
         newSword.zRotation = CGFloat(M_PI_4 * 0.6)
         newSword.zPosition = 1
         newSword.hidden = true

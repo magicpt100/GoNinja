@@ -91,6 +91,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     //PauseMenu
     var pauseMenu: UIView!
+    
+    
     /*
     override init()
     {
@@ -118,6 +120,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         backgroundAudioPlayer.volume = 0.3
         loadHighScores()
         openMenu(view)
+        println(frameSize)
         
     }
     
@@ -146,26 +149,26 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             backgroundAudioPlayer.volume = 0.3
             startAudioPlayer.volume = 0.3
             collisionAudioPlayer.volume = 1.0
-            //bombAudioPlayer.volume = 1.0
+            bombAudioPlayer.volume = 1.0
             coinAudioPlayer.volume = 1.0
-            //jumpAudioPlayer.volume = 1.0
+            jumpAudioPlayer.volume = 1.0
             powerupAudioPlayer.volume = 1.0
             swordAudioPlayer.volume = 1.0
             starAudioPlayer.volume = 1.0
-            //muteButton.setBackgroundImage(muteOffIcon, forState: UIControlState.Normal)
+            muteButton.setBackgroundImage(muteOffIcon, forState: UIControlState.Normal)
         }
         else if (muteOn == false) {
             muteOn = true
             backgroundAudioPlayer.volume = 0.0
             startAudioPlayer.volume = 0.0
             collisionAudioPlayer.volume = 0.0
-            //bombAudioPlayer.volume = 0.0
+            bombAudioPlayer.volume = 0.0
             coinAudioPlayer.volume = 0.0
-            //jumpAudioPlayer.volume = 0.0
+            jumpAudioPlayer.volume = 0.0
             powerupAudioPlayer.volume = 0.0
             swordAudioPlayer.volume = 0.0
             starAudioPlayer.volume = 0.0
-            //muteButton.setBackgroundImage(muteOnIcon, forState: UIControlState.Normal)
+            muteButton.setBackgroundImage(muteOnIcon, forState: UIControlState.Normal)
         }
     }
     
@@ -284,6 +287,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func openMenu(view: SKView)
     {
+        let titleLabelPosX = titlelabelPosXFactor * frameSize.width
+        let titleLabelPosY = titlelabelPosYFactor * frameSize.height
+        let startButtonPosX = startButtonPosXFactor * frameSize.width
+        let startButtonPosY = startButtonPosYFactor * frameSize.height
+        let startButtonWidth = buttonWidthFactor * frameSize.width
+        let startButtonHeight = buttonHeightFactor * frameSize.height
+        let HSButtonWidth = buttonWidthFactor * frameSize.width
+        let HSButtonPosY = HSButtonPosYFactor * frameSize.height
+        
+        
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
 
         // Add the ground
@@ -303,22 +316,34 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         titleLabel.fontColor = UIColor.blackColor()
         titleLabel.fontName = gameFont
         titleLabel.fontSize = 40.0
-        titleLabel.position = CGPointMake(335, 280)
+        titleLabel.position = CGPointMake(titleLabelPosX, titleLabelPosY)
         addChild(titleLabel)
         
         startButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        startButton.frame = CGRectMake(300, 150, 80, 20)
+        startButton.frame = CGRectMake(startButtonPosX, startButtonPosY,startButtonWidth, startButtonHeight)
         startButton.setTitle("Start game", forState: UIControlState.Normal)
         startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(startButton)
         
         HSButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        HSButton.frame = CGRectMake(300, 200, 90, 20)
+        HSButton.frame = CGRectMake(startButtonPosX, HSButtonPosY, HSButtonWidth, startButtonHeight)
         HSButton.setTitle("High scores", forState: UIControlState.Normal)
         HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(HSButton)
         
         startAudioPlayer.play()
+        
+        //Add the mute Button
+        if muteButton == nil
+        {
+            let pauseButtonSize = pauseButtonSizeFactor * frameSize.width
+            let pauseButtonPosX = pauseButtonPosXFactor * frameSize.width
+            muteButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+            muteButton.frame = CGRectMake(frameSize.width - pauseButtonPosX, frameSize.height - pauseButtonSize, pauseButtonSize, pauseButtonSize)
+            muteButton.setBackgroundImage(muteOffIcon, forState: UIControlState.Normal)
+            muteButton.addTarget(self, action: "mutePressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.view?.addSubview(muteButton)
+        }
         
         
 
@@ -333,12 +358,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if let loadScores = defaults.arrayForKey("GoNinjaHighScores")
         {
-            println("load list")
+            //println("load list")
             highScoresList = defaults.arrayForKey("GoNinjaHighScores") as! [NSInteger]
         }
         else
         {
-            println("new list")
+            //println("new list")
             highScoresList.append(0)
             highScoresList.append(0)
             highScoresList.append(0)
@@ -352,12 +377,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func openHighScores(view: SKView)
     {
+        let HSBackButtonPosX = HSBackButtonPosXFactor * frameSize.width
+        let HSBackButtonPosY = HSBackButtonPosYFactor * frameSize.height
+        let buttonWidth = buttonWidthFactor * frameSize.width
+        let buttonHeight = buttonHeightFactor * frameSize.height
+        let hsLabelPosX = hsLabelPosXFactor * frameSize.width
+        let hsLabelPosY = hsLabelPosYFactor * frameSize.height
+        let hsInitialPos = hsInitialPosFactor * frameSize.height
+        let hsSlot = hsSlotFactor * frameSize.height
+        
         titleLabel.hidden = true
         HSButton.hidden = true
         startButton.hidden = true
         
         HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        HSBackButton.frame = CGRectMake(300, 300, 90, 20)
+        HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, buttonWidth, buttonHeight)
         HSBackButton.setTitle("Back", forState: UIControlState.Normal)
         HSBackButton.addTarget(self, action: "HSBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(HSBackButton)
@@ -369,7 +403,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         hsLabel.fontName = gameFont
         hsLabel.fontSize = 30.0
         
-        hsLabel.position = CGPointMake(340, 300)
+        hsLabel.position = CGPointMake(hsLabelPosX, hsLabelPosY)
         addChild(hsLabel)
 
         for i in 0...4
@@ -386,9 +420,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             text.fontName = gameFont
             text.fontSize = 20.0
             
-            var offset: CGFloat = 250 - (CGFloat(i) * 30.0)
+            var offset: CGFloat = hsInitialPos - (CGFloat(i) * hsSlot)
             
-            text.position = CGPointMake(340, offset)
+            text.position = CGPointMake(hsLabelPosX, offset)
             addChild(text)
 
         }
@@ -529,10 +563,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(powerUpInstruction3)
         animationWithPulse(powerUpInstruction3)
         powerUpInstruction3.hidden = true
-
-        
-        
-        
         tutorialStart = true
 
     }
@@ -611,20 +641,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(pointLabel)
         
         //Add the pause Button
+        let pauseButtonPosX = pauseButtonPosXFactor * frameSize.width
+        let pauseButtonSize = pauseButtonSizeFactor * frameSize.width
         let pauseIcon = UIImage(named: "pauseIcon")
         pauseButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        pauseButton.frame = CGRectMake(frameSize.width - 30, 0, 27, 27)
+        pauseButton.frame = CGRectMake(frameSize.width - pauseButtonPosX, 0, pauseButtonSize, pauseButtonSize)
         pauseButton.setBackgroundImage(pauseIcon, forState: UIControlState.Normal)
         pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(pauseButton)
-        
-        //Add the mute Button
-        //let muteIcon = UIImage(named: "mute off")
-        muteButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        muteButton.frame = CGRectMake(frameSize.width - 65, 2, 27, 27)
-        muteButton.setBackgroundImage(muteOffIcon, forState: UIControlState.Normal)
-        muteButton.addTarget(self, action: "mutePressed:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.view?.addSubview(muteButton)
                 
         //Add Monster Generator
         monsterGenerator = MALMonsterGenerator()
@@ -693,7 +717,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         intScores = intScores.reverse()
         
-        println(intScores)
+        //println(intScores)
         
         
         for i in 0...4

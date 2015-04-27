@@ -11,8 +11,8 @@ import SpriteKit
 
 class MALCloudGenerator: SKSpriteNode
 {
-    let cloudWidth: CGFloat = 125.0
-    let cloudHeight: CGFloat = 55.0
+    let cloudWidth: CGFloat = cloudWidthFactor * frameSize.width
+    let cloudHeight: CGFloat = cloudHeightFactor * frameSize.height
     
     func populate(num : Int)
     {
