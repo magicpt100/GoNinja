@@ -110,9 +110,9 @@ class GameViewController: UIViewController {
         var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
         var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + jumpHeightAdditon
         
-        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
-        let flip = SKAction.rotateByAngle((2 * CGFloat(-M_PI)), duration: 0.3)
-        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.1)
+        let flip = SKAction.rotateByAngle((2 * CGFloat(-M_PI)), duration: 0.5)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.1)
         
         let jumpSequence = SKAction.sequence([up, flip, down])
         scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
@@ -122,9 +122,9 @@ class GameViewController: UIViewController {
         var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
         var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + jumpHeightAdditon
         
-        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
-        let flip = SKAction.rotateByAngle((2 * CGFloat(M_PI)), duration: 0.3)
-        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.1)
+        let flip = SKAction.rotateByAngle((2 * CGFloat(M_PI)), duration: 0.5)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.1)
         
         let jumpSequence = SKAction.sequence([up, flip, down])
         scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
@@ -134,9 +134,9 @@ class GameViewController: UIViewController {
         var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
         var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage)
         
-        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
-        let pause = SKAction.moveByX(0, y: 0, duration: 0.3)
-        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.1)
+        let pause = SKAction.moveByX(0, y: 0, duration: 0.5)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.1)
         
         let jumpSequence = SKAction.sequence([up, pause, down])
         scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
