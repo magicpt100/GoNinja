@@ -922,17 +922,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         
         var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
+        smokeBomb.particleScale = 1.1
         smokeBomb.particleColorSequence = nil
         smokeBomb.particleColorBlendFactor = 0.5
         smokeBomb.particleColor = UIColor.grayColor()
         
         if hero.onGround == false
         {
-            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, 30)
+            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, groundHeightFactor * frameSize.height)
         }
         else
         {
-            smokeBomb.position = CGPointMake(heroPositionYFactor * frameSize.height, 350)
+            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, (swipeUpPosYFactor - groundHeightFactor) * frameSize.height)
         }
         bombAudioPlayer.currentTime = 0
         bombAudioPlayer.play()

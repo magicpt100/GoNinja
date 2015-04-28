@@ -174,7 +174,7 @@ class MALHero: SKSpriteNode {
         
         //Add left arm
         
-        leftArmAnchorPoint = SKSpriteNode(color: UIColor.blueColor(), size: CGSizeMake(anchorPointSize,anchorPointSize))
+        leftArmAnchorPoint = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(anchorPointSize,anchorPointSize))
         leftArmAnchorPoint.position = CGPointMake(0, leftAnchorY)
         body.addChild(leftArmAnchorPoint)
 
@@ -185,7 +185,7 @@ class MALHero: SKSpriteNode {
         
         //Add right arm
         
-        rightArmAnchorPoint = SKSpriteNode(color: UIColor.blueColor(), size: CGSizeMake(anchorPointSize, anchorPointSize))
+        rightArmAnchorPoint = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(anchorPointSize, anchorPointSize))
         //rightArmAnchorPoint = leftArmAnchorPoint.copy() as! SKSpriteNode
         rightArmAnchorPoint.position = CGPointMake(bodyWidth, leftAnchorY)
         body.addChild(rightArmAnchorPoint)
