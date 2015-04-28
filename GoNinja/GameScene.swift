@@ -71,7 +71,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var powerUpInstruction2:SKLabelNode!
     var powerUpIcon3: SKSpriteNode!
     var powerUpInstruction3:SKLabelNode!
-    var monsterIcon:SKSpriteNode!
+    var monsterIcon:MALMonster!
     var monsterInstruction:SKLabelNode!
     
     
@@ -91,6 +91,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     //PauseMenu
     var pauseMenu: UIView!
+    
+    //Start Screen Monster
+    var monster: MALMonster!
     
     
     /*
@@ -196,6 +199,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         HSButton.hidden = true
         titleLabel.hidden = true
         hero.removeFromParent()
+        monster.removeFromParent()
         
         if(tutorialOn)
         {
@@ -204,6 +208,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         else
         {
+            startAudioPlayer.stop()
             generateWorld(self.view!)
         }
     }
@@ -311,6 +316,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         hero = MALHero()
         addChild(hero)
         hero.breathe()
+        hero.startAnimation()
         
         titleLabel = SKLabelNode(text: "Go Ninja!")
         titleLabel.fontColor = UIColor.blackColor()
@@ -345,7 +351,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             self.view?.addSubview(muteButton)
         }
         
-        
+        //Add a monster
+        monster = MALMonster(topOrBot: 0)
+        monster.position = CGPointMake(frameSize.width * 0.67, frameSize.height/2)
+        monster.removeAllActions()
+        performOneRunCyle(monster)
+        addChild(monster)
+
 
         
     }
@@ -501,7 +513,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         monsterIcon = MALMonster(topOrBot: 0)
         monsterIcon.position = view.center
         monsterIcon.removeAllActions()
-        performOneRunCyle()
+        performOneRunCyle(monsterIcon)
         addChild(monsterIcon)
         monsterIcon.hidden = true
         
@@ -567,7 +579,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
 
     }
     
-    func performOneRunCyle()
+    func performOneRunCyle(monsterNode:MALMonster)
     {
         let upForward = SKAction.moveByX(8, y: 5, duration: 0.1)
         let downForward = SKAction.moveByX(8, y: -5, duration: 0.1)
@@ -575,13 +587,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let downForward2 = SKAction.moveByX(-8, y: -5, duration: 0.1)
         let walkAnimation = SKAction.sequence([upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward])
         let walkAnimation2 = SKAction.sequence([upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2])
-        monsterIcon.runAction(walkAnimation, completion: { () -> Void in
-            (self.monsterIcon as!MALMonster).direction *= -1
-            (self.monsterIcon as!MALMonster).changeFace()
-            self.monsterIcon.runAction(walkAnimation2, completion: { () -> Void in
-                (self.monsterIcon as!MALMonster).direction *= -1
-                (self.monsterIcon as!MALMonster).changeFace()
-                self.performOneRunCyle()
+        monsterNode.runAction(walkAnimation, completion: { () -> Void in
+            (monsterNode).direction *= -1
+            (monsterNode).changeFace()
+            monsterNode.runAction(walkAnimation2, completion: { () -> Void in
+                (monsterNode).direction *= -1
+                (monsterNode).changeFace()
+                self.performOneRunCyle(monsterNode)
             })
         })
 
@@ -890,14 +902,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if timer == nil
         {
             timer = CountDownTimer(time: 10)
-            timer!.position = CGPointMake(300, 300)
+            timer!.position = CGPointMake(frameSize.width/2, (1-groundHeightFactor/2) * frameSize.height)
             addChild(timer!)
         }
         else
         {
             timer?.removeFromParent()
             timer = CountDownTimer(time: 10)
-            timer!.position = CGPointMake(300, 320)
+            timer!.position = CGPointMake(frameSize.width/2, (1-groundHeightFactor/2) * frameSize.height)
             addChild(timer!)
         }
     }
@@ -916,11 +928,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if hero.onGround == false
         {
-            smokeBomb.position = CGPointMake(80, 30)
+            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, 30)
         }
         else
         {
-            smokeBomb.position = CGPointMake(80, 350)
+            smokeBomb.position = CGPointMake(heroPositionYFactor * frameSize.height, 350)
         }
         bombAudioPlayer.currentTime = 0
         bombAudioPlayer.play()

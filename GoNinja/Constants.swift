@@ -47,7 +47,7 @@ let footWidthFactor:CGFloat = 5.0/667.0
 let rightFootAdjustFactor:CGFloat = 0.5/667.0
 let anchorPointSizeFactor:CGFloat = 3.0/667.0
 let leftAnchorYFactor:CGFloat = 20.0/375.0
-let leftArmXFactor:CGFloat = 20.0/667.0
+let leftArmXFactor:CGFloat = 20.0/600
 let ninjaStarSizeFactor:CGFloat = 20.0/667.0
 let ninjaStarPosXFactor:CGFloat = 53.0/667.0
 let ninjaStarPosYFactor:CGFloat = 5.0/375.0
@@ -69,7 +69,8 @@ let cloudWidthFactor:CGFloat = 125.0/667.0
 let cloudHeightFactor:CGFloat = 55.0/375.0
 
 //Monster Parameters
-let monsterSizeFactor:CGFloat = 40.0/667.0
+let monsterWidthFactor:CGFloat = 40.0/667.0
+let monsterHeightFactor:CGFloat = 40.0/375.0
 let bodyUpCoverHeightFactor:CGFloat = 25.0/375.0
 let bodyUpCoverPosYFactor:CGFloat = 7.5/375.0
 let monsterRightEyeSizeFactor:CGFloat = 6.0/667.0

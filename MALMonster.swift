@@ -18,7 +18,8 @@ class MALMonster: SKSpriteNode {
     
     var direction:CGFloat = 1.0
     
-    let monsterSize = monsterSizeFactor * frameSize.width
+    let monsterWidth = monsterWidthFactor * frameSize.width
+    let monsterHeight = monsterHeightFactor * frameSize.height
     let bodyUpCoverHeight = bodyHeightFactor * frameSize.height
     let bodyUpCoverPosY = bodyUpCoverPosYFactor * frameSize.height
     let monsterRightEyeSize = monsterRightEyeSizeFactor * frameSize.width
@@ -37,10 +38,10 @@ class MALMonster: SKSpriteNode {
     init(topOrBot: Int){
         //Body
         let bodyColor = UIColor(red: 88.0/255.0, green: 148.0/255.0, blue: 87.0/255.0, alpha: 1.0)
-        super.init(texture: nil, color: bodyColor, size: CGSizeMake(monsterSize, monsterSize))
+        super.init(texture: nil, color: bodyColor, size: CGSizeMake(monsterWidth, monsterHeight))
         
         //upper Cover
-        let bodyUpperCover = SKSpriteNode(color: bodyColor, size: CGSizeMake(monsterSize, bodyUpCoverHeight))
+        let bodyUpperCover = SKSpriteNode(color: bodyColor, size: CGSizeMake(monsterWidth, bodyUpCoverHeight))
         bodyUpperCover.position = CGPointMake(0, bodyUpCoverPosY)
         bodyUpperCover.zPosition = 1
         addChild(bodyUpperCover)
@@ -81,8 +82,8 @@ class MALMonster: SKSpriteNode {
         monsterPhysicsBody.collisionBitMask = BodyType.wall.rawValue
         monsterPhysicsBody.allowsRotation = false
         monsterPhysicsBody.affectedByGravity = false
+        monsterPhysicsBody.mass = 0.0711111
         self.physicsBody = monsterPhysicsBody
-        
         //Cases where monster are generated at the top
         if topOrBot == 1
         {
