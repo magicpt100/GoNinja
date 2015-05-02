@@ -16,44 +16,61 @@ class MALMonster: SKSpriteNode {
     var leftTooth:SKSpriteNode!
     var rightTooth:SKSpriteNode!
     
-    var direction = 1.0
+    var direction:CGFloat = 1.0
+    
+    let monsterWidth = monsterWidthFactor * frameSize.width
+    let monsterHeight = monsterHeightFactor * frameSize.height
+    let bodyUpCoverHeight = bodyHeightFactor * frameSize.height
+    let bodyUpCoverPosY = bodyUpCoverPosYFactor * frameSize.height
+    let monsterRightEyeSize = monsterRightEyeSizeFactor * frameSize.width
+    let monsterRightEyePosX = monsterRightEyePosXFactor * frameSize.width
+    let monsterEyePosY = monsterEyePosYFactor * frameSize.height
+    let monsterLeftEyePosX = monsterLeftEyePosXFactor * frameSize.width
+    let mouthWidth = mouthWidthFactor * frameSize.width
+    let mouthHeight = mouthHeightFactor * frameSize.height
+    let mouthPosX = mouthPosXFactor * frameSize.width
+    let mouthPosY = mouthPosYFactor * frameSize.height
+    let toothWidth = toothWidthFactor * frameSize.width
+    let toothHeight = toothHeightFactor * frameSize.height
+    let toothPosY = toothPosYFactor * frameSize.height
+    let toothPosX = toothPosXFactor * frameSize.width
     
     init(topOrBot: Int){
         //Body
         let bodyColor = UIColor(red: 88.0/255.0, green: 148.0/255.0, blue: 87.0/255.0, alpha: 1.0)
-        super.init(texture: nil, color: bodyColor, size: CGSizeMake(40, 40))
+        super.init(texture: nil, color: bodyColor, size: CGSizeMake(monsterWidth, monsterHeight))
         
         //upper Cover
-        let bodyUpperCover = SKSpriteNode(color: bodyColor, size: CGSizeMake(40, 25))
-        bodyUpperCover.position = CGPointMake(0, 7.5)
+        let bodyUpperCover = SKSpriteNode(color: bodyColor, size: CGSizeMake(monsterWidth, bodyUpCoverHeight))
+        bodyUpperCover.position = CGPointMake(0, bodyUpCoverPosY)
         bodyUpperCover.zPosition = 1
         addChild(bodyUpperCover)
         
         //Right Eye
-        rightEye = SKSpriteNode(color: UIColor.redColor(), size: CGSizeMake(6, 6))
-        rightEye.position = CGPointMake(13, 8)
+        rightEye = SKSpriteNode(color: UIColor.redColor(), size: CGSizeMake(monsterRightEyeSize, monsterRightEyeSize))
+        rightEye.position = CGPointMake(monsterRightEyePosX, monsterEyePosY)
         rightEye.zPosition = 2
         addChild(rightEye)
         
         //left Eye
-        leftEye = SKSpriteNode(color: UIColor.redColor(), size: CGSizeMake(6, 6))
-        leftEye.position = CGPointMake(-3, 8)
+        leftEye = SKSpriteNode(color: UIColor.redColor(), size: CGSizeMake(monsterRightEyeSize, monsterRightEyeSize))
+        leftEye.position = CGPointMake(monsterLeftEyePosX, monsterEyePosY)
         leftEye.zPosition = 2
         addChild(leftEye)
         
         //mouth
-        mouth = SKSpriteNode(color: UIColor.blackColor(), size: CGSizeMake(24, 15))
-        mouth.position = CGPointMake(8, -12.5)
+        mouth = SKSpriteNode(color: UIColor.blackColor(), size: CGSizeMake(mouthWidth, mouthHeight))
+        mouth.position = CGPointMake(mouthPosX, mouthPosY)
         addChild(mouth)
         
         //left Tooth
-        leftTooth = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(6, 12))
-        leftTooth.position = CGPointMake(-3.5, 1.5)
+        leftTooth = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(toothWidth, toothHeight))
+        leftTooth.position = CGPointMake(-toothPosX, toothPosY)
         mouth.addChild(leftTooth)
         
         //right Tooth
-        rightTooth = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(6, 12))
-        rightTooth.position = CGPointMake(3.5, 1.5)
+        rightTooth = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(toothWidth, toothHeight))
+        rightTooth.position = CGPointMake(toothPosX, toothPosY)
         mouth.addChild(rightTooth)
         
         // physics body
@@ -65,8 +82,8 @@ class MALMonster: SKSpriteNode {
         monsterPhysicsBody.collisionBitMask = BodyType.wall.rawValue
         monsterPhysicsBody.allowsRotation = false
         monsterPhysicsBody.affectedByGravity = false
+        monsterPhysicsBody.mass = 0.0711111
         self.physicsBody = monsterPhysicsBody
-        
         //Cases where monster are generated at the top
         if topOrBot == 1
         {
@@ -80,8 +97,8 @@ class MALMonster: SKSpriteNode {
     
     func animateTeeth()
     {
-        let teethUpAction = SKAction.moveByX(0, y: 12, duration: 0.1)
-        let teethDownAction = SKAction.moveByX(0, y: -12, duration: 0.1)
+        let teethUpAction = SKAction.moveByX(0, y: toothHeight, duration: 0.1)
+        let teethDownAction = SKAction.moveByX(0, y: -toothHeight, duration: 0.1)
         let teethAnimation = SKAction.sequence([teethUpAction,SKAction.waitForDuration(1),teethDownAction,SKAction.waitForDuration(1)])
         rightTooth.runAction(SKAction.repeatActionForever(teethAnimation))
         leftTooth.runAction(SKAction.repeatActionForever(teethAnimation))
@@ -113,9 +130,9 @@ class MALMonster: SKSpriteNode {
     
     func changeFace()
     {
-        rightEye.position = CGPointMake(CGFloat(13 * direction), 8)
-        leftEye.position = CGPointMake(CGFloat(3 * -direction), 8)
-        mouth.position = CGPointMake(CGFloat(8 * direction), -12.5)
+        rightEye.position = CGPointMake(monsterRightEyePosX * direction, monsterEyePosY)
+        leftEye.position = CGPointMake(CGFloat(monsterLeftEyePosX * direction), monsterEyePosY)
+        mouth.position = CGPointMake(CGFloat(mouthPosX * direction), mouthPosY)
     }
     
     func die()

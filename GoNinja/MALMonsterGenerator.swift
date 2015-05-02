@@ -11,7 +11,7 @@ import SpriteKit
 
 class MALMonsterGenerator: SKSpriteNode {
     
-    
+    let monsterChagnePos = monsterChangePosFactor * frameSize.height
     func startGeneratingMonster()
     {
         var makeMonstersAction = SKAction.sequence([SKAction.runBlock(generateMonster),SKAction.waitForDuration(4)])
@@ -37,7 +37,7 @@ class MALMonsterGenerator: SKSpriteNode {
         }
         let monster = MALMonster(topOrBot: Int(rand1))
         monster.position.x = frameSize.width/2 + monster.size.width/2
-        monster.position.y = frameSize.height * 0.5 - scale * 125
+        monster.position.y = frameSize.height * 0.5 - scale * monsterChagnePos
         addChild(monster)
     }
     

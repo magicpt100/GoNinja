@@ -9,6 +9,7 @@
 //commit-push test by Alex
 
 import SpriteKit
+import AVFoundation
 
 class GameScene: SKScene,SKPhysicsContactDelegate {
     
@@ -22,14 +23,40 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var pointLabel: MALPointLabel!
     var isStart = false
     var isGameOver = false
-    var pauseButton: UIButton!
-    var startButton: UIButton!
-    var HSButton: UIButton!
-    var HSBackButton: UIButton!
+
     var cloudGenerator: MALCloudGenerator!
     var powerUpGenerator: PowerUpGenerator!
     var power: PowerUps!
     var timer: CountDownTimer?
+    
+    //Audio
+    var pauseOn = false
+    var muteOn = false
+    let muteOnIcon = UIImage(named: "mute on")
+    let muteOffIcon = UIImage(named: "mute off")
+    var muteButton: UIButton!
+    
+    //Audio URLs
+    var backgroundAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Background", ofType: "mp3")!)
+    var startAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Start", ofType: "mp3")!)
+    var collisionAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Collision", ofType: "wav")!)
+    var bombAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Bomb", ofType: "mp3")!)
+    var coinAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Coin", ofType: "mp3")!)
+    var jumpAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Jump", ofType: "mp3")!)
+    var powerupAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Powerup", ofType: "mp3")!)
+    var swordAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Sword", ofType: "mp3")!)
+    var starAudioURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Star", ofType: "mp3")!)
+    
+    //Audio Players
+    var backgroundAudioPlayer = AVAudioPlayer()
+    var startAudioPlayer = AVAudioPlayer()
+    var collisionAudioPlayer = AVAudioPlayer()
+    var bombAudioPlayer = AVAudioPlayer()
+    var coinAudioPlayer = AVAudioPlayer()
+    var jumpAudioPlayer = AVAudioPlayer()
+    var powerupAudioPlayer = AVAudioPlayer()
+    var swordAudioPlayer = AVAudioPlayer()
+    var starAudioPlayer = AVAudioPlayer()
     
     //Tutorial Node
     var tapInstructionIcon: SKSpriteNode!
@@ -38,6 +65,15 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var swipeUpInstruction: SKLabelNode!
     var swipeDownIcon: SKSpriteNode!
     var swipeDownInstruction: SKLabelNode!
+    var powerUpIcon1: SKSpriteNode!
+    var powerUpInstruction1:SKLabelNode!
+    var powerUpIcon2: SKSpriteNode!
+    var powerUpInstruction2:SKLabelNode!
+    var powerUpIcon3: SKSpriteNode!
+    var powerUpInstruction3:SKLabelNode!
+    var monsterIcon:MALMonster!
+    var monsterInstruction:SKLabelNode!
+    
     
     var titleLabel: SKLabelNode!
     
@@ -45,7 +81,23 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     var highScoresList: [AnyObject] = []
     
-    /*override init()
+    //Buttons
+    var pauseButton: UIButton!
+    var startButton: UIButton!
+    var resumeButton: UIButton!
+    var HSButton: UIButton!
+    var HSBackButton: UIButton!
+    var HomeButton: UIButton!
+    
+    //PauseMenu
+    var pauseMenu: UIView!
+    
+    //Start Screen Monster
+    var monster: MALMonster!
+    
+    
+    /*
+    override init()
     {
         super.init()
         
@@ -57,22 +109,87 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }*/
     
     override func didMoveToView(view: SKView) {
-
+        
+        backgroundAudioPlayer = AVAudioPlayer(contentsOfURL: backgroundAudioURL, error: nil)
+        startAudioPlayer = AVAudioPlayer(contentsOfURL: startAudioURL, error: nil)
+        collisionAudioPlayer = AVAudioPlayer(contentsOfURL: collisionAudioURL, error: nil)
+        bombAudioPlayer = AVAudioPlayer(contentsOfURL: bombAudioURL, error: nil)
+        coinAudioPlayer = AVAudioPlayer(contentsOfURL: coinAudioURL, error: nil)
+        jumpAudioPlayer = AVAudioPlayer(contentsOfURL: jumpAudioURL, error: nil)
+        powerupAudioPlayer = AVAudioPlayer(contentsOfURL: powerupAudioURL, error: nil)
+        swordAudioPlayer = AVAudioPlayer(contentsOfURL: swordAudioURL, error: nil)
+        starAudioPlayer = AVAudioPlayer(contentsOfURL: starAudioURL, error: nil)
+        startAudioPlayer.volume = 0.3
+        backgroundAudioPlayer.volume = 0.3
         loadHighScores()
         openMenu(view)
+        println(frameSize)
         
-
     }
     
     func pausePressed(sender:UIButton){
     
-        //isStart = false
-        //loadMenu = true
-        //jumpCount = -1
-        //self.removeAllChildren()
-        //openMenu(self.view!)
-        self.paused = !self.paused
+        self.paused = true
+        pauseMenu = UIView(frame: frame)
+        pauseMenu.backgroundColor = UIColor(white: 1.0, alpha: 0.5)
+        resumeButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        resumeButton.setTitle("Resume", forState: UIControlState.Normal)
+        resumeButton.frame = CGRectMake(frameSize.width/2-40, frameSize.height/2 - 20, 80, 20)
+        resumeButton.addTarget(self, action: "resume:", forControlEvents: UIControlEvents.TouchUpInside)
+        pauseMenu.addSubview(resumeButton)
+        self.view?.addSubview(pauseMenu)
         
+        HomeButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        HomeButton.setTitle("Home", forState: UIControlState.Normal)
+        HomeButton.frame = CGRectMake(frameSize.width/2-40,frameSize.height/2 + 20, 80, 20)
+        HomeButton.addTarget(self, action: "goHome:", forControlEvents: UIControlEvents.TouchUpInside)
+        pauseMenu.addSubview(HomeButton)
+    }
+    
+    func mutePressed(sender:UIButton){
+        if (muteOn == true) {
+            muteOn = false
+            backgroundAudioPlayer.volume = 0.3
+            startAudioPlayer.volume = 0.3
+            collisionAudioPlayer.volume = 1.0
+            bombAudioPlayer.volume = 1.0
+            coinAudioPlayer.volume = 1.0
+            jumpAudioPlayer.volume = 1.0
+            powerupAudioPlayer.volume = 1.0
+            swordAudioPlayer.volume = 1.0
+            starAudioPlayer.volume = 1.0
+            muteButton.setBackgroundImage(muteOffIcon, forState: UIControlState.Normal)
+        }
+        else if (muteOn == false) {
+            muteOn = true
+            backgroundAudioPlayer.volume = 0.0
+            startAudioPlayer.volume = 0.0
+            collisionAudioPlayer.volume = 0.0
+            bombAudioPlayer.volume = 0.0
+            coinAudioPlayer.volume = 0.0
+            jumpAudioPlayer.volume = 0.0
+            powerupAudioPlayer.volume = 0.0
+            swordAudioPlayer.volume = 0.0
+            starAudioPlayer.volume = 0.0
+            muteButton.setBackgroundImage(muteOnIcon, forState: UIControlState.Normal)
+        }
+    }
+    
+    func resume(sender:UIButton)
+    {
+        self.paused = false
+        pauseMenu.removeFromSuperview()
+    }
+    
+    func goHome(sender:UIButton)
+    {
+        pauseMenu.removeFromSuperview()
+        self.paused = false
+        cleanUp()
+        backgroundAudioPlayer.stop()
+        loadMenu = true
+        loadHighScores()
+        openMenu(self.view!)
     }
     
     func startPressed(sender: UIButton)
@@ -82,6 +199,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         HSButton.hidden = true
         titleLabel.hidden = true
         hero.removeFromParent()
+        monster.removeFromParent()
         
         if(tutorialOn)
         {
@@ -90,6 +208,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         else
         {
+            startAudioPlayer.stop()
             generateWorld(self.view!)
         }
     }
@@ -104,7 +223,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         HSBackButton.hidden = true
         openMenu(self.view!)
     }
-    
+
     func applicationDidEnterBackGround (){
         self.paused = !self.paused
     }
@@ -135,11 +254,55 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 swipeUpIcon.hidden = false
                 swipeUpInstruction.hidden = false
             }
+            else if tutorialIndex == 3
+            {
+                monsterIcon.hidden = true
+                monsterInstruction.hidden = true
+                tutorialIndex += 1
+                powerUpIcon1.hidden = false
+                powerUpInstruction1.hidden = false
+            }
+            else if tutorialIndex == 4
+            {
+                powerUpIcon1.hidden = true
+                powerUpInstruction1.hidden = true
+                tutorialIndex += 1
+                powerUpIcon2.hidden = false
+                powerUpInstruction2.hidden = false
+            }
+            else if tutorialIndex == 5
+            {
+                powerUpIcon2.hidden = true
+                powerUpInstruction2.hidden = true
+                tutorialIndex += 1
+                powerUpIcon3.hidden = false
+                powerUpInstruction3.hidden = false
+            }
+            else if tutorialIndex == 6
+            {
+                powerUpIcon3.hidden = true
+                powerUpInstruction3.hidden = true
+                tutorialIndex += 1
+                tutorialStart = false
+                tutorialOn = false
+                startAudioPlayer.stop()
+                reStartGame()
+            }
         }
     }
     
     func openMenu(view: SKView)
     {
+        let titleLabelPosX = titlelabelPosXFactor * frameSize.width
+        let titleLabelPosY = titlelabelPosYFactor * frameSize.height
+        let startButtonPosX = startButtonPosXFactor * frameSize.width
+        let startButtonPosY = startButtonPosYFactor * frameSize.height
+        let startButtonWidth = buttonWidthFactor * frameSize.width
+        let startButtonHeight = buttonHeightFactor * frameSize.height
+        let HSButtonWidth = buttonWidthFactor * frameSize.width
+        let HSButtonPosY = HSButtonPosYFactor * frameSize.height
+        
+        
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
 
         // Add the ground
@@ -154,28 +317,48 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         hero = MALHero()
         addChild(hero)
         hero.breathe()
+        hero.startAnimation()
         
         titleLabel = SKLabelNode(text: "Go Ninja!")
         titleLabel.fontColor = UIColor.blackColor()
         titleLabel.fontName = gameFont
         titleLabel.fontSize = 40.0
-        titleLabel.position = CGPointMake(335, 280)
+        titleLabel.position = CGPointMake(titleLabelPosX, titleLabelPosY)
         addChild(titleLabel)
         
         startButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        startButton.frame = CGRectMake(300, 150, 80, 20)
+        startButton.frame = CGRectMake(startButtonPosX, startButtonPosY,startButtonWidth, startButtonHeight)
         startButton.setTitle("Start game", forState: UIControlState.Normal)
         startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(startButton)
         
         HSButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        HSButton.frame = CGRectMake(300, 200, 90, 20)
+        HSButton.frame = CGRectMake(startButtonPosX, HSButtonPosY, HSButtonWidth, startButtonHeight)
         HSButton.setTitle("High scores", forState: UIControlState.Normal)
         HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(HSButton)
         
+        startAudioPlayer.play()
         
+        //Add the mute Button
+        if muteButton == nil
+        {
+            let pauseButtonSize = pauseButtonSizeFactor * frameSize.width
+            let pauseButtonPosX = pauseButtonPosXFactor * frameSize.width
+            muteButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+            muteButton.frame = CGRectMake(frameSize.width - pauseButtonPosX, frameSize.height - pauseButtonSize, pauseButtonSize, pauseButtonSize)
+            muteButton.setBackgroundImage(muteOffIcon, forState: UIControlState.Normal)
+            muteButton.addTarget(self, action: "mutePressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.view?.addSubview(muteButton)
+        }
         
+        //Add a monster
+        monster = MALMonster(topOrBot: 0)
+        monster.position = CGPointMake(frameSize.width * 0.67, frameSize.height/2)
+        monster.removeAllActions()
+        performOneRunCyle(monster)
+        addChild(monster)
+
 
         
     }
@@ -188,12 +371,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if let loadScores = defaults.arrayForKey("GoNinjaHighScores")
         {
-            println("load list")
+            //println("load list")
             highScoresList = defaults.arrayForKey("GoNinjaHighScores") as! [NSInteger]
         }
         else
         {
-            println("new list")
+            //println("new list")
             highScoresList.append(0)
             highScoresList.append(0)
             highScoresList.append(0)
@@ -207,12 +390,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func openHighScores(view: SKView)
     {
+        let HSBackButtonPosX = HSBackButtonPosXFactor * frameSize.width
+        let HSBackButtonPosY = HSBackButtonPosYFactor * frameSize.height
+        let buttonWidth = buttonWidthFactor * frameSize.width
+        let buttonHeight = buttonHeightFactor * frameSize.height
+        let hsLabelPosX = hsLabelPosXFactor * frameSize.width
+        let hsLabelPosY = hsLabelPosYFactor * frameSize.height
+        let hsInitialPos = hsInitialPosFactor * frameSize.height
+        let hsSlot = hsSlotFactor * frameSize.height
+        
         titleLabel.hidden = true
         HSButton.hidden = true
         startButton.hidden = true
         
         HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        HSBackButton.frame = CGRectMake(300, 300, 90, 20)
+        HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, buttonWidth, buttonHeight)
         HSBackButton.setTitle("Back", forState: UIControlState.Normal)
         HSBackButton.addTarget(self, action: "HSBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(HSBackButton)
@@ -224,7 +416,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         hsLabel.fontName = gameFont
         hsLabel.fontSize = 30.0
         
-        hsLabel.position = CGPointMake(340, 300)
+        hsLabel.position = CGPointMake(hsLabelPosX, hsLabelPosY)
         addChild(hsLabel)
 
         for i in 0...4
@@ -241,9 +433,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             text.fontName = gameFont
             text.fontSize = 20.0
             
-            var offset: CGFloat = 250 - (CGFloat(i) * 30.0)
+            var offset: CGFloat = hsInitialPos - (CGFloat(i) * hsSlot)
             
-            text.position = CGPointMake(340, offset)
+            text.position = CGPointMake(hsLabelPosX, offset)
             addChild(text)
 
         }
@@ -317,7 +509,94 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(swipeDownInstruction)
         animationWithPulse(swipeDownInstruction)
         
+        //Add Monster instructions
+        
+        monsterIcon = MALMonster(topOrBot: 0)
+        monsterIcon.position = view.center
+        monsterIcon.removeAllActions()
+        performOneRunCyle(monsterIcon)
+        addChild(monsterIcon)
+        monsterIcon.hidden = true
+        
+        monsterInstruction = SKLabelNode(text: "This evil hamster is not your pet! Dodge it or you gonna get bited")
+        monsterInstruction.fontColor = UIColor.blackColor()
+        monsterInstruction.fontSize = 18.0
+        monsterInstruction.fontName = gameFont
+        monsterInstruction.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(monsterInstruction)
+        animationWithPulse(monsterInstruction)
+        monsterInstruction.hidden = true
+        
+        //Add power Up instructions
+        
+        //power up 1
+        powerUpIcon1 = SKSpriteNode(imageNamed: "powerUp1")
+        powerUpIcon1.size = CGSizeMake(40, 40)
+        powerUpIcon1.position = view.center
+        addChild(powerUpIcon1)
+        powerUpIcon1.hidden = true
+        
+        powerUpInstruction1 = SKLabelNode(text: "The Sword of Magic: Use it to kill monsters")
+        powerUpInstruction1.fontColor = UIColor.blackColor()
+        powerUpInstruction1.fontName = gameFont
+        powerUpInstruction1.fontSize = 20.0
+        powerUpInstruction1.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(powerUpInstruction1)
+        animationWithPulse(powerUpInstruction1)
+        powerUpInstruction1.hidden = true
+        
+        //power up 2
+        powerUpIcon2 = SKSpriteNode(imageNamed: "powerUp2")
+        powerUpIcon2.size = CGSizeMake(40, 40)
+        powerUpIcon2.position = view.center
+        addChild(powerUpIcon2)
+        powerUpIcon2.hidden = true
+        
+        powerUpInstruction2 = SKLabelNode(text: "Ghost Power: You can go through walls!")
+        powerUpInstruction2.fontColor = UIColor.blackColor()
+        powerUpInstruction2.fontName = gameFont
+        powerUpInstruction2.fontSize = 20.0
+        powerUpInstruction2.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(powerUpInstruction2)
+        animationWithPulse(powerUpInstruction2)
+        powerUpInstruction2.hidden = true
+        
+        //power up 3
+        powerUpIcon3 = SKSpriteNode(imageNamed: "powerUp3")
+        powerUpIcon3.size = CGSizeMake(40, 40)
+        powerUpIcon3.position = view.center
+        addChild(powerUpIcon3)
+        powerUpIcon3.hidden = true
+        
+        powerUpInstruction3 = SKLabelNode(text: "Shuriken Master: throw shurikens to break everything")
+        powerUpInstruction3.fontColor = UIColor.blackColor()
+        powerUpInstruction3.fontName = gameFont
+        powerUpInstruction3.fontSize = 20.0
+        powerUpInstruction3.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(powerUpInstruction3)
+        animationWithPulse(powerUpInstruction3)
+        powerUpInstruction3.hidden = true
         tutorialStart = true
+
+    }
+    
+    func performOneRunCyle(monsterNode:MALMonster)
+    {
+        let upForward = SKAction.moveByX(8, y: 5, duration: 0.1)
+        let downForward = SKAction.moveByX(8, y: -5, duration: 0.1)
+        let upForward2 = SKAction.moveByX(-8, y: 5, duration: 0.1)
+        let downForward2 = SKAction.moveByX(-8, y: -5, duration: 0.1)
+        let walkAnimation = SKAction.sequence([upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward,upForward,downForward])
+        let walkAnimation2 = SKAction.sequence([upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2,upForward2,downForward2])
+        monsterNode.runAction(walkAnimation, completion: { () -> Void in
+            (monsterNode).direction *= -1
+            (monsterNode).changeFace()
+            monsterNode.runAction(walkAnimation2, completion: { () -> Void in
+                (monsterNode).direction *= -1
+                (monsterNode).changeFace()
+                self.performOneRunCyle(monsterNode)
+            })
+        })
 
     }
     
@@ -360,7 +639,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         hero.breathe()
         
         //Add tapToStart label
-        
         tapToStartLabel = SKLabelNode(text: "Tap to Start")
         tapToStartLabel.zPosition = 1
         tapToStartLabel.fontName = gameFont
@@ -376,14 +654,15 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(pointLabel)
         
         //Add the pause Button
-        
+        let pauseButtonPosX = pauseButtonPosXFactor * frameSize.width
+        let pauseButtonSize = pauseButtonSizeFactor * frameSize.width
         let pauseIcon = UIImage(named: "pauseIcon")
         pauseButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        pauseButton.frame = CGRectMake(frameSize.width - 30, 0, 27, 27)
+        pauseButton.frame = CGRectMake(frameSize.width - pauseButtonPosX, 0, pauseButtonSize, pauseButtonSize)
         pauseButton.setBackgroundImage(pauseIcon, forState: UIControlState.Normal)
         pauseButton.addTarget(self, action: "pausePressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(pauseButton)
-        
+                
         //Add Monster Generator
         monsterGenerator = MALMonsterGenerator()
         addChild(monsterGenerator)
@@ -411,6 +690,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         monsterGenerator.startGeneratingMonster()
         tapToStartLabel.removeFromParent()
         powerUpGenerator.startGeneratingPowers()
+        backgroundAudioPlayer.play()
     }
     
     func gameOver(){
@@ -428,6 +708,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         powerUpGenerator.stop()
         groundBot.stop()
         groundTop.stop()
+        pauseButton.removeFromSuperview()
         if timer != nil
         {
             timer!.removeFromParent()
@@ -435,7 +716,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         jumpCount = -1
         
         updateHighScores(pointLabel.text.toInt()!)
-        
+        backgroundAudioPlayer.stop()
     }
     
     func updateHighScores(score: Int)
@@ -463,7 +744,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         intScores = intScores.reverse()
         
-        println(intScores)
+        //println(intScores)
         
         
         for i in 0...4
@@ -475,6 +756,22 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     func reStartGame(){
+        cleanUp()
+        if(loadMenu)
+        {
+            openMenu(self.view!)
+        }
+        else
+        {
+            generateWorld(self.view!)
+        }
+        backgroundAudioPlayer.stop()
+        backgroundAudioPlayer.currentTime = 0
+        backgroundAudioPlayer.play()
+    }
+    
+    func cleanUp()
+    {
         pointsRaw = 0
         groundTop.removeFromParent()
         groundBot.removeFromParent()
@@ -490,19 +787,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         hero.removeFromParent()
         self.removeAllChildren()
-        
-        if(loadMenu)
-        {
-            openMenu(self.view!)
+        if pauseButton != nil{
+            pauseButton.removeFromSuperview()
         }
-        else
-        {
-            generateWorld(self.view!)
-        }
-        
         isStart = false
         isGameOver = false
         jumpCount = -1
+
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -512,6 +803,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         {
             if bodyB.categoryBitMask == BodyType.power_ups.rawValue
             {
+                powerupAudioPlayer.play()
                 hero.removePowerUpEffect()
                 hero.receivePowerUp((bodyB.node as! PowerUps).getType())
                 makeTimer(10)
@@ -521,16 +813,19 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             {
                 if (hero.powerUpStatus == 1)
                 {
+                    swordAudioPlayer.play()
                     hero.swingSword()
                     (bodyB.node as! MALMonster).die()
                 }
                 else
                 {
+                    collisionAudioPlayer.play()
                     gameOver()
                 }
             }
             else if bodyB.categoryBitMask == BodyType.wall.rawValue
             {
+                    collisionAudioPlayer.play()
                     gameOver()
             }
             else if(bodyB.categoryBitMask == BodyType.coin.rawValue)
@@ -551,6 +846,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         {
             if bodyA.categoryBitMask == BodyType.power_ups.rawValue
             {
+                powerupAudioPlayer.play()
                 hero.removePowerUpEffect()
                 hero.receivePowerUp((bodyA.node as! PowerUps).getType())
                 makeTimer(10)
@@ -560,16 +856,19 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             {
                 if (hero.powerUpStatus == 1)
                 {
+                    swordAudioPlayer.play()
                     hero.swingSword()
                     (bodyA.node as! MALMonster).die()
                 }
                 else
                 {
+                    collisionAudioPlayer.play()
                     gameOver()
                 }
             }
             else if bodyA.categoryBitMask == BodyType.wall.rawValue
             {
+                collisionAudioPlayer.play()
                 gameOver()
             }
             else if(bodyA.categoryBitMask == BodyType.coin.rawValue)
@@ -602,10 +901,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             if bodyB.categoryBitMask == BodyType.monster.rawValue
             {
                 (bodyB.node as! MALMonster).die()
+                starAudioPlayer.play()
             }
             else
             {
                 bodyB.node!.removeFromParent()
+                starAudioPlayer.play()
             }
             //hero.restoreStar()
         }
@@ -614,10 +915,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             if bodyA.categoryBitMask == BodyType.monster.rawValue
             {
                 (bodyA.node as! MALMonster).die()
+                starAudioPlayer.play()
             }
             else
             {
                 bodyA.node!.removeFromParent()
+                starAudioPlayer.play()
             }
             //hero.restoreStar()
         }
@@ -627,14 +930,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if timer == nil
         {
             timer = CountDownTimer(time: 10)
-            timer!.position = CGPointMake(300, 300)
+            timer!.position = CGPointMake(frameSize.width/2, (1-groundHeightFactor/2) * frameSize.height)
             addChild(timer!)
         }
         else
         {
             timer?.removeFromParent()
             timer = CountDownTimer(time: 10)
-            timer!.position = CGPointMake(300, 320)
+            timer!.position = CGPointMake(frameSize.width/2, (1-groundHeightFactor/2) * frameSize.height)
             addChild(timer!)
         }
     }
@@ -652,18 +955,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         
         var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
+        smokeBomb.particleScale = 1.1
         smokeBomb.particleColorSequence = nil
         smokeBomb.particleColorBlendFactor = 0.5
         smokeBomb.particleColor = UIColor.grayColor()
         
         if hero.onGround == false
         {
-            smokeBomb.position = CGPointMake(80, 30)
+            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, groundHeightFactor * frameSize.height)
         }
         else
         {
-            smokeBomb.position = CGPointMake(80, 350)
+            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, (swipeUpPosYFactor - groundHeightFactor) * frameSize.height)
         }
+        bombAudioPlayer.currentTime = 0
+        bombAudioPlayer.play()
         addChild(smokeBomb)
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_MSEC * 500))
         dispatch_after(delayTime, dispatch_get_main_queue(), {smokeBomb.removeFromParent()})

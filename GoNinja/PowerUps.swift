@@ -17,8 +17,8 @@ class PowerUps: SKSpriteNode {
     {
         self.type = type
         let powerUpTexture = SKTexture(imageNamed: textureArray[type-1])
-        super.init(texture: powerUpTexture, color: UIColor.yellowColor(), size: CGSizeMake(40, 40))
-        self.position = CGPointMake(frameSize.width, 300)
+        super.init(texture: powerUpTexture, color: UIColor.yellowColor(), size: CGSizeMake(powerUpSize, powerUpSize))
+        self.position = CGPointMake(frameSize.width, powerUpPosY)
         var powerUpPhysicsBody = SKPhysicsBody(rectangleOfSize: self.frame.size)
         powerUpPhysicsBody.categoryBitMask = BodyType.power_ups.rawValue
         powerUpPhysicsBody.collisionBitMask = 0

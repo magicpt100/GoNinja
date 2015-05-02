@@ -13,6 +13,9 @@ class GameViewController: UIViewController {
     
     var animator:UIDynamicAnimator!
     var scene : GameScene!
+    var swipeUpPosX:CGFloat = 200.0
+    var swipeUpPosY:CGFloat = 375.0
+    var jumpHeightAdditon: CGFloat = 50.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +25,8 @@ class GameViewController: UIViewController {
         skView.multipleTouchEnabled = false
         
         // create and configure teh scene
-        scene = GameScene(size: skView.bounds.size)
+        scene = GameScene()
+        scene.size = skView.bounds.size
         //scene.scaleMode = .AspectFill
         
         // set the frameSize
@@ -32,10 +36,14 @@ class GameViewController: UIViewController {
         //skView.showsFPS = true
         //skView.showsNodeCount = true
         skView.presentScene(scene)
+        swipeUpPosX = swipeUpPosXFactor * frameSize.width
+        swipeUpPosY = swipeUpPosYFactor * frameSize.height
+        jumpHeightAdditon = jumpHeightAdditionFactor * frameSize.height
     }
 
     @IBAction func swipeHandler(sender: UIPanGestureRecognizer)
     {
+        if !scene.paused{
         if !scene.hero.starInAir {
         let rotateCW = SKAction.rotateByAngle(CGFloat(M_PI), duration: 0)
         let rotateCCW = SKAction.rotateByAngle(-CGFloat(M_PI), duration: 0)
@@ -51,7 +59,7 @@ class GameViewController: UIViewController {
         {
             scene.hero.onGround = false
             scene.hero.runAction(rotateCCW)
-            scene.hero.position = CGPointMake(200, 375)
+            scene.hero.position = CGPointMake(swipeUpPosX, swipeUpPosY)
             scene.dropSmokeBomb()
         }
         }
@@ -68,16 +76,16 @@ class GameViewController: UIViewController {
             scene.swipeDownIcon.hidden = true
             scene.swipeDownInstruction.hidden = true
             tutorialIndex += 1
-            tutorialStart = false
-            tutorialOn = false
-            scene.reStartGame()
+            scene.monsterIcon.hidden = false
+            scene.monsterInstruction.hidden = false
         }
-        
+        }
         
     }
 
     @IBAction func tapHandler(sender: UITapGestureRecognizer)
     {
+        if !scene.paused{
         if scene.hero.powerUpStatus != 3 {
         if (!scene.hero.body.hasActions()) { //Jump not currently in progress
             if (jumpCount > 0) {
@@ -88,21 +96,23 @@ class GameViewController: UIViewController {
                 } else if (jumpCount % 3 == 0) {
                     backFlip()
                 }
+                scene.jumpAudioPlayer.play()
             }
             }; jumpCount += 1 }
         else
         {
             scene.hero.throwNinjaStar()
         }
+        }
     }
     
     func frontFlip() {
         var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
-        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + 50
+        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + jumpHeightAdditon
         
-        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
-        let flip = SKAction.rotateByAngle((2 * CGFloat(-M_PI)), duration: 0.3)
-        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.1)
+        let flip = SKAction.rotateByAngle((2 * CGFloat(-M_PI)), duration: 0.5)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.1)
         
         let jumpSequence = SKAction.sequence([up, flip, down])
         scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
@@ -110,11 +120,11 @@ class GameViewController: UIViewController {
     
     func backFlip() {
         var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
-        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + 50
+        var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage) + jumpHeightAdditon
         
-        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
-        let flip = SKAction.rotateByAngle((2 * CGFloat(M_PI)), duration: 0.3)
-        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.1)
+        let flip = SKAction.rotateByAngle((2 * CGFloat(M_PI)), duration: 0.5)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.1)
         
         let jumpSequence = SKAction.sequence([up, flip, down])
         scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
@@ -124,9 +134,9 @@ class GameViewController: UIViewController {
         var wallHeightAverage : CGFloat = ((wallHeightFactorTall + wallHeightFactorLow) / 2)
         var jumpHeight : CGFloat = (frameSize.height * wallHeightAverage)
         
-        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.25)
-        let pause = SKAction.moveByX(0, y: 0, duration: 0.3)
-        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.25)
+        let up = SKAction.moveByX(0, y: jumpHeight, duration: 0.1)
+        let pause = SKAction.moveByX(0, y: 0, duration: 0.5)
+        let down = SKAction.moveByX(0, y: -jumpHeight, duration: 0.1)
         
         let jumpSequence = SKAction.sequence([up, pause, down])
         scene.hero.body.runAction(SKAction.repeatAction(jumpSequence, count: 1))
