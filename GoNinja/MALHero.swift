@@ -29,13 +29,56 @@ class MALHero: SKSpriteNode {
     var powerUpStatus = 0 // 0,1,2,3,4 - 0: no powerUps
     
     var starInAir = false
-    var clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
+    
+    let bodyHeight = bodyHeightFactor * frameSize.height
+    let bodyWidth = bodyWidthFactor * frameSize.width
+    let heroPositionX = heroPositionXFactor * frameSize.width
+    let heroPositionY = heroPositionYFactor * frameSize.height
+    let headWidth = headWidthFactor * frameSize.width
+    let headHeight = headHeightFactor * frameSize.height
+    let headPosition = headPositionFactor * frameSize.width
+    let faceStart = faceStartFactor * frameSize.width
+    let faceEnd = faceEndFactor * frameSize.width
+    let faceY = faceYFactor * frameSize.height
+    let leftEyeX = leftEyeXFactor * frameSize.width
+    let rightEyeX = rightEyeXFactor * frameSize.width
+    let eyeY = eyeYFactor * frameSize.height
+    let eyeSizeX = eyeSizeXFactor * frameSize.width
+    let eyeSizeY = eyeSizeYFactor * frameSize.height
+    let leftEyeBrowX = leftEyeBrowXFactor * frameSize.width
+    let leftEyeBrowY = leftEyeBrowYFactor * frameSize.height
+    let leftEyeBrowPosX = leftEyeBrowPosXFactor * frameSize.width
+    let rightEyeBrowPosX = rightEyeBrowPosXFactor * frameSize.width
+    let eyeBrowPosY = eyeBrowPosYFactor * frameSize.height
+    let footHeight = footHeightFactor * frameSize.height
+    let footWidth = footWidthFactor * frameSize.width
+    let rightFootAdjustment = rightFootAdjustFactor * frameSize.width
+    let anchorPointSize = anchorPointSizeFactor * frameSize.width
+    let leftAnchorY = leftAnchorYFactor * frameSize.height
+    let leftArmX = leftArmXFactor * frameSize.width
+    let ninjaStarSize = ninjaStarSizeFactor * frameSize.width
+    let ninjaStarPosX = ninjaStarPosXFactor * frameSize.width
+    let ninjaStarPosY = ninjaStarPosYFactor * frameSize.height
+    let ninjaSwordSizeX = ninjaSwordSizeXFactor * frameSize.width
+    let ninjaSwordSizeY = ninjaSwordSizeYFactor * frameSize.height
+    let ninjaSwordPosY = ninjaSwordPosYFactor * frameSize.height
+    let heroPhysicsWidth = heroPhysicsWidthFactor * frameSize.width
+    let heroPhysicsHeight = heroPhysicsHeightFactor * frameSize.height
+    let heroPhysicsCenterX = heroPhysicsCenterXFactor * frameSize.width
+    let heroPhysicsCenterY = heroPhysicsCenterYFactor * frameSize.height
+    let newStarSize = newStarSizeFactor * frameSize.width
+    let newStarPosX = newStarPosXFactor * frameSize.width
+    let newStarPosY = newStarPosYFactor * frameSize.height
+    let newSwordPosX = newSwordPosXFactor * frameSize.width
+    let newSwordPosY = newSwordPosYFactor * frameSize.height
+    
+    let clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
+
 
     override init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
-        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(40, 25))
         onGround = true
-        
+        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(bodyWidth, bodyHeight))
         // Add the body
         
         body = SKShapeNode(rect: CGRect(origin: CGPointMake(0, 0), size: CGSizeMake(bodyWidth, bodyHeight)), cornerRadius: 1.0)

@@ -13,6 +13,9 @@ class PowerUps: SKSpriteNode {
     
     var type:Int
     let textureArray = ["powerUp1","powerUp2","powerUp3","powerUp4"]
+    let powerUpSize = powerUpSizeFactor * frameSize.width
+    let powerUpPosY = powerUpPosYFactor * frameSize.height
+    
     init(type:Int)
     {
         self.type = type
