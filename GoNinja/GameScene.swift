@@ -80,6 +80,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var loadMenu = true
     
     var highScoresList: [AnyObject] = []
+    var settings: [AnyObject] = []
     
     //Buttons
     var pauseButton: UIButton!
@@ -88,6 +89,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var HSButton: UIButton!
     var HSBackButton: UIButton!
     var HomeButton: UIButton!
+    var settingsButton: UIButton!
+    var settingsBackButton: UIButton!
     
     //PauseMenu
     var pauseMenu: UIView!
@@ -95,6 +98,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     //Start Screen Monster
     var monster: MALMonster!
     
+    var bgmSlider: UISlider!
+    var sfxSlider: UISlider!
+    
+    var bgmLabel: SKLabelNode!
+    var sfxLabel: SKLabelNode!
     
     /*
     override init()
@@ -198,6 +206,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         startButton.hidden = true
         HSButton.hidden = true
         titleLabel.hidden = true
+        settingsButton.hidden = true
         hero.removeFromParent()
         monster.removeFromParent()
         
@@ -217,10 +226,33 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     {
         openHighScores(self.view!)
     }
+    
+    func settingsPressed(sender: UIButton)
+    {
+        openSettings(self.view!)
+    }
+    
+    
     func HSBackButtonPressed(sender: UIButton)
     {
         self.removeAllChildren()
         HSBackButton.hidden = true
+        openMenu(self.view!)
+    }
+    
+    func settingsBackButtonPressed(sender: UIButton)
+    {
+        settings[1] = bgmSlider.value
+        settings[2] = sfxSlider.value
+        
+        self.removeAllChildren()
+        bgmSlider.removeFromSuperview()
+        sfxSlider.removeFromSuperview()
+        HSBackButton.hidden = true
+        
+        NSUserDefaults.standardUserDefaults().setObject(settings, forKey: "GoNinjaSettings")
+        
+        
         openMenu(self.view!)
     }
 
@@ -229,6 +261,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+
         /* Called when a touch begins */
         
         if !tutorialStart
@@ -284,6 +317,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 tutorialIndex += 1
                 tutorialStart = false
                 tutorialOn = false
+                
+                settings[0] = 0.0
+                NSUserDefaults.standardUserDefaults().setObject(settings, forKey: "GoNinjaSettings")
+                
                 startAudioPlayer.stop()
                 reStartGame()
             }
@@ -292,6 +329,34 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func openMenu(view: SKView)
     {
+        
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        if let loadSettings = defaults.arrayForKey("GoNinjaSettings")
+        {
+            println("load settings")
+            settings = defaults.arrayForKey("GoNinjaSettings") as! [Float]
+            
+            if settings[0] as! Float == 0.0
+            {
+                tutorialOn = false
+            }
+            else
+            {
+                tutorialOn = true
+            }
+        }
+        else
+        {
+            println("new settings")
+            settings.append(1.0)//tutorial 1.0: true 0.0: false
+            settings.append(100.0)//bgm volume. 100% by default
+            settings.append(100.0)
+            defaults.setObject(settings, forKey: "GoNinjaSettings")
+        }
+        
+        
         let titleLabelPosX = titlelabelPosXFactor * frameSize.width
         let titleLabelPosY = titlelabelPosYFactor * frameSize.height
         let startButtonPosX = startButtonPosXFactor * frameSize.width
@@ -300,6 +365,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let startButtonHeight = buttonHeightFactor * frameSize.height
         let HSButtonWidth = buttonWidthFactor * frameSize.width
         let HSButtonPosY = HSButtonPosYFactor * frameSize.height
+        let settingsButtonPosY = settingsButtonPosYFactor * frameSize.height
+        
+        let buttonImage: UIImage! = UIImage(named:"button.png")
         
         
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
@@ -326,9 +394,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(titleLabel)
         
         startButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        startButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         startButton.frame = CGRectMake(startButtonPosX, startButtonPosY,startButtonWidth, startButtonHeight)
         startButton.setTitle("Start game", forState: UIControlState.Normal)
         startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        startButton.setBackgroundImage(buttonImage, forState: .Normal)
+
         self.view?.addSubview(startButton)
         
         HSButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
@@ -336,6 +407,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         HSButton.setTitle("High scores", forState: UIControlState.Normal)
         HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(HSButton)
+        
+        settingsButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        settingsButton.frame = CGRectMake(startButtonPosX, settingsButtonPosY, HSButtonWidth, startButtonHeight)
+        settingsButton.setTitle("Settings", forState: UIControlState.Normal)
+        settingsButton.addTarget(self, action: "settingsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(settingsButton)
+        
         
         startAudioPlayer.play()
         
@@ -387,6 +465,54 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
     }
     
+    func openSettings(view: SKView)
+    {
+        
+        titleLabel.hidden = true
+        HSButton.hidden = true
+        startButton.hidden = true
+        settingsButton.hidden = true
+        
+        bgmLabel = SKLabelNode(text: "Music volume")
+        bgmLabel.fontColor = UIColor.blackColor()
+        bgmLabel.fontName = gameFont
+        bgmLabel.fontSize = 20.0
+        bgmLabel.position = CGPointMake(350, 250)
+        addChild(bgmLabel)
+        
+        bgmSlider = UISlider()
+        bgmSlider.frame = CGRectMake(300, 100, 100, 100)
+        bgmSlider.maximumValue = 100
+        bgmSlider.minimumValue = 0
+        bgmSlider.value = settings[1] as! Float
+        self.view?.addSubview(bgmSlider)
+        
+        sfxLabel = SKLabelNode(text: "Sound volume")
+        sfxLabel.fontColor = UIColor.blackColor()
+        sfxLabel.fontName = gameFont
+        sfxLabel.fontSize = 20.0
+        sfxLabel.position = CGPointMake(350, 150)
+        addChild(sfxLabel)
+        
+        sfxSlider = UISlider()
+        sfxSlider.frame = CGRectMake(300, 200, 100, 100)
+        sfxSlider.maximumValue = 100
+        sfxSlider.minimumValue = 0
+        sfxSlider.value = settings[2] as! Float
+        self.view?.addSubview(sfxSlider)
+        
+        let HSBackButtonPosX = HSBackButtonPosXFactor * frameSize.width
+        let HSBackButtonPosY = HSBackButtonPosYFactor * frameSize.height
+        let buttonWidth = buttonWidthFactor * frameSize.width
+        let buttonHeight = buttonHeightFactor * frameSize.height
+        
+        HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, buttonWidth, buttonHeight)
+        HSBackButton.setTitle("Back", forState: UIControlState.Normal)
+        HSBackButton.addTarget(self, action: "settingsBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view?.addSubview(HSBackButton)
+    }
+    
     func openHighScores(view: SKView)
     {
         let HSBackButtonPosX = HSBackButtonPosXFactor * frameSize.width
@@ -401,6 +527,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         titleLabel.hidden = true
         HSButton.hidden = true
         startButton.hidden = true
+        settingsButton.hidden = true
         
         HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, buttonWidth, buttonHeight)
@@ -677,6 +804,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     
     func start(){
+        
+        
         isStart = true
         hero.stop()
         groundTop.start()
@@ -723,6 +852,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //println(highScoresList)
         
         var intScores = highScoresList as! [Int]
+        
+        if(score > intScores[4])
+        {
+            var hsLabel = SKLabelNode(text: "New high score!")
+            hsLabel.fontName = gameFont
+            hsLabel.fontSize = 15.0
+            hsLabel.fontColor = UIColor.blackColor()
+            hsLabel.position = CGPointMake(frameSize.width/2, frameSize.height/2 - 50)
+            addChild(hsLabel)
+            animationWithPulse(hsLabel)
+        }
+        
         intScores.append(score)
         
         sort(&intScores)
@@ -816,7 +957,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             else if(bodyB.categoryBitMask == BodyType.coin.rawValue)
             {
                 coinAudioPlayer.play()
-                pointsRaw += 1
+                if(doublePoints)
+                {
+                    pointsRaw += 2
+                }
+                else
+                {
+                    pointsRaw += 1
+                }
                 (bodyB.node as! Coin).removeFromParent()
             }
             
@@ -853,7 +1001,15 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             else if(bodyA.categoryBitMask == BodyType.coin.rawValue)
             {
                 coinAudioPlayer.play()
-                pointsRaw += 1
+                if(doublePoints)
+                {
+                    pointsRaw += 2
+                }
+                else
+                {
+                    pointsRaw += 1
+                }
+                
                 (bodyA.node as! Coin).removeFromParent()
             }
 
@@ -914,6 +1070,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
     }
     
+    func getPowerUpStatus() -> Int
+    {
+        return hero.powerUpStatus
+    }
+    
     func dropSmokeBomb()
     {
         if loadMenu
@@ -922,17 +1083,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         
         var smokeBomb = SKEmitterNode(fileNamed: "SmokeBombEffect.sks")
+        smokeBomb.particleScale = 1.1
         smokeBomb.particleColorSequence = nil
         smokeBomb.particleColorBlendFactor = 0.5
         smokeBomb.particleColor = UIColor.grayColor()
         
         if hero.onGround == false
         {
-            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, 30)
+            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, groundHeightFactor * frameSize.height)
         }
         else
         {
-            smokeBomb.position = CGPointMake(heroPositionYFactor * frameSize.height, 350)
+            smokeBomb.position = CGPointMake(heroPositionXFactor * frameSize.width, (swipeUpPosYFactor - groundHeightFactor) * frameSize.height)
         }
         bombAudioPlayer.currentTime = 0
         bombAudioPlayer.play()
