@@ -104,6 +104,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var bgmLabel: SKLabelNode!
     var sfxLabel: SKLabelNode!
     
+    var buttonImage: UIImage! = UIImage(named:"button.png")
+
     /*
     override init()
     {
@@ -141,6 +143,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pauseMenu = UIView(frame: frame)
         pauseMenu.backgroundColor = UIColor(white: 1.0, alpha: 0.5)
         resumeButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        resumeButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        resumeButton.setBackgroundImage(buttonImage, forState: .Normal)
         resumeButton.setTitle("Resume", forState: UIControlState.Normal)
         resumeButton.frame = CGRectMake(frameSize.width/2-40, frameSize.height/2 - 20, 80, 20)
         resumeButton.addTarget(self, action: "resume:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -149,6 +153,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         HomeButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         HomeButton.setTitle("Home", forState: UIControlState.Normal)
+        HomeButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        HomeButton.setBackgroundImage(buttonImage, forState: .Normal)
         HomeButton.frame = CGRectMake(frameSize.width/2-40,frameSize.height/2 + 20, 80, 20)
         HomeButton.addTarget(self, action: "goHome:", forControlEvents: UIControlEvents.TouchUpInside)
         pauseMenu.addSubview(HomeButton)
@@ -200,6 +206,19 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         openMenu(self.view!)
     }
     
+    func setVolume(m: Float, s: Float)
+    {
+        backgroundAudioPlayer.volume = 0.3 * m
+        startAudioPlayer.volume = 0.3 * m
+        collisionAudioPlayer.volume = 1.0 * s
+        bombAudioPlayer.volume = 1.0 * s
+        coinAudioPlayer.volume = 1.0 * s
+        jumpAudioPlayer.volume = 1.0 * s
+        powerupAudioPlayer.volume = 1.0 * s
+        swordAudioPlayer.volume = 1.0 * s
+        starAudioPlayer.volume = 1.0 * s
+    }
+    
     func startPressed(sender: UIButton)
     {
         loadMenu = false
@@ -222,6 +241,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
     }
     
+    
+
     func HSPressed(sender: UIButton)
     {
         openHighScores(self.view!)
@@ -242,8 +263,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func settingsBackButtonPressed(sender: UIButton)
     {
-        settings[1] = bgmSlider.value
-        settings[2] = sfxSlider.value
+        //settings[1] = bgmSlider.value
+        //settings[2] = sfxSlider.value
+        
+        //setVolume((settings[1]as! Float)/100.0, s: (settings[2] as! Float)/100.0)
         
         self.removeAllChildren()
         bgmSlider.removeFromSuperview()
@@ -338,6 +361,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             println("load settings")
             settings = defaults.arrayForKey("GoNinjaSettings") as! [Float]
             
+            setVolume((settings[1]as! Float)/100.0, s: (settings[2] as! Float)/100.0)
+            
             if settings[0] as! Float == 0.0
             {
                 tutorialOn = false
@@ -367,7 +392,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let HSButtonPosY = HSButtonPosYFactor * frameSize.height
         let settingsButtonPosY = settingsButtonPosYFactor * frameSize.height
         
-        let buttonImage: UIImage! = UIImage(named:"button.png")
         
         
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
@@ -399,19 +423,22 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         startButton.setTitle("Start game", forState: UIControlState.Normal)
         startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         startButton.setBackgroundImage(buttonImage, forState: .Normal)
-
         self.view?.addSubview(startButton)
         
         HSButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        HSButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         HSButton.frame = CGRectMake(startButtonPosX, HSButtonPosY, HSButtonWidth, startButtonHeight)
         HSButton.setTitle("High scores", forState: UIControlState.Normal)
         HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        HSButton.setBackgroundImage(buttonImage, forState: .Normal)
         self.view?.addSubview(HSButton)
         
         settingsButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        settingsButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         settingsButton.frame = CGRectMake(startButtonPosX, settingsButtonPosY, HSButtonWidth, startButtonHeight)
         settingsButton.setTitle("Settings", forState: UIControlState.Normal)
         settingsButton.addTarget(self, action: "settingsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        settingsButton.setBackgroundImage(buttonImage, forState: .Normal)
         self.view?.addSubview(settingsButton)
         
         
@@ -465,6 +492,15 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
     }
     
+    
+
+    func sliderChange(sender:UISlider!)
+    {
+        settings[1] = bgmSlider.value
+        settings[2] = sfxSlider.value
+        setVolume((settings[1]as! Float)/100.0, s: (settings[2] as! Float)/100.0)
+    }
+    
     func openSettings(view: SKView)
     {
         
@@ -487,6 +523,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         bgmSlider.value = settings[1] as! Float
         self.view?.addSubview(bgmSlider)
         
+        bgmSlider.addTarget(self, action: "sliderChange:", forControlEvents: .ValueChanged)
+        
         sfxLabel = SKLabelNode(text: "Sound volume")
         sfxLabel.fontColor = UIColor.blackColor()
         sfxLabel.fontName = gameFont
@@ -499,6 +537,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         sfxSlider.maximumValue = 100
         sfxSlider.minimumValue = 0
         sfxSlider.value = settings[2] as! Float
+        sfxSlider.addTarget(self, action: "sliderChange:", forControlEvents: .ValueChanged)
+
         self.view?.addSubview(sfxSlider)
         
         let HSBackButtonPosX = HSBackButtonPosXFactor * frameSize.width
@@ -507,6 +547,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let buttonHeight = buttonHeightFactor * frameSize.height
         
         HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        HSBackButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        HSBackButton.setBackgroundImage(buttonImage, forState: .Normal)
         HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, buttonWidth, buttonHeight)
         HSBackButton.setTitle("Back", forState: UIControlState.Normal)
         HSBackButton.addTarget(self, action: "settingsBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -530,6 +572,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         settingsButton.hidden = true
         
         HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        HSBackButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        HSBackButton.setBackgroundImage(buttonImage, forState: .Normal)
         HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, buttonWidth, buttonHeight)
         HSBackButton.setTitle("Back", forState: UIControlState.Normal)
         HSBackButton.addTarget(self, action: "HSBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
