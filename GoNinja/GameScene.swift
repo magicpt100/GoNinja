@@ -891,8 +891,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
             else
             {
-                bodyA.node!.removeFromParent()
-                starAudioPlayer.play()
+                if bodyA.node != nil
+                {
+                    bodyA.node!.removeFromParent()
+                    starAudioPlayer.play()
+                }
             }
             //hero.restoreStar()
         }

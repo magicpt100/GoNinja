@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoNinja/MALGround.swift"
-            timestampString = "451613686.086045"
+            timestampString = "452285909.692975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "init(texture:color:size:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GoNinja/GameScene.swift"
-            timestampString = "451868412.634054"
+            timestampString = "452286641.378526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "938"
-            endingLineNumber = "938"
+            startingLineNumber = "942"
+            endingLineNumber = "942"
             landmarkName = "dropSmokeBomb()"
             landmarkType = "5">
          </BreakpointContent>

@@ -17,6 +17,7 @@
 		0260B4231AEC4F4C00ADE524 /* Star.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B41A1AEC4F4C00ADE524 /* Star.mp3 */; };
 		0260B4241AEC4F4C00ADE524 /* Sword.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0260B41B1AEC4F4C00ADE524 /* Sword.mp3 */; };
 		02C131EC1ADF494800AD3449 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C131EB1ADF494800AD3449 /* AVFoundation.framework */; };
+		AE24442A1AF5585F00E776D1 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE2444291AF5585F00E776D1 /* wall.jpg */; };
 		AE40225A1ABF9A64005034FC /* MALPointLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4022591ABF9A64005034FC /* MALPointLabel.swift */; };
 		AE54E6FD1AD9B98600E6966A /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE54E6FC1AD9B98600E6966A /* CountDownTimer.swift */; };
 		AE54E6FF1ADA05C200E6966A /* PowerUpGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE54E6FE1ADA05C200E6966A /* PowerUpGenerator.swift */; };
@@ -65,6 +66,7 @@
 		0260B41A1AEC4F4C00ADE524 /* Star.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Star.mp3; path = audio/Star.mp3; sourceTree = SOURCE_ROOT; };
 		0260B41B1AEC4F4C00ADE524 /* Sword.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Sword.mp3; path = audio/Sword.mp3; sourceTree = SOURCE_ROOT; };
 		02C131EB1ADF494800AD3449 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		AE2444291AF5585F00E776D1 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
 		AE4022591ABF9A64005034FC /* MALPointLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MALPointLabel.swift; sourceTree = "<group>"; };
 		AE54E6FC1AD9B98600E6966A /* CountDownTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		AE54E6FE1ADA05C200E6966A /* PowerUpGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpGenerator.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				AE55AB701AAA6B9100FBC82E /* GameViewController.swift */,
 				AE55AB721AAA6B9100FBC82E /* Main.storyboard */,
 				DD4A1A331AE5B7FE00B3534C /* goldCoin.png */,
+				AE2444291AF5585F00E776D1 /* wall.jpg */,
 				AE55AB751AAA6B9100FBC82E /* Images.xcassets */,
 				AE55AB771AAA6B9100FBC82E /* LaunchScreen.xib */,
 				AE55AB681AAA6B9100FBC82E /* Supporting Files */,
@@ -342,6 +345,7 @@
 				0260B4241AEC4F4C00ADE524 /* Sword.mp3 in Resources */,
 				0260B41F1AEC4F4C00ADE524 /* Collision.wav in Resources */,
 				0260B41D1AEC4F4C00ADE524 /* Bomb.mp3 in Resources */,
+				AE24442A1AF5585F00E776D1 /* wall.jpg in Resources */,
 				0260B41C1AEC4F4C00ADE524 /* Background.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,6 +507,7 @@
 				INFOPLIST_FILE = GoNinja/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -513,6 +518,7 @@
 				INFOPLIST_FILE = GoNinja/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

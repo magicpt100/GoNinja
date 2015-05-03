@@ -12,8 +12,10 @@ import SpriteKit
 class MALGround: SKSpriteNode {
     
     let numberOfSegments = 20
-    let color1 = UIColor(red: 235.0/255.0, green: 44.0/255.0, blue: 47.0/255.0, alpha: 1.0)
-    let color2 = UIColor(red: 235.0/255.0, green: 247.0/255.0, blue: 5.0/255.0, alpha: 1.0)
+    //let color1 = UIColor(red: 235.0/255.0, green: 44.0/255.0, blue: 47.0/255.0, alpha: 1.0)
+    //let color2 = UIColor(red: 235.0/255.0, green: 247.0/255.0, blue: 5.0/255.0, alpha: 1.0)
+    let color1 = UIColor(red: 88.0/255.0, green: 148.0/255.0, blue: 87.0/255.0, alpha: 1.0)
+    let color2 = UIColor(red: 120.0/255.0, green: 195.0/255.0, blue: 118.0/255.0, alpha: 1.0)
     let groundWidth:CGFloat = frameSize.width * groundWidthFactor
     let groundHeight:CGFloat = frameSize.height * groundHeightFactor
     

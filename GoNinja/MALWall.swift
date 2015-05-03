@@ -14,12 +14,14 @@ import SpriteKit
 class MALWall: SKSpriteNode{
     
     let wallColor = UIColor.brownColor()
+    //var wallTextureRaw:SKTexture = SKTexture(imageNamed: "wall.jpg")
+    var wallTexture = SKTexture(imageNamed: "wall.jpg")
     
     // the indictor indicates tall wall or low wall
     init(indictor : Int)
     {
-        var wallWidth:CGFloat = frameSize.width * wallWidthFactor
         var wallHeight:CGFloat
+        let wallWidth:CGFloat = frameSize.width * wallWidthFactor
         if (indictor == 0)
         {
             wallHeight = frameSize.height * wallHeightFactorTall
@@ -28,7 +30,7 @@ class MALWall: SKSpriteNode{
         {
             wallHeight = frameSize.height * wallHeightFactorLow
         }
-        super.init(texture:nil, color: wallColor, size: CGSizeMake(wallWidth, wallHeight))
+        super.init(texture:wallTexture, color: UIColor.clearColor(), size: CGSizeMake(wallWidth, wallHeight))
         var wallPhysicsBody = SKPhysicsBody(rectangleOfSize: self.frame.size)
         wallPhysicsBody.dynamic = false
         wallPhysicsBody.allowsRotation = false
