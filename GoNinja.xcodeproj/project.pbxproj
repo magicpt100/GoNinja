@@ -41,9 +41,6 @@
 		AEF289B21AD3527200F1D997 /* PowerUps.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF289B11AD3527200F1D997 /* PowerUps.swift */; };
 		DD4A1A2F1AE46ED900B3534C /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4A1A2D1AE46ED900B3534C /* Coin.swift */; };
 		DD4A1A301AE46ED900B3534C /* CoinGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */; };
-		DD4A1A341AE5B7FE00B3534C /* goldCoin.png in Resources */ = {isa = PBXBuildFile; fileRef = DD4A1A331AE5B7FE00B3534C /* goldCoin.png */; };
-		DD6DECEC1AF55AAF0039383C /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = DD6DECEB1AF55AAF0039383C /* button.png */; };
-		DDC6E5301AEBFBC000A5B218 /* powerUp4.png in Resources */ = {isa = PBXBuildFile; fileRef = DDC6E52F1AEBFBC000A5B218 /* powerUp4.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,9 +92,6 @@
 		AEF289B11AD3527200F1D997 /* PowerUps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUps.swift; sourceTree = "<group>"; };
 		DD4A1A2D1AE46ED900B3534C /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinGenerator.swift; sourceTree = "<group>"; };
-		DD4A1A331AE5B7FE00B3534C /* goldCoin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goldCoin.png; sourceTree = "<group>"; };
-		DD6DECEB1AF55AAF0039383C /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
-		DDC6E52F1AEBFBC000A5B218 /* powerUp4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerUp4.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,9 +176,6 @@
 				AEC773D41AAE98D600767966 /* Constants.swift */,
 				AE55AB701AAA6B9100FBC82E /* GameViewController.swift */,
 				AE55AB721AAA6B9100FBC82E /* Main.storyboard */,
-				DD4A1A331AE5B7FE00B3534C /* goldCoin.png */,
-				DD6DECEB1AF55AAF0039383C /* button.png */,
-				DDC6E52F1AEBFBC000A5B218 /* powerUp4.png */,
 				AE55AB751AAA6B9100FBC82E /* Images.xcassets */,
 				AE55AB771AAA6B9100FBC82E /* LaunchScreen.xib */,
 				AE55AB681AAA6B9100FBC82E /* Supporting Files */,
@@ -336,14 +327,11 @@
 			files = (
 				0260B41E1AEC4F4C00ADE524 /* Coin.mp3 in Resources */,
 				AE55AB791AAA6B9100FBC82E /* LaunchScreen.xib in Resources */,
-				DD6DECEC1AF55AAF0039383C /* button.png in Resources */,
 				0260B4221AEC4F4C00ADE524 /* Powerup.mp3 in Resources */,
 				AE57BBC71AC66CBE0098E5A5 /* spark.png in Resources */,
 				0260B4231AEC4F4C00ADE524 /* Star.mp3 in Resources */,
 				AE55AB761AAA6B9100FBC82E /* Images.xcassets in Resources */,
-				DDC6E5301AEBFBC000A5B218 /* powerUp4.png in Resources */,
 				AE57BBBE1AC60B7D0098E5A5 /* SmokeBombEffect.sks in Resources */,
-				DD4A1A341AE5B7FE00B3534C /* goldCoin.png in Resources */,
 				0260B4211AEC4F4C00ADE524 /* Jump.mp3 in Resources */,
 				AE55AB741AAA6B9100FBC82E /* Main.storyboard in Resources */,
 				0260B4201AEC4F4C00ADE524 /* Start.mp3 in Resources */,
