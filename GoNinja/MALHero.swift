@@ -72,14 +72,13 @@ class MALHero: SKSpriteNode {
     let newSwordPosX = newSwordPosXFactor * frameSize.width
     let newSwordPosY = newSwordPosYFactor * frameSize.height
     
-    
-    
+    let clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
+
+
     override init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
-        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(bodyWidth, bodyHeight))
-        let clothesColor = UIColor(red: 36.0/255.0, green: 33.0/255.0, blue: 30.0/255.0, alpha: 1.0)
         onGround = true
-        
+        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(bodyWidth, bodyHeight))
         // Add the body
         
         body = SKShapeNode(rect: CGRect(origin: CGPointMake(0, 0), size: CGSizeMake(bodyWidth, bodyHeight)), cornerRadius: 1.0)
@@ -302,6 +301,20 @@ class MALHero: SKSpriteNode {
             newStar.hidden = false
             //newStar.physicsBody!.categoryBitMask = BodyType.ninjaStar.rawValue
             newStar.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(M_PI), duration: 0.1)))
+        case 4:
+
+            let gold = UIColor(red: 255/255, green: 215/255, blue: 0, alpha: 1)
+            powerUpStatus = 4
+            doublePoints = true
+
+            head.fillColor = gold
+            body.fillColor = gold
+            leftArm.fillColor = gold
+            rightArm.fillColor = gold
+            leftFoot.fillColor = gold
+            rightFoot.fillColor = gold
+            
+            
         default:
             powerUpStatus = 0
         }
@@ -325,6 +338,16 @@ class MALHero: SKSpriteNode {
             ninjaStar.hidden = false
             newStar.hidden = true
             newStar.physicsBody!.categoryBitMask = 0
+        case 4:
+            powerUpStatus = 0
+            doublePoints = false
+            head.fillColor = clothesColor
+            body.fillColor = clothesColor
+            leftArm.fillColor = clothesColor
+            rightArm.fillColor = clothesColor
+            leftFoot.fillColor = clothesColor
+            rightFoot.fillColor = clothesColor
+            
         default:
             powerUpStatus = 0
         }

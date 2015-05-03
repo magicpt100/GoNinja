@@ -12,7 +12,7 @@ import SpriteKit
 class PowerUps: SKSpriteNode {
     
     var type:Int
-    let textureArray = ["powerUp1","powerUp2","powerUp3"]
+    let textureArray = ["powerUp1","powerUp2","powerUp3","powerUp4"]
     let powerUpSize = powerUpSizeFactor * frameSize.width
     let powerUpPosY = powerUpPosYFactor * frameSize.height
     
