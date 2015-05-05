@@ -150,15 +150,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pauseMenu.backgroundColor = UIColor(white: 1.0, alpha: 0.5)
         resumeButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         resumeButton.setTitle("Resume", forState: UIControlState.Normal)
-        resumeButton.frame = CGRectMake(frameSize.width/2-40, frameSize.height/2 - 20, 80, 20)
+        resumeButton.frame = CGRectMake(frameSize.width/2-40, frameSize.height/2 - 20, 80, 30)
         resumeButton.addTarget(self, action: "resume:", forControlEvents: UIControlEvents.TouchUpInside)
+        resumeButton.setBackgroundImage(UIImage(named: "orangeButton2"), forState: UIControlState.Normal)
+        resumeButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        resumeButton.titleLabel!.font = UIFont(name: gameFont, size: 15)
         pauseMenu.addSubview(resumeButton)
         self.view?.addSubview(pauseMenu)
         
         HomeButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         HomeButton.setTitle("Home", forState: UIControlState.Normal)
-        HomeButton.frame = CGRectMake(frameSize.width/2-40,frameSize.height/2 + 20, 80, 20)
+        HomeButton.frame = CGRectMake(frameSize.width/2-40,frameSize.height/2 + 20, 80, 30)
         HomeButton.addTarget(self, action: "goHome:", forControlEvents: UIControlEvents.TouchUpInside)
+        HomeButton.setBackgroundImage(UIImage(named: "orangeButton2"), forState: UIControlState.Normal)
+        HomeButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        HomeButton.titleLabel!.font = UIFont(name: gameFont, size: 15)
         pauseMenu.addSubview(HomeButton)
     }
     
@@ -388,7 +394,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let HSButtonPosY = HSButtonPosYFactor * frameSize.height
         let settingsButtonPosY = settingsButtonPosYFactor * frameSize.height
         
-        let buttonImage: UIImage! = UIImage(named:"button.png")
+        let buttonImage: UIImage! = UIImage(named:"orangeButton")
         
         
         backgroundColor = UIColor(red: 0.54, green: 0.7853, blue: 1.0, alpha: 1.0)
@@ -410,14 +416,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         titleLabel = SKLabelNode(text: "Go Ninja!")
         titleLabel.fontColor = UIColor.blackColor()
         titleLabel.fontName = gameFont
-        titleLabel.fontSize = 40.0
+        titleLabel.fontSize = 50.0
         titleLabel.position = CGPointMake(titleLabelPosX, titleLabelPosY)
         addChild(titleLabel)
         
         startButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         startButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         startButton.frame = CGRectMake(startButtonPosX, startButtonPosY,startButtonWidth, startButtonHeight)
-        startButton.setTitle("Start game", forState: UIControlState.Normal)
+        startButton.setTitle("Start", forState: UIControlState.Normal)
+        startButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        startButton.titleLabel!.font = UIFont(name: gameFont, size: 18)
         startButton.addTarget(self, action: "startPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         startButton.setBackgroundImage(buttonImage, forState: .Normal)
 
@@ -425,7 +433,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         HSButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         HSButton.frame = CGRectMake(startButtonPosX, HSButtonPosY, HSButtonWidth, startButtonHeight)
-        HSButton.setTitle("High scores", forState: UIControlState.Normal)
+        HSButton.setTitle("Scores", forState: UIControlState.Normal)
+        HSButton.setTitleColor(UIColor.blackColor(), forState:UIControlState.Normal)
+        HSButton.setBackgroundImage(buttonImage, forState:  .Normal)
+        HSButton.titleLabel!.font = UIFont(name: gameFont, size: 18)
+        
         HSButton.addTarget(self, action: "HSPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view?.addSubview(HSButton)
         
@@ -433,6 +445,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         settingsButton.frame = CGRectMake(startButtonPosX, settingsButtonPosY, HSButtonWidth, startButtonHeight)
         settingsButton.setTitle("Settings", forState: UIControlState.Normal)
         settingsButton.addTarget(self, action: "settingsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        settingsButton.setTitleColor(UIColor.blackColor(), forState:UIControlState.Normal)
+        settingsButton.setBackgroundImage(buttonImage, forState:  .Normal)
+        settingsButton.titleLabel!.font = UIFont(name: gameFont, size: 18)
         self.view?.addSubview(settingsButton)
         
         
@@ -555,9 +570,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let buttonHeight = buttonHeightFactor * frameSize.height
         
         HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, buttonWidth, buttonHeight)
-        HSBackButton.setTitle("Back", forState: UIControlState.Normal)
+        HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, 80, 30)
+        HSBackButton.setTitle("Home", forState: UIControlState.Normal)
         HSBackButton.addTarget(self, action: "settingsBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        HSBackButton.setBackgroundImage(UIImage(named: "orangeButton2"), forState: .Normal)
+        HSBackButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        HSBackButton.titleLabel!.font = UIFont(name: gameFont, size: 15.0)
         self.view?.addSubview(HSBackButton)
     }
     
@@ -605,12 +623,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         settingsButton.hidden = true
         
         HSBackButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, buttonWidth, buttonHeight)
-        HSBackButton.setTitle("Back", forState: UIControlState.Normal)
+        HSBackButton.frame = CGRectMake(HSBackButtonPosX, HSBackButtonPosY, 80, 30)
+        HSBackButton.setTitle("Home", forState: UIControlState.Normal)
         HSBackButton.addTarget(self, action: "HSBackButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        HSBackButton.setBackgroundImage(UIImage(named: "orangeButton2"), forState: .Normal)
+        HSBackButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        HSBackButton.titleLabel!.font = UIFont(name: gameFont, size: 15.0)
         self.view?.addSubview(HSBackButton)
         
-        HSBackButton.hidden = false
         
         let hsLabel = SKLabelNode(text: "High Scores")
         hsLabel.fontColor = UIColor.blackColor()
