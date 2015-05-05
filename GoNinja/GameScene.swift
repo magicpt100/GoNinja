@@ -71,6 +71,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var powerUpInstruction2:SKLabelNode!
     var powerUpIcon3: SKSpriteNode!
     var powerUpInstruction3:SKLabelNode!
+    var powerUpIcon4:SKSpriteNode!
+    var powerUpInstruction4:SKLabelNode!
+    var coin:SKSpriteNode!
+    var coinInstruction:SKLabelNode!
     var monsterIcon:MALMonster!
     var monsterInstruction:SKLabelNode!
     
@@ -91,6 +95,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var HomeButton: UIButton!
     var settingsButton: UIButton!
     var settingsBackButton: UIButton!
+    var skipButton: UIButton!
+    var tutorialSwitch: UISwitch!
+    var switchLabel:SKLabelNode!
+    
     
     //PauseMenu
     var pauseMenu: UIView!
@@ -232,7 +240,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         openSettings(self.view!)
     }
     
-    
     func HSBackButtonPressed(sender: UIButton)
     {
         self.removeAllChildren()
@@ -248,10 +255,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         self.removeAllChildren()
         bgmSlider.removeFromSuperview()
         sfxSlider.removeFromSuperview()
+        tutorialSwitch.removeFromSuperview()
         HSBackButton.hidden = true
         
         NSUserDefaults.standardUserDefaults().setObject(settings, forKey: "GoNinjaSettings")
-        
         
         openMenu(self.view!)
     }
@@ -315,13 +322,27 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 powerUpIcon3.hidden = true
                 powerUpInstruction3.hidden = true
                 tutorialIndex += 1
+                powerUpIcon4.hidden = false
+                powerUpInstruction4.hidden = false
+            }
+            else if tutorialIndex == 7
+            {
+                powerUpIcon4.hidden = true
+                powerUpInstruction4.hidden = true
+                tutorialIndex += 1
+                coin.hidden = false
+                coinInstruction.hidden = false
+            }
+            else if tutorialIndex == 8
+            {
+                coinInstruction.hidden = true
+                coin.hidden = true
+                tutorialIndex += 1
                 tutorialStart = false
-                tutorialOn = false
-                
-                settings[0] = 0.0
                 NSUserDefaults.standardUserDefaults().setObject(settings, forKey: "GoNinjaSettings")
                 
                 startAudioPlayer.stop()
+                skipButton.removeFromSuperview()
                 reStartGame()
             }
         }
@@ -485,21 +506,48 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         bgmSlider.maximumValue = 100
         bgmSlider.minimumValue = 0
         bgmSlider.value = settings[1] as! Float
+        bgmSlider.addTarget(self, action: ("bgmSliderValueChanged:"), forControlEvents: UIControlEvents.ValueChanged)
         self.view?.addSubview(bgmSlider)
         
         sfxLabel = SKLabelNode(text: "Sound volume")
         sfxLabel.fontColor = UIColor.blackColor()
         sfxLabel.fontName = gameFont
         sfxLabel.fontSize = 20.0
-        sfxLabel.position = CGPointMake(350, 150)
+        sfxLabel.position = CGPointMake(350, 190)
         addChild(sfxLabel)
         
         sfxSlider = UISlider()
-        sfxSlider.frame = CGRectMake(300, 200, 100, 100)
+        sfxSlider.frame = CGRectMake(300, 170, 100, 100)
         sfxSlider.maximumValue = 100
         sfxSlider.minimumValue = 0
         sfxSlider.value = settings[2] as! Float
+        sfxSlider.addTarget(self, action: ("sfxSliderValueChanged:"), forControlEvents: UIControlEvents.ValueChanged)
         self.view?.addSubview(sfxSlider)
+    
+        
+        tutorialSwitch = UISwitch()
+        switchLabel = SKLabelNode()
+        
+        tutorialSwitch.frame = CGRectMake(390, 240, 40, 20)
+        if settings[0] as!Float == 0
+        {
+            tutorialSwitch.on = false
+            switchLabel.text = "Tutorial OFF"
+        }
+        else
+        {
+            tutorialSwitch.on = true
+            switchLabel.text = "Tutorial ON"
+        }
+        tutorialSwitch.addTarget(self, action: "toggleTutorial:", forControlEvents: UIControlEvents.ValueChanged)
+        self.view?.addSubview(tutorialSwitch)
+        
+        switchLabel.fontColor = UIColor.blackColor()
+        switchLabel.fontName = gameFont
+        switchLabel.fontSize = 20.0
+        switchLabel.position = CGPointMake(310, 110)
+        addChild(switchLabel)
+        
         
         let HSBackButtonPosX = HSBackButtonPosXFactor * frameSize.width
         let HSBackButtonPosY = HSBackButtonPosYFactor * frameSize.height
@@ -513,6 +561,33 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         self.view?.addSubview(HSBackButton)
     }
     
+    @IBAction func bgmSliderValueChanged(sender:UISlider)
+    {
+        settings[1] = sender.value
+        updateSound()
+    }
+    
+    @IBAction func sfxSliderValueChanged(sender:UISlider)
+    {
+        settings[2] = sender.value
+        updateSound()
+    }
+    
+    @IBAction func toggleTutorial(sender:UISwitch)
+    {
+        if sender.on
+        {
+            settings[0] = 1.0
+            tutorialOn = true
+            switchLabel.text = "Tutorial ON"
+        }
+        else
+        {
+            settings[0] = 0.0
+            tutorialOn = false
+            switchLabel.text = "Tutorial OFF"
+        }
+    }
     func openHighScores(view: SKView)
     {
         let HSBackButtonPosX = HSBackButtonPosXFactor * frameSize.width
@@ -702,8 +777,61 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(powerUpInstruction3)
         animationWithPulse(powerUpInstruction3)
         powerUpInstruction3.hidden = true
+        
+        
+        //power up 4
+        powerUpIcon4 = SKSpriteNode(imageNamed: "powerUp4")
+        powerUpIcon4.size = CGSizeMake(40, 40)
+        powerUpIcon4.position = view.center
+        addChild(powerUpIcon4)
+        powerUpIcon4.hidden = true
+        
+        powerUpInstruction4 = SKLabelNode(text: "Score doubler: you score will increase fast")
+        powerUpInstruction4.fontColor = UIColor.blackColor()
+        powerUpInstruction4.fontName = gameFont
+        powerUpInstruction4.fontSize = 20.0
+        powerUpInstruction4.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(powerUpInstruction4)
+        animationWithPulse(powerUpInstruction4)
+        powerUpInstruction4.hidden = true
+        
+        //Coin
+        coin = SKSpriteNode(imageNamed: "goldCoin")
+        coin.size = CGSizeMake(40, 40)
+        coin.position = view.center
+        addChild(coin)
+        coin.hidden = true
+        
+        coinInstruction = SKLabelNode(text: "gold coin: please pick it up, because it is gold!")
+        coinInstruction.fontColor = UIColor.blackColor()
+        coinInstruction.fontName = gameFont
+        coinInstruction.fontSize = 20.0
+        coinInstruction.position = CGPointMake(view.center.x, view.center.y+40)
+        addChild(coinInstruction)
+        animationWithPulse(coinInstruction)
+        coinInstruction.hidden = true
+        
+        //Skip button
+        skipButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        skipButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        skipButton.frame = CGRectMake(frameSize.width - 60, frameSize.height - 80, 40, 40)
+        skipButton.setTitle("Skip", forState: UIControlState.Normal)
+        skipButton.addTarget(self, action: "skipTutorial:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.view?.addSubview(skipButton)
+
+        
         tutorialStart = true
 
+    }
+    
+    func skipTutorial(sender:UIButton)
+    {
+        tutorialStart = false
+        tutorialOn = false
+        startAudioPlayer.stop()
+        reStartGame()
+        skipButton.removeFromSuperview()
     }
     
     func performOneRunCyle(monsterNode:MALMonster)
@@ -919,6 +1047,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         isStart = false
         isGameOver = false
         jumpCount = -1
+        tutorialIndex = 0
 
     }
     
@@ -1112,6 +1241,19 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let fadeOut = SKAction.fadeOutWithDuration(0.6)
         let pulse = SKAction.sequence([fadeIn,fadeOut])
         node.runAction(SKAction.repeatActionForever(pulse))
+    }
+    
+    func updateSound()
+    {
+        backgroundAudioPlayer.volume = settings[1] as! Float / 100.0
+        startAudioPlayer.volume = settings[1] as! Float / 100.0
+        collisionAudioPlayer.volume = settings[1] as! Float / 100.0
+        bombAudioPlayer.volume = settings[2] as! Float / 100.0
+        coinAudioPlayer.volume = settings[2] as! Float / 100.0
+        jumpAudioPlayer.volume = settings[2] as! Float / 100.0
+        powerupAudioPlayer.volume = settings[2] as! Float / 100.0
+        swordAudioPlayer.volume = settings[2] as! Float / 100.0
+        starAudioPlayer.volume = settings[2] as! Float / 100.0
     }
    
     override func update(currentTime: CFTimeInterval) {

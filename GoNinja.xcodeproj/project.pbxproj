@@ -44,7 +44,6 @@
 		DD4A1A301AE46ED900B3534C /* CoinGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */; };
 		DD4A1A341AE5B7FE00B3534C /* goldCoin.png in Resources */ = {isa = PBXBuildFile; fileRef = DD4A1A331AE5B7FE00B3534C /* goldCoin.png */; };
 		DD6DECEC1AF55AAF0039383C /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = DD6DECEB1AF55AAF0039383C /* button.png */; };
-		DDC6E5301AEBFBC000A5B218 /* powerUp4.png in Resources */ = {isa = PBXBuildFile; fileRef = DDC6E52F1AEBFBC000A5B218 /* powerUp4.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,7 +98,6 @@
 		DD4A1A2E1AE46ED900B3534C /* CoinGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinGenerator.swift; sourceTree = "<group>"; };
 		DD4A1A331AE5B7FE00B3534C /* goldCoin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goldCoin.png; sourceTree = "<group>"; };
 		DD6DECEB1AF55AAF0039383C /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
-		DDC6E52F1AEBFBC000A5B218 /* powerUp4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerUp4.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,7 +185,6 @@
 				DD4A1A331AE5B7FE00B3534C /* goldCoin.png */,
 				AE2444291AF5585F00E776D1 /* wall.jpg */,
 				DD6DECEB1AF55AAF0039383C /* button.png */,
-				DDC6E52F1AEBFBC000A5B218 /* powerUp4.png */,
 				AE55AB751AAA6B9100FBC82E /* Images.xcassets */,
 				AE55AB771AAA6B9100FBC82E /* LaunchScreen.xib */,
 				AE55AB681AAA6B9100FBC82E /* Supporting Files */,
@@ -344,7 +341,6 @@
 				AE57BBC71AC66CBE0098E5A5 /* spark.png in Resources */,
 				0260B4231AEC4F4C00ADE524 /* Star.mp3 in Resources */,
 				AE55AB761AAA6B9100FBC82E /* Images.xcassets in Resources */,
-				DDC6E5301AEBFBC000A5B218 /* powerUp4.png in Resources */,
 				AE57BBBE1AC60B7D0098E5A5 /* SmokeBombEffect.sks in Resources */,
 				DD4A1A341AE5B7FE00B3534C /* goldCoin.png in Resources */,
 				0260B4211AEC4F4C00ADE524 /* Jump.mp3 in Resources */,
