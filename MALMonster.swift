@@ -35,9 +35,12 @@ class MALMonster: SKSpriteNode {
     let toothPosY = toothPosYFactor * frameSize.height
     let toothPosX = toothPosXFactor * frameSize.width
     
+    let colors = [UIColor.brownColor(),UIColor.blueColor(),UIColor.orangeColor(),UIColor(red: 88.0/255.0, green: 148.0/255.0, blue: 87.0/255.0, alpha: 1.0),UIColor.yellowColor(),UIColor.purpleColor()]
+    
     init(topOrBot: Int){
         //Body
-        let bodyColor = UIColor(red: 88.0/255.0, green: 148.0/255.0, blue: 87.0/255.0, alpha: 1.0)
+        var colorIndex = Int(arc4random_uniform(6))
+        let bodyColor = colors[colorIndex]
         super.init(texture: nil, color: bodyColor, size: CGSizeMake(monsterWidth, monsterHeight))
         
         //upper Cover

@@ -21,6 +21,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var hero: MALHero!
     var tapToStartLabel: SKLabelNode!
     var pointLabel: MALPointLabel!
+    var highScoreLabel: SKLabelNode!
+    var highScoreTextLabel:SKLabelNode!
     var isStart = false
     var isGameOver = false
 
@@ -645,7 +647,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             let text = SKLabelNode(text: String(i + 1) + ".   ")
             let score = highScoresList[i].stringValue
             
-            if(highScoresList[i] as! Int > 0)
+            if(highScoresList[i] as! Int >= 0)
             {
                 text.text += score
             }
@@ -926,6 +928,22 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         pointLabel = MALPointLabel(fontNamed: gameFont)
         pointLabel.position = CGPointMake(20, frameSize.height - groundTop.frame.height * 2)
         addChild(pointLabel)
+        
+        //Add the high score Label
+        highScoreLabel = SKLabelNode(fontNamed: gameFont)
+        highScoreLabel.fontColor = UIColor.blackColor()
+        highScoreLabel.fontSize = 30.0
+        highScoreLabel.text = String(highScoresList[0] as! Int)
+        highScoreLabel.position = CGPointMake(frameSize.width - 20, frameSize.height - groundTop.frame.height * 2)
+        addChild(highScoreLabel)
+        
+        highScoreTextLabel = SKLabelNode(text: "Best")
+        highScoreTextLabel.fontColor = UIColor.blackColor()
+        highScoreTextLabel.fontSize = 14.0
+        highScoreTextLabel.fontName = gameFont
+        highScoreTextLabel.position = CGPointMake(0, -15)
+        highScoreLabel.addChild(highScoreTextLabel)
+        
         
         //Add the pause Button
         let pauseButtonPosX = pauseButtonPosXFactor * frameSize.width
