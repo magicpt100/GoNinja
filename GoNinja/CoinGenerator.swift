@@ -11,7 +11,6 @@ import SpriteKit
 
 class CoinGenerator: SKSpriteNode
 {
-    let coinPosX = coinPosXFactor * frameSize.width
     let coinY1 = coinY1Factor * frameSize.height
     let coinY2 = coinY2Factor * frameSize.height
     func generateCoin()
@@ -24,7 +23,7 @@ class CoinGenerator: SKSpriteNode
         else { yCoord = coinY2 }
         
         let coin = Coin()
-        coin.position.x = coinPosX
+        coin.position.x = frameSize.width/2
         coin.position.y = yCoord
         
         addChild(coin)

@@ -32,7 +32,18 @@ class Coin: SKSpriteNode
         self.physicsBody = coinPB
                 
         startMoving()
+        startRotate()
         
+    }
+    
+    func startRotate()
+    {
+        let action1 = SKAction.scaleXTo(1.0, duration: 0.5)
+        let action2 = SKAction.scaleXTo(0.1, duration: 0.5)
+        let action3 = SKAction.scaleXTo(-0.1, duration: 0.5)
+        let action4 = SKAction.scaleXTo(-1.0, duration: 0.5)
+        let rotate = SKAction.sequence([action1,action2,action3,action4])
+        runAction(SKAction.repeatActionForever(rotate))
     }
     
     func startMoving()

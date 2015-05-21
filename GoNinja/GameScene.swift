@@ -364,7 +364,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if let loadSettings = defaults.arrayForKey("GoNinjaSettings")
         {
-            println("load settings")
             settings = defaults.arrayForKey("GoNinjaSettings") as! [Float]
             
             if settings[0] as! Float == 0.0
@@ -378,7 +377,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         else
         {
-            println("new settings")
             settings.append(1.0)//tutorial 1.0: true 0.0: false
             settings.append(100.0)//bgm volume. 100% by default
             settings.append(100.0)
@@ -899,7 +897,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         wallGenerator.position = view.center
         addChild(wallGenerator)
         
-        coinGenerator = CoinGenerator()
+        coinGenerator = CoinGenerator(color: UIColor.clearColor(), size: view.frame.size)
+        coinGenerator.position = view.center
+        
         addChild(coinGenerator)
         
         //Add the cloud background

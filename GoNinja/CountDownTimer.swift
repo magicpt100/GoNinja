@@ -19,7 +19,7 @@ class CountDownTimer:SKSpriteNode{
     
     init(time:Int)
     {
-        super.init(texture: SKTexture(imageNamed: "hourGlass"), color: UIColor.yellowColor(), size: CGSizeMake(timerWidth, timerHeight)  )
+        super.init(texture: SKTexture(imageNamed: "hourglass"), color: UIColor.yellowColor(), size: CGSizeMake(timerWidth, timerHeight)  )
         timeLeft = time
         timerLabel = SKLabelNode(fontNamed: gameFont)
         timerLabel.text = String(timeLeft)

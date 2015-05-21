@@ -11,12 +11,6 @@ import SpriteKit
 
 class MALWallGenerator:SKSpriteNode{
     
-    /*var generationTimer: NSTimer?
-    
-    func startGeneratingWalls(seconds: NSTimeInterval)
-    {
-        generationTimer = NSTimer.scheduledTimerWithTimeInterval(seconds, target: self, selector: "generateWall", userInfo: nil, repeats: true)
-    }*/
     
     func startGeneratingWalls()
     {
@@ -41,15 +35,6 @@ class MALWallGenerator:SKSpriteNode{
         wall.position.x = frameSize.width/2 + wall.size.width/2
         wall.position.y = scale * (frameSize.height * (0.5 - groundHeightFactor) - wall.size.height/2)
         addChild(wall)
- 
-        if(doublePoints)
-        {
-            pointsRaw += 2
-        }
-        else
-        {
-            pointsRaw += 1
-        }
         
     }
     
